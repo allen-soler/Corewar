@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra -g
+FLAGS = -Wall -Wextra #-Werror -g
 
 # program name
 
@@ -23,13 +23,17 @@ LIBFT = libft
 
 DIR_S = src
 
-DIR_O = temporary
+DIR_O = obj
 
 DIR_H = includes
 
 # source files for the project
 
-SOURCES =  main.c
+SOURCES =	main.c			\
+			t_env.c			\
+			parsing_args.c	\
+			utils.c			\
+			debbuging.c		\
 
 # header files
 
@@ -52,9 +56,8 @@ $(NAME): $(DIR_H) $(OBJS) lib
 $(DIR_O)/%.o: $(DIR_S)/%.c
 	@printf $(ccgreen)"compiled\t"$(ccend)
 	@printf "$<\n"
-	@mkdir -p temporary
+	@mkdir -p $(DIR_O)
 	@$(CC) $(FLAGS) -I $(DIR_H) -o $@ -c $<
-
 
 lib:
 	@echo "Compiling libraries:"
@@ -63,7 +66,7 @@ lib:
 
 clean:
 	@rm -f $(OBJS)
-	@printf $(ccred)"temporary/*.o && temporary/\n"$(ccend)
+	@printf $(ccred)"$(DIR_O)/*.o && $(DIR_O)/\n"$(ccend)
 	@rm -rf $(DIR_O)
 	@printf $(ccred)"%s\n"$(ccend) $(LIBFT)
 	@make clean -C $(LIBFT)
