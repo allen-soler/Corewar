@@ -6,7 +6,7 @@
 typedef struct	s_env
 {
 	char	**file;
-
+	int		flag;
 }				t_env;
 
 #endif
