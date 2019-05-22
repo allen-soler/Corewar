@@ -133,7 +133,7 @@ void		parsing_args(char **av, int ac, t_env *env)
 {
 	int		i;
 
-	i = set_flag(av, ac, env);
+	i = set_flag(av, ac, env); // TODO: when help flag activated we have to exit the program and don't continue with the parsing.
 	set_players(av, ac, i, env);
 	get_files(env, ac, av);
 }

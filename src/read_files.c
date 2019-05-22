@@ -1,12 +1,24 @@
 #include "../includes/vm.h"
 #include "../includes/vm.h"
 
-static void parse_file(t_player *curr, int fd)
+static void parse_file(t_env *env, int fd, int curr)
 {
-	header_t header;
+	ssize_t		size;
+	char		instruction;
+	off_t		offset;
 
-	read(fd, &(header), sizeof(header_t));
-	ft_printf("%s - %s \n", header.prog_name, header.comment);
+	if ((size = read(fd, &(env->players[curr].header), sizeof(header_t))) != sizeof(header_t))
+	{
+		ft_fprintf(2, "Error: File %s header has an incorrect size (%d bytes != %d bytes).\n", size, sizeof(header_t));
+		exit_vm(env, EXIT_FAILURE);
+	}
+	if ((offset = lseek(fd, 0,SEEK_END) - sizeof(header_t)) > CHAMP_MAX_SIZE)
+	{
+		ft_fprintf(2, "Error: File %s has too large of a code (%d bytes > %d bytes)\n",\
+					env->players[curr].file, offset, CHAMP_MAX_SIZE);
+		exit_vm(env, EXIT_FAILURE);
+	}
+	ft_printf("%zd\n", offset);
 }
 
 void read_files(t_env *e)
@@ -15,13 +27,13 @@ void read_files(t_env *e)
 	int fd;
 
 	curr = 0;
-	while (curr < MAX_PLAYERS && curr)
+	while (curr < MAX_PLAYERS && e->players[curr].parse_index != -1)
 	{
 		if ((fd = open(e->players[curr].file, O_RDONLY)) == -1)
 		{
 			exit_failure("ERROR: Couldn't open the file", e);
 		}
-		parse_file(&e->players[curr], fd);
+		parse_file(e, fd, curr);
 		close(fd);
 		curr += 1;
 	}
