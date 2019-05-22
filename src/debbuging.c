@@ -10,7 +10,7 @@ void		d_display_players(t_env env)
 	{
 		if (env.players[i].parse_index != -1)
 		{
-			ft_printf("\t%sPlayer n_%d%s (i: %d)\n", S_BOLD, i + 1, E_BOLD, i);
+			ft_printf("\t%sPlayer n_%d%s\n", S_BOLD, env.players[i].number, E_BOLD);
 			ft_printf("\t\t%s-Parse_index%s = %d\n", S_BOLD, E_BOLD, env.players[i].parse_index);
 			ft_printf("\t\t%s-File path%s = %s\n", S_BOLD, E_BOLD, env.players[i].file);
 			ft_printf("\t\t%s-Player name%s = %s\n", S_BOLD, E_BOLD, env.players[i].header.prog_name);

@@ -24,6 +24,7 @@ typedef struct s_player
 {
 	header_t	header;
 	char		*file;
+	int			number;
 	int			parse_index;
 }				t_player;
 
@@ -31,6 +32,7 @@ typedef struct	s_env
 {
 	t_player	players[MAX_PLAYERS];
 	char		arena[MEM_SIZE];
+	int			players_nb;
 	t_flag		flag;
 	int			dump;
 }				t_env;

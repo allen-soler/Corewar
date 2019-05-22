@@ -11,6 +11,7 @@ void		init_env(t_env *env)
 		env->players[i].file = NULL;
 		i++;
 	}
+	env->players_nb = 0;
 	env->flag = 0;
 	env->dump = -1;
 }
