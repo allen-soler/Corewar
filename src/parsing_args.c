@@ -1,5 +1,24 @@
 #include "../includes/vm.h"
 
+static void			get_files(t_env *e, int ac, char **av)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	j = 0;
+	while (i < ac)
+	{
+		if (ft_endswith(av[i], ".cor") == 1)
+		{
+			e->players[j].file = av[i]; // FIXME: allocate ?
+			j += 1;
+		}
+		i += 1;
+	}
+	e->players[j].file = NULL;
+}
+
 static void set_dump(char **av, int ac, int index, t_env *env)
 {
 	if (ac == index)
@@ -24,7 +43,7 @@ static int	set_flag(char **av, int ac, t_env *env)
 			if ((!ft_strcmp(av[i], "-v") || !ft_strcmp(av[i], "--visual")) && ++i)
 				env->flag |= FLAG_VISU;
 			else if ((!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "-dump")) && ++i)	//should be --dump
-			{	
+			{
 				env->flag |= FLAG_DUMP;
 				set_dump(av, ac, i, env);	// good index here because of the ++i, we have to sorry nestorino
 			}
@@ -89,7 +108,7 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			else											// what do we do here in case of error ?
 			{
 				env->players[turn - 1].parse_index = tmp_parse_index;
-				used |= (1 << turn);	
+				used |= (1 << turn);
 			}
 			tmp_parse_index++;
 			i++;		// ??
@@ -107,7 +126,7 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			tmp_parse_index++;
 			i++;
 		}
-	}	
+	}
 }
 
 void		parsing_args(char **av, int ac, t_env *env)
@@ -115,7 +134,6 @@ void		parsing_args(char **av, int ac, t_env *env)
 	int		i;
 
 	i = set_flag(av, ac, env);
-		// we can check if HELP or ERRROR are up
 	set_players(av, ac, i, env);
-	d_display_env(*env);
+	get_files(env, ac, av);
 }

@@ -13,7 +13,7 @@ FLAGS = -Wall -Wextra #-Werror -g
 
 # program name
 
-NAME = corewar 
+NAME = corewar
 
 # library including ft_printf and libft
 
@@ -34,6 +34,8 @@ SOURCES =	main.c			\
 			parsing_args.c	\
 			utils.c			\
 			debbuging.c		\
+			read_files.c	\
+			exit_vm.c
 
 # header files
 

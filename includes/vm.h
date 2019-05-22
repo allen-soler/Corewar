@@ -2,8 +2,10 @@
 # define VM_H
 
 # include <stdlib.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <unistd.h>
 # include <limits.h>
-
 # include "op.h"
 # include "../libft/includes/libft.h"
 
@@ -20,14 +22,13 @@ typedef char	t_flag;
 typedef struct s_player
 {
 	header_t	header;
+	char		*file;
 	int			parse_index;
 }				t_player;
 
 typedef struct	s_env
 {
-	t_player	players[MAX_PLAYERS];
-//	t_arena		arena;
-	char		**file;
+	t_player	players[MAX_PLAYERS + 1];
 	t_flag		flag;
 	int			dump;
 }				t_env;
@@ -35,26 +36,43 @@ typedef struct	s_env
 /*
 **	ENV
 */
+
 void		init_env(t_env *env);
 
 /*
 **	PLAYER
 */
+
 void		init_player(t_player *player);
+
+/*
+**	PARSING FILES
+*/
+
+void			read_files(t_env *e);
+
+/*
+**	ERROR HANDLING
+*/
+
+void			exit_vm(t_env *e, int status);
+void			exit_failure(const char *message, t_env *e);
 
 /*
 **	PARSING_ARGS
 */
+
 void		parsing_args(char **av, int ac, t_env *env);
 
 /*
 **	UTILS
 */
+
 int			ft_atoi_pimp(char *line, t_env *env);
 
 /*
 **	DEBBUGING
 */
-void		d_display_env(t_env env);
+void			d_display_env(t_env env);
 
 #endif
