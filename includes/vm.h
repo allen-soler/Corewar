@@ -18,6 +18,8 @@
 # define FLAG_VISU (1 << 2)
 # define FLAG_DUMP (1 << 3)
 
+# define ERROR_MAX_VALUE 4
+
 typedef char	t_flag;
 
 typedef struct s_player
@@ -35,6 +37,8 @@ typedef struct	s_env
 	int			players_nb;
 	t_flag		flag;
 	int			dump;
+	int			error_value;
+	char		*error_str[ERROR_MAX_VALUE + 1];
 }				t_env;
 
 /*
@@ -42,6 +46,8 @@ typedef struct	s_env
 */
 
 void		init_env(t_env *env);
+void		display_error(t_env *env);
+void		display_help(t_env *env);
 
 /*
 **	PLAYER

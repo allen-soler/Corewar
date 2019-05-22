@@ -1,5 +1,22 @@
 #include "vm.h"
 
+void		display_error(t_env *env)
+{
+	if (env->error_value > ERROR_MAX_VALUE)
+		ft_fprintf(2, "{r}Error{R}: There is an error with the error value...\n");
+	ft_fprintf(2, "{r}Error{R}: %s\n", env->error_str[env->error_value]);
+	display_help(env);
+}
+
+static void	init_env_error(t_env *env)
+{
+	env->error_str[0] = "There is no problem, how can you read this ?";
+	env->error_str[1] = "You need to specify a number (1..4) after -n";
+	env->error_str[2] = "There is no specify dump value after -dump";
+	env->error_str[3] = "You can not use more than 4 champions";
+	env->error_str[4] = "You can not set 2 players with the same number";
+}
+
 void		init_env(t_env *env)
 {
 	int		i;
@@ -14,4 +31,6 @@ void		init_env(t_env *env)
 	env->players_nb = 0;
 	env->flag = 0;
 	env->dump = -1;
+	env->error_value = 0;
+	init_env_error(env);
 }

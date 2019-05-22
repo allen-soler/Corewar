@@ -44,12 +44,12 @@ void read_files(t_env *e)
 		close(fd);
 		curr += 1;
 	}
-
+/*
 	i = 0;
 	while (i < MEM_SIZE)
 	{
 		ft_printf("%02hhx ", e->arena[i++]);
 		if (i % 64 == 0)
 			ft_putendl(0);
-	}
+	}*/
 }

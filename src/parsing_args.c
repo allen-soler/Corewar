@@ -1,4 +1,4 @@
-#include "../includes/vm.h"
+#include "vm.h"
 
 static void	get_files(char **av, t_env *env)
 {
@@ -11,7 +11,6 @@ static void	get_files(char **av, t_env *env)
 		{
 			env->players[i].file = av[env->players[i].parse_index];
 			env->players[i].number = i + 1;
-			env->players_nb++;
 		}
 		i++;
 	}
@@ -21,6 +20,7 @@ static void set_dump(char **av, int ac, int index, t_env *env)
 {
 	if (ac == index)
 	{
+		// there is no dump specify
 		env->flag |= FLAG_ERROR;
 		return ;
 	}
@@ -43,7 +43,7 @@ static int	set_flag(char **av, int ac, t_env *env)
 			else if ((!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "-dump")) && ++i)	//should be --dump
 			{
 				env->flag |= FLAG_DUMP;
-				set_dump(av, ac, i, env);	// good index here because of the ++i, we have to sorry nestorino
+				set_dump(av, ac, i, env);
 				i++;
 			}
 			else
@@ -59,6 +59,7 @@ static int	set_player_turn(char **av, int ac, int index, t_env *env)
 
 	if (ac == index)
 	{
+		// there is no turn specify
 		env->flag |= FLAG_ERROR;
 		return (-1);
 	}
@@ -68,7 +69,7 @@ static int	set_player_turn(char **av, int ac, int index, t_env *env)
 		env->flag |= FLAG_ERROR;
 		return (-1);
 	}
-	return (turn);
+	return (turn - 1);
 }
 
 static int	choose_turn(int used, t_env *env)
@@ -83,6 +84,7 @@ static int	choose_turn(int used, t_env *env)
 		else
 			i++;
 	}
+	// already 4 players ???
 	env->flag |= FLAG_ERROR;
 	return (-1);
 }
@@ -100,12 +102,14 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			turn = set_player_turn(av, ac, i, env);
 			if (turn == -1 || used & (1 << turn))
 			{
-				env->flag |= FLAG_ERROR;		//just rm this line
+				// turn already set
+				env->flag |= FLAG_ERROR;
 				return ;
 			}
 			else
 			{
-				env->players[turn - 1].parse_index = ++i;
+				env->players[turn].parse_index = ++i;
+				env->players_nb++;
 				used |= (1 << turn);
 				i++;
 			}
@@ -114,10 +118,14 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 		{
 			turn = choose_turn(used, env);
 			if (turn == -1)
-				env->flag |= FLAG_ERROR;		//return ; instead of setting flag for the 2nd time
+			{
+				// turn already set
+				return ;
+			}
 			else
 			{
 				env->players[turn].parse_index = i;
+				env->players_nb++;
 				used |= (1 << turn);
 			}
 			i++;
@@ -133,21 +141,32 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 static void	shift_players(t_env *env)
 {
 	int			i;
+	int			j;
 
 	i = 0;
-	while (i < MAX_PLAYERS - 1)
+	if (env->players_nb == MAX_PLAYERS)
+		return ;
+	while (i < MAX_PLAYERS)
 	{
 		if (env->players[i].parse_index == -1)
 		{
-			env->players[i] = env->players[i + 1];
-			ft_bzero(&(env->players[i + 1]), sizeof(t_player));
-			env->players[i + 1].parse_index = -1;
+			j = 0;
+			while (i + j < MAX_PLAYERS)
+			{
+				if (env->players[i + j].parse_index != -1)
+				{
+					env->players[i] = env->players[i + j];
+					env->players[i + j].parse_index = -1;
+					break ;
+				}
+				j++;
+			}
 		}
 		i++;
 	}
 }
 
-static void	display_help(t_env *env)
+void	display_help(t_env *env)
 {
 	ft_printf("Usage: ./corewar [-d N | -v] [[-n N <champion.cor>] <...>\n\n");
 	ft_printf("options:\n");
@@ -159,7 +178,7 @@ static void	display_help(t_env *env)
 
 void		parsing_args(char **av, int ac, t_env *env)
 {
-	int		i;
+	int			i;
 
 	i = set_flag(av, ac, env);
 	if ((env->flag & FLAG_ERROR) || (env->flag & FLAG_HELP))
@@ -169,5 +188,4 @@ void		parsing_args(char **av, int ac, t_env *env)
 		display_help(env);
 	get_files(av, env);
 	shift_players(env);
-	d_display_env(*env);
 }
