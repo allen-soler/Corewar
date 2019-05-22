@@ -28,7 +28,8 @@ typedef struct s_player
 
 typedef struct	s_env
 {
-	t_player	players[MAX_PLAYERS + 1];
+	t_player	players[MAX_PLAYERS];
+	char		arena[MEM_SIZE];
 	t_flag		flag;
 	int			dump;
 }				t_env;

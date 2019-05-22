@@ -11,12 +11,11 @@ static void			get_files(t_env *e, int ac, char **av)
 	{
 		if (ft_endswith(av[i], ".cor") == 1)
 		{
-			e->players[j].file = av[i]; // FIXME: allocate ?
+			e->players[j].file = av[i];
 			j += 1;
 		}
 		i += 1;
 	}
-	e->players[j].file = NULL;
 }
 
 static void set_dump(char **av, int ac, int index, t_env *env)

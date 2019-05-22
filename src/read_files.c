@@ -18,7 +18,6 @@ static void parse_file(t_env *env, int fd, int curr)
 					env->players[curr].file, offset, CHAMP_MAX_SIZE);
 		exit_vm(env, EXIT_FAILURE);
 	}
-	ft_printf("%zd\n", offset);
 }
 
 void read_files(t_env *e)
