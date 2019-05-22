@@ -3,7 +3,6 @@
 static void parse_file(t_env *env, int fd, int curr)
 {
 	ssize_t		size;
-	char		instruction;
 	off_t		offset;
 
 	if ((size = read(fd, &(env->players[curr].header), sizeof(header_t))) != sizeof(header_t))
@@ -17,6 +16,10 @@ static void parse_file(t_env *env, int fd, int curr)
 					env->players[curr].file, offset, CHAMP_MAX_SIZE);
 		exit_vm(env, EXIT_FAILURE);
 	}
+	if (lseek(fd, sizeof(header_t), SEEK_SET) == sizeof(header_t))
+	{
+		size = read(fd, &(env->arena[curr * (MEM_SIZE / env->players_nb)]), offset);
+	}
 }
 
 void read_files(t_env *e)
@@ -25,13 +28,13 @@ void read_files(t_env *e)
 	int fd;
 
 	curr = 0;
-	while (curr < MAX_PLAYERS)
+	int i = 0;
+	while (i < MEM_SIZE)
 	{
-		if (e->players[curr].parse_index == -1)
-		{
-			curr += 1;
-			continue ;
-		}
+		e->arena[i++] = 0;
+	}
+	while (curr < e->players_nb)
+	{
 		if ((fd = open(e->players[curr].file, O_RDONLY)) == -1)
 		{
 			ft_printf("error: %s\n", e->players[curr].file);
@@ -40,5 +43,13 @@ void read_files(t_env *e)
 		parse_file(e, fd, curr);
 		close(fd);
 		curr += 1;
+	}
+
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		ft_printf("%02hhx ", e->arena[i++]);
+		if (i % 64 == 0)
+			ft_putendl(0);
 	}
 }
