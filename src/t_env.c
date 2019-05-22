@@ -8,6 +8,7 @@ void		init_env(t_env *env)
 	while (i < MAX_PLAYERS)
 	{
 		env->players[i].parse_index = -1;
+		env->players[i].file = NULL;
 		i++;
 	}
 	env->flag = 0;

@@ -2,3 +2,5 @@
 corewar
 .DS_Store
 *.dYSM
+.vscode/
+obj
