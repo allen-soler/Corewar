@@ -1,10 +1,16 @@
 #include "vm.h"
 
+void		set_error_value(t_env *env, int value)
+{
+	if (!(env->flag & FLAG_ERROR))
+		env->error_value = value;
+}
+
 void		display_error(t_env *env)
 {
 	if (env->error_value > ERROR_MAX_VALUE)
 		ft_fprintf(2, "{r}Error{R}: There is an error with the error value...\n");
-	ft_fprintf(2, "{r}Error{R}: %s\n", env->error_str[env->error_value]);
+	ft_fprintf(2, "{r}Error{R}: %s\n\n", env->error_str[env->error_value]);
 	display_help(env);
 }
 

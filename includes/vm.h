@@ -19,6 +19,10 @@
 # define FLAG_DUMP (1 << 3)
 
 # define ERROR_MAX_VALUE 4
+# define ERROR_SPE_NUMB 1
+# define ERROR_SPE_DUMP 2
+# define ERROR_CHAMPION 3
+# define ERROR_SME_NUMB 4
 
 typedef char	t_flag;
 
@@ -46,8 +50,10 @@ typedef struct	s_env
 */
 
 void		init_env(t_env *env);
+void		set_error_value(t_env *env, int value);
 void		display_error(t_env *env);
 void		display_help(t_env *env);
+
 
 /*
 **	PLAYER

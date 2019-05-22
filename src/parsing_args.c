@@ -20,7 +20,8 @@ static void set_dump(char **av, int ac, int index, t_env *env)
 {
 	if (ac == index)
 	{
-		// there is no dump specify
+		// there is no number specify
+		set_error_value(env, ERROR_SPE_DUMP);
 		env->flag |= FLAG_ERROR;
 		return ;
 	}
@@ -60,6 +61,7 @@ static int	set_player_turn(char **av, int ac, int index, t_env *env)
 	if (ac == index)
 	{
 		// there is no turn specify
+		set_error_value(env, ERROR_SPE_NUMB);
 		env->flag |= FLAG_ERROR;
 		return (-1);
 	}
@@ -85,6 +87,7 @@ static int	choose_turn(int used, t_env *env)
 			i++;
 	}
 	// already 4 players ???
+	set_error_value(env, ERROR_CHAMPION);
 	env->flag |= FLAG_ERROR;
 	return (-1);
 }
@@ -103,6 +106,7 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			if (turn == -1 || used & (1 << turn))
 			{
 				// turn already set
+				set_error_value(env, ERROR_SME_NUMB);
 				env->flag |= FLAG_ERROR;
 				return ;
 			}
@@ -120,6 +124,7 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			if (turn == -1)
 			{
 				// turn already set
+				set_error_value(env, ERROR_SME_NUMB);
 				return ;
 			}
 			else
@@ -181,11 +186,13 @@ void		parsing_args(char **av, int ac, t_env *env)
 	int			i;
 
 	i = set_flag(av, ac, env);
-	if ((env->flag & FLAG_ERROR) || (env->flag & FLAG_HELP))
+	if (env->flag & FLAG_ERROR)
+		display_error(env);
+	else if (env->flag & FLAG_HELP)
 		display_help(env);
 	set_players(av, ac, i, env);
 	if (env->flag & FLAG_ERROR)
-		display_help(env);
+		display_error(env);
 	get_files(av, env);
 	shift_players(env);
 }
