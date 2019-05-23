@@ -57,10 +57,10 @@ typedef struct	s_env
 */
 
 void		init_env(t_env *env);
+void		init_arena(t_env *e);
 void		set_error_value(t_env *env, int value);
 void		display_error(t_env *env);
 void		display_help(t_env *env);
-
 
 /*
 **	PLAYER
@@ -96,6 +96,7 @@ int			ft_atoi_pimp(char *line, t_env *env);
 /*
 **	DEBBUGING
 */
+
 void			d_display_env(t_env env);
 
 #endif

@@ -35,29 +35,10 @@ static void parse_file(t_env *env, int fd, int curr)
 	}
 }
 
-void read_files(t_env *e)
+static void print_arena(t_env *e)
 {
-	int curr;
-	int fd;
+	size_t i;
 
-	curr = 0;
-	int i = 0;
-	while (i < MEM_SIZE)
-	{
-		e->arena[i].player = -1;
-		e->arena[i++].data = 0;
-	}
-	while (curr < e->players_nb)
-	{
-		if ((fd = open(e->players[curr].file, O_RDONLY)) == -1)
-		{
-			ft_fprintf(2, "Error: Couldn't read file %s.\n", e->players[curr].file);
-			exit_vm(e, EXIT_FAILURE);
-		}
-		parse_file(e, fd, curr);
-		close(fd);
-		curr += 1;
-	}
 	i = 0;
 	while (i < MEM_SIZE)
 	{
@@ -74,4 +55,24 @@ void read_files(t_env *e)
 		if (i % 64 == 0)
 			ft_putendl(0);
 	}
+}
+
+void read_files(t_env *e)
+{
+	int curr;
+	int fd;
+
+	curr = 0;
+	while (curr < e->players_nb)
+	{
+		if ((fd = open(e->players[curr].file, O_RDONLY)) == -1)
+		{
+			ft_fprintf(2, "Error: Couldn't read file %s.\n", e->players[curr].file);
+			exit_vm(e, EXIT_FAILURE);
+		}
+		parse_file(e, fd, curr);
+		close(fd);
+		curr += 1;
+	}
+
 }

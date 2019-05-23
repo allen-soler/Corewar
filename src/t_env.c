@@ -14,6 +14,19 @@ void		display_error(t_env *env)
 	display_help(env);
 }
 
+void init_arena(t_env *e)
+{
+	size_t i;
+
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		e->arena[i].player = -1;
+		e->arena[i].data = 0;
+		i += 1;
+	}
+}
+
 static void	init_env_error(t_env *env)
 {
 	env->error_str[0] = "There is no problem, how can you read this ?";
@@ -38,5 +51,6 @@ void		init_env(t_env *env)
 	env->flag = 0;
 	env->dump = -1;
 	env->error_value = 0;
+	init_arena(env);
 	init_env_error(env);
 }
