@@ -2,11 +2,11 @@
 
 static void parse_file(t_env *env, int fd, int curr)
 {
-	ssize_t		size;
-	off_t		offset;
-	off_t		i;
+	size_t	offset;
+	size_t	i;
+	size_t	position;
 
-	if ((size = read(fd, &(env->players[curr].header), sizeof(header_t))) != sizeof(header_t))
+	if (read(fd, &(env->players[curr].header), sizeof(header_t)) != sizeof(header_t))
 	{
 		ft_fprintf(2, "Error: File %s header has an incorrect size (%d bytes != %d bytes).\n", size, sizeof(header_t));
 		exit_vm(env, EXIT_FAILURE);
@@ -19,7 +19,7 @@ static void parse_file(t_env *env, int fd, int curr)
 	}
 	if (lseek(fd, sizeof(header_t), SEEK_SET) == sizeof(header_t))
 	{
-		size_t position = curr * (MEM_SIZE / env->players_nb);
+		position = curr * (MEM_SIZE / env->players_nb);
 		i = 0;
 		while (i <= offset)
 		{
