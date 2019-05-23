@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra #-Werror -g
+FLAGS = -Wall -Wextra -g
 
 # program name
 

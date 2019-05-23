@@ -4,6 +4,7 @@ static void parse_file(t_env *env, int fd, int curr)
 {
 	ssize_t		size;
 	off_t		offset;
+	off_t		i;
 
 	if ((size = read(fd, &(env->players[curr].header), sizeof(header_t))) != sizeof(header_t))
 	{
@@ -18,7 +19,19 @@ static void parse_file(t_env *env, int fd, int curr)
 	}
 	if (lseek(fd, sizeof(header_t), SEEK_SET) == sizeof(header_t))
 	{
-		size = read(fd, &(env->arena[curr * (MEM_SIZE / env->players_nb)]), offset);
+		size_t position = curr * (MEM_SIZE / env->players_nb);
+		i = 0;
+		while (i <= offset)
+		{
+			if (read(fd, &(env->arena[position + i].data), 1) < 0)
+			{
+				ft_fprintf(2, "Error: Couldn't read file %s.\n",\
+					env->players[curr].file);
+				exit_vm(env, EXIT_FAILURE);
+			}
+			env->arena[position + i].player = curr;
+			i += 1;
+		}
 	}
 }
 
@@ -31,25 +44,34 @@ void read_files(t_env *e)
 	int i = 0;
 	while (i < MEM_SIZE)
 	{
-		e->arena[i++] = 0;
+		e->arena[i].player = -1;
+		e->arena[i++].data = 0;
 	}
 	while (curr < e->players_nb)
 	{
 		if ((fd = open(e->players[curr].file, O_RDONLY)) == -1)
 		{
-			ft_printf("error: %s\n", e->players[curr].file);
-			exit_failure("ERROR: Couldn't open the file", e);
+			ft_fprintf(2, "Error: Couldn't read file %s.\n", e->players[curr].file);
+			exit_vm(e, EXIT_FAILURE);
 		}
 		parse_file(e, fd, curr);
 		close(fd);
 		curr += 1;
 	}
-/*
 	i = 0;
 	while (i < MEM_SIZE)
 	{
-		ft_printf("%02hhx ", e->arena[i++]);
+		if (e->arena[i].player == 0)
+			ft_printf("{r}%02hhx{R} ", e->arena[i++].data);
+		else if (e->arena[i].player == 1)
+			ft_printf("{b}%02hhx{R} ", e->arena[i++].data);
+		else if (e->arena[i].player == 2)
+			ft_printf("{g}%02hhx{R} ", e->arena[i++].data);
+		else if (e->arena[i].player == 3)
+			ft_printf("{y}%02hhx{R} ", e->arena[i++].data);
+		else
+			ft_printf("%02hhx ", e->arena[i++].data);
 		if (i % 64 == 0)
 			ft_putendl(0);
-	}*/
+	}
 }

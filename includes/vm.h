@@ -34,10 +34,17 @@ typedef struct s_player
 	int			parse_index;
 }				t_player;
 
+typedef struct	s_arena
+{
+	char		data; // hexa value
+	int			player;  // index based information, not player number
+}				t_arena;
+
+
 typedef struct	s_env
 {
 	t_player	players[MAX_PLAYERS];
-	char		arena[MEM_SIZE];
+	t_arena		arena[MEM_SIZE];
 	int			players_nb;
 	t_flag		flag;
 	int			dump;

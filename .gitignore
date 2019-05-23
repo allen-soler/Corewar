@@ -1,4 +1,4 @@
-*.o
+**/*.o
 corewar
 .DS_Store
 *.dYSM
