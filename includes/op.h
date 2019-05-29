@@ -60,3 +60,16 @@ typedef struct header_s
 	unsigned int prog_size;
 	char comment[COMMENT_LENGTH + 1];
 } header_t;
+
+typedef struct	s_op
+{
+	char	*name;
+	int		param_nb;
+	int		param_possible[3];
+	int		op_code;
+	int		nb_cycle;
+	char	*complete_name;
+	int		encoding_byte;
+	int		direct_size;
+}				t_op;
+
