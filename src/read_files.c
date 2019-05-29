@@ -3,10 +3,11 @@
 static void parse_file(t_env *env, int fd, int curr)
 {
 	size_t	offset;
+	size_t	size;
 	size_t	i;
 	size_t	position;
 
-	if (read(fd, &(env->players[curr].header), sizeof(header_t)) != sizeof(header_t))
+	if ((size = read(fd, &(env->players[curr].header), sizeof(header_t))) != sizeof(header_t))
 	{
 		ft_fprintf(2, "Error: File %s header has an incorrect size (%d bytes != %d bytes).\n", size, sizeof(header_t));
 		exit_vm(env, EXIT_FAILURE);
@@ -74,5 +75,5 @@ void read_files(t_env *e)
 		close(fd);
 		curr += 1;
 	}
-
+	print_arena(e);
 }
