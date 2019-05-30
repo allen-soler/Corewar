@@ -19,13 +19,16 @@ static void	get_files(char **av, t_env *env)
 static void set_dump(char **av, int ac, int index, t_env *env)
 {
 	if (ac == index)
-	{
-		// there is no number specify
 		set_error_value(env, ERROR_SPE_DUMP);
-		env->flag |= FLAG_ERROR;
-		return ;
+	else
+	{
+		env->dump = ft_atoi_pimp(av[index], env);
+		if (env->flag & FLAG_ERROR)
+		{
+			env->flag ^= 1;
+			set_error_value(env, ERROR_SPE_DUMP);
+		}
 	}
-	env->dump = ft_atoi_pimp(av[index], env);
 }
 
 static int	set_flag(char **av, int ac, t_env *env)
@@ -33,7 +36,7 @@ static int	set_flag(char **av, int ac, t_env *env)
 	int		i;
 
 	i = 1;
-	if (ac == 1 || !ft_strcmp(av[1], "--help"))
+	if (ac == 1 || !ft_strcmp(av[1], "--help") || !ft_strcmp(av[1], "-h"))
 		env->flag |= FLAG_HELP;
 	else
 	{
@@ -62,13 +65,12 @@ static int	set_player_turn(char **av, int ac, int index, t_env *env)
 	{
 		// there is no turn specify
 		set_error_value(env, ERROR_SPE_NUMB);
-		env->flag |= FLAG_ERROR;
 		return (-1);
 	}
 	turn = ft_atoi_pimp(av[index], env);
 	if (turn < 1 || turn > 4)
 	{
-		env->flag |= FLAG_ERROR;
+		set_error_value(env, ERROR_WRG_NUMB);
 		return (-1);
 	}
 	return (turn - 1);
@@ -88,7 +90,6 @@ static int	choose_turn(int used, t_env *env)
 	}
 	// already 4 players ???
 	set_error_value(env, ERROR_CHAMPION);
-	env->flag |= FLAG_ERROR;
 	return (-1);
 }
 
@@ -107,7 +108,6 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			{
 				// turn already set
 				set_error_value(env, ERROR_SME_NUMB);
-				env->flag |= FLAG_ERROR;
 				return ;
 			}
 			else
@@ -137,7 +137,8 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 		}
 		else
 		{
-			env->flag |= FLAG_ERROR;
+			// unknown argv
+			set_error_value(env, ERROR_UNK_ARGV);
 			return ;
 		}
 	}

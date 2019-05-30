@@ -6,23 +6,11 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2019/05/29 15:04:53 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/30 15:18:51 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
-
-typedef struct	s_op
-{
-	char	*name;
-	int		param_nb;
-	int		param_possible[3];
-	int		op_code;
-	int		nb_cycle;
-	char	*complete_name;
-	int		encoding_byte;
-	int		direct_size;
-}				t_op;
 
 t_op    op_tab[17] =
 {

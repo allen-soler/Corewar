@@ -18,11 +18,13 @@
 # define FLAG_VISU (1 << 2)
 # define FLAG_DUMP (1 << 3)
 
-# define ERROR_MAX_VALUE 4
+# define ERROR_MAX_VALUE 6
 # define ERROR_SPE_NUMB 1
 # define ERROR_SPE_DUMP 2
 # define ERROR_CHAMPION 3
 # define ERROR_SME_NUMB 4
+# define ERROR_WRG_NUMB 5
+# define ERROR_UNK_ARGV 6
 
 typedef char	t_flag;
 
