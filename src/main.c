@@ -1,6 +1,6 @@
-#include "../includes/vm.h"
+#include "vm.h"
 
-int main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_env		env;
 
@@ -9,4 +9,5 @@ int main(int ac, char **av)
 	read_files(&env);
 	d_display_env(env);
 	exit_vm(&env, EXIT_SUCCESS);
+	return (0);
 }
