@@ -31,6 +31,7 @@ DIR_H = includes
 
 SOURCES =	main.c			\
 			t_env.c			\
+			t_process.c		\
 			parsing_args.c	\
 			utils.c			\
 			debbuging.c		\

@@ -1,5 +1,27 @@
 #include "../includes/vm.h"
 
+void		d_display_process(t_process *pro)
+{
+	int		i;
+
+	i = 0;
+	ft_printf("%s{c}Process:%s{R} %p\n", S_BOLD, E_BOLD, pro);
+	ft_printf("\t%sRegistries%s:\n", S_BOLD, E_BOLD);
+	while (i < REG_NUMBER)
+	{
+		ft_printf("\t\t%d: %s%d\n", i, (i < 10) ? " " : "", pro->regs[i]);
+		i++;
+	}
+	ft_printf("\t%sPC%s: %d\n", S_BOLD, E_BOLD, pro->pc);
+	ft_printf("\t%sCarry%s: %d\n", S_BOLD, E_BOLD, pro->carry);
+	ft_printf("\t%sAlive%s: %d\n", S_BOLD, E_BOLD, pro->alive);
+	ft_printf("\t%sPlayer%s: %d\n", S_BOLD, E_BOLD, pro->player);
+	ft_printf("\t%sColor%s: %d\n", S_BOLD, E_BOLD, pro->color);
+	ft_printf("\t%sPrev%d: %p\n", S_BOLD, E_BOLD, pro->prev);
+	ft_printf("\t%sNext%d: %p\n", S_BOLD, E_BOLD, pro->next);
+
+}
+
 void		d_display_players(t_env env)
 {
 	int		i;

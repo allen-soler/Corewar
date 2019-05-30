@@ -78,6 +78,12 @@ void		display_error(t_env *env);
 void		display_help(t_env *env);
 
 /*
+**	PROCESS
+*/
+
+t_process	*new_process(int player);
+
+/*
 **	PLAYER
 */
 
@@ -113,5 +119,6 @@ int			ft_atoi_pimp(char *line, t_env *env);
 */
 
 void			d_display_env(t_env env);
+void			d_display_process(t_process *pro);
 
 #endif
