@@ -7,15 +7,17 @@ t_process		*new_process(int player)
 	if (!(new = (t_process *)malloc(sizeof(t_process))))
 		return (NULL);
 	ft_bzero(new, sizeof(t_process));
+	ft_bzero(new->regs, sizeof(int) * REG_NUMBER);
 	new->player = player;
 	new->regs[0] = player;
+	new->prev = NULL;
 	new->next = NULL;
 	return (new);
 }
 
-void	append_process(t_process **head, t_process *new)
+void			append_process(t_process **head, t_process *new)
 {
-	t_process *tmp;
+	t_process 	*tmp;
 
 	if (*head == NULL)
 		*head = new;
@@ -31,9 +33,9 @@ void	append_process(t_process **head, t_process *new)
 	}
 }
 
-void	delete_process(t_process **head, t_process *ptr)
+void			delete_process(t_process **head, t_process *ptr)
 {
-	t_process *tmp;
+	t_process 	*tmp;
 
 	tmp = *head;
 	if (tmp)
@@ -42,7 +44,8 @@ void	delete_process(t_process **head, t_process *ptr)
 		{
 			*head = (*head)->next;
 			free(tmp);
-			(*head)->prev = NULL;
+			if (*head)
+				(*head)->prev = NULL;
 		}
 		while (tmp->next)
 		{
@@ -57,5 +60,24 @@ void	delete_process(t_process **head, t_process *ptr)
 			}
 			tmp = tmp->next;
 		}
+	}
+}
+
+void			check_live(t_env env)
+{
+	t_process	*index;
+	t_process	*tmp;
+
+	index = env.cursors;
+	while (index != NULL)
+	{
+		if (index->alive == 0)
+		{
+			tmp = index;
+			index = index->next;
+			delete_process(&(env.cursors), tmp);
+		}
+		else
+			index = index->next;
 	}
 }

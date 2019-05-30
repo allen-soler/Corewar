@@ -1,8 +1,8 @@
 #include "../includes/vm.h"
 
-void		d_display_process(t_process *pro)
+void			d_display_process(t_process *pro)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	if (pro == NULL)
@@ -24,12 +24,25 @@ void		d_display_process(t_process *pro)
 	ft_printf("\t%sColor%s: %d\n", S_BOLD, E_BOLD, pro->color);
 	ft_printf("\t%sPrev%s: %p\n", S_BOLD, E_BOLD, pro->prev);
 	ft_printf("\t%sNext%s: %p\n", S_BOLD, E_BOLD, pro->next);
-
 }
 
-void		d_display_players(t_env env)
+void			d_display_full_process(t_env env)
 {
-	int		i;
+	t_process	*tmp;
+
+	tmp = env.cursors;
+	while (tmp != NULL)
+	{
+		ft_printf("{m}---------------------------{R}\n");
+		d_display_process(tmp);
+		ft_printf("{m}---------------------------{R}\n");
+		tmp = tmp->next;
+	}
+}
+
+void			d_display_players(t_env env)
+{
+	int			i;
 
 	i = 0;
 	ft_printf("%s{c}Players{R}%s:\n", S_BOLD, E_BOLD);
@@ -44,7 +57,7 @@ void		d_display_players(t_env env)
 	}
 }
 
-void		d_display_env(t_env env)
+void			d_display_env(t_env env)
 {
 	// to add:
 	//		- display players

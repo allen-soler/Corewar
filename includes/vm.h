@@ -83,6 +83,7 @@ void		display_help(t_env *env);
 
 t_process	*new_process(int player);
 void		append_process(t_process **head, t_process *new);
+void		check_live(t_env env);
 
 /*
 **	PLAYER
@@ -121,5 +122,6 @@ int			ft_atoi_pimp(char *line, t_env *env);
 
 void			d_display_env(t_env env);
 void			d_display_process(t_process *pro);
+void			d_display_full_process(t_env env);
 
 #endif

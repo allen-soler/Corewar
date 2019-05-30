@@ -58,4 +58,5 @@ void		init_env(t_env *env)
 	env->error_value = 0;
 	init_arena(env);
 	init_env_error(env);
+	env->cursors = NULL;
 }
