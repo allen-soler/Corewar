@@ -82,6 +82,7 @@ void		display_help(t_env *env);
 */
 
 t_process	*new_process(int player);
+void		append_process(t_process **head, t_process *new);
 
 /*
 **	PLAYER

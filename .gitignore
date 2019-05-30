@@ -1,5 +1,6 @@
 **/*.o
 corewar
+asm
 .DS_Store
 *.dYSM
 .vscode/

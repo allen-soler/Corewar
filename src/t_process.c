@@ -1,4 +1,4 @@
-#include "../includes/vm.h"
+#include "vm.h"
 
 t_process		*new_process(int player)
 {

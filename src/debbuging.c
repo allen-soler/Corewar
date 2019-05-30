@@ -5,6 +5,11 @@ void		d_display_process(t_process *pro)
 	int		i;
 
 	i = 0;
+	if (pro == NULL)
+	{
+		ft_printf("%s{c}Process:%s{R} (null)\n", S_BOLD, E_BOLD);
+		return ;
+	}
 	ft_printf("%s{c}Process:%s{R} %p\n", S_BOLD, E_BOLD, pro);
 	ft_printf("\t%sRegistries%s:\n", S_BOLD, E_BOLD);
 	while (i < REG_NUMBER)
@@ -17,8 +22,8 @@ void		d_display_process(t_process *pro)
 	ft_printf("\t%sAlive%s: %d\n", S_BOLD, E_BOLD, pro->alive);
 	ft_printf("\t%sPlayer%s: %d\n", S_BOLD, E_BOLD, pro->player);
 	ft_printf("\t%sColor%s: %d\n", S_BOLD, E_BOLD, pro->color);
-	ft_printf("\t%sPrev%d: %p\n", S_BOLD, E_BOLD, pro->prev);
-	ft_printf("\t%sNext%d: %p\n", S_BOLD, E_BOLD, pro->next);
+	ft_printf("\t%sPrev%s: %p\n", S_BOLD, E_BOLD, pro->prev);
+	ft_printf("\t%sNext%s: %p\n", S_BOLD, E_BOLD, pro->next);
 
 }
 
