@@ -4,3 +4,4 @@ corewar
 *.dYSM
 .vscode/
 obj
+tags
