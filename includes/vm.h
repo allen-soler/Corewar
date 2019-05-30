@@ -30,28 +30,41 @@ typedef char	t_flag;
 
 typedef struct s_player
 {
-	header_t	header;
-	char		*file;
-	int			number;
-	int			parse_index;
+	header_t			header;
+	char				*file;
+	int					number;
+	int					parse_index;
 }				t_player;
+
+typedef struct	s_process
+{
+	int					regs[REG_NUMBER];
+	int					pc;
+	int					carry;
+	int					alive;
+	int					cycle;
+	int					player;
+	int					color;
+	struct s_process 	*prev;
+	struct s_process 	*next;
+}				t_process;
 
 typedef struct	s_arena
 {
-	char		data; // hexa value
-	int			player;  // index based information, not player number
+	char				data; 		// hexa value
+	int					player;		// index based information, not player number (allespag: what ??)
 }				t_arena;
-
 
 typedef struct	s_env
 {
-	t_player	players[MAX_PLAYERS];
-	t_arena		arena[MEM_SIZE];
-	int			players_nb;
-	t_flag		flag;
-	int			dump;
-	int			error_value;
-	char		*error_str[ERROR_MAX_VALUE + 1];
+	t_player			players[MAX_PLAYERS];
+	t_arena				arena[MEM_SIZE];
+	t_process			*cursors;
+	int					players_nb;
+	t_flag				flag;
+	int					dump;
+	int					error_value;
+	char				*error_str[ERROR_MAX_VALUE + 1];
 }				t_env;
 
 /*
