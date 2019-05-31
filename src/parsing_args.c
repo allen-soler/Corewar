@@ -44,7 +44,7 @@ static int	set_flag(char **av, int ac, t_env *env)
 		{
 			if ((!ft_strcmp(av[i], "-v") || !ft_strcmp(av[i], "--visual")) && ++i)
 				env->flag |= FLAG_VISU;
-			else if ((!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "-dump")) && ++i)	//should be --dump
+			else if ((!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "--dump") || !ft_strcmp(av[i], "-dump")) && ++i)
 			{
 				env->flag |= FLAG_DUMP;
 				set_dump(av, ac, i, env);
@@ -182,6 +182,7 @@ void	display_help(t_env *env)
 	exit_vm(env, (env->flag & FLAG_ERROR) ? EXIT_FAILURE : EXIT_SUCCESS);
 }
 
+//TODO: FLAG_VISU must be the only flag
 void		parsing_args(char **av, int ac, t_env *env)
 {
 	int			i;

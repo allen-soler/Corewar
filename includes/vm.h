@@ -13,6 +13,7 @@
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 
+// TODO: add a FLAG_VERB
 # define FLAG_ERROR (1 << 0)
 # define FLAG_HELP (1 << 1)
 # define FLAG_VISU (1 << 2)

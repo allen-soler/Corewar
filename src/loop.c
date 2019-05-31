@@ -1,8 +1,8 @@
 #include "vm.h"
 
-static void		init_loop(t_loop *loop)
+static void		init_loop(t_loop *loop, int player_nb)
 {
-	loop->nb_process_alive = 4;
+	loop->nb_process_alive = player_nb;
 	loop->current_cycle = 0;
 	loop->i_cycle = 0;
 	loop->i_check = 0;
@@ -15,7 +15,6 @@ static void		init_loop(t_loop *loop)
 **			-op w/cycle > 0:				cycle--
 **			-op w/cycle == 0:				exec cmd
 */
-
 static void		exec_process(t_env *env)
 {
 	t_process	*index;
@@ -61,11 +60,28 @@ static int		check_live(t_env *env)
 	return (alive);
 }
 
+/*
+**	Maybe fill the list from last player to first
+*/
+static void		init_processes(t_env *env)
+{
+	int			i;
+
+	i = 0;
+	while (i < env->players_nb)
+	{
+		append_process(&env->cursors, new_process(env->players[i].number));
+		i++;
+	}
+}
+
 void		game_loop(t_env *env)
 {
-	t_loop	l;
+	t_loop		l;
 
-	init_loop(&l);
+	init_processes(env);
+	init_loop(&l, env->players_nb);
+	d_display_full_process(*env);
 	while (l.nb_process_alive)
 	{
 		l.i_cycle = 0;
@@ -79,7 +95,7 @@ void		game_loop(t_env *env)
 			exec_process(env);
 			l.i_cycle++;
 			l.current_cycle++;
-			ft_printf("{c}cycle: %d{R}\n", l.current_cycle);
+//			ft_printf("{c}cycle: %d{R}\n", l.current_cycle);
 		}
 		l.nb_process_alive = check_live(env);
 		if (l.nb_process_alive >= NBR_LIVE || l.i_check == MAX_CHECKS)
