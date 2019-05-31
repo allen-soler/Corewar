@@ -62,22 +62,3 @@ void			delete_process(t_process **head, t_process *ptr)
 		}
 	}
 }
-
-void			check_live(t_env env)
-{
-	t_process	*index;
-	t_process	*tmp;
-
-	index = env.cursors;
-	while (index != NULL)
-	{
-		if (index->alive == 0)
-		{
-			tmp = index;
-			index = index->next;
-			delete_process(&(env.cursors), tmp);
-		}
-		else
-			index = index->next;
-	}
-}

@@ -36,7 +36,7 @@ static void parse_file(t_env *env, int fd, int curr)
 	}
 }
 
-static void print_arena(t_env *e)
+void print_arena(t_env *e)
 {
 	size_t i;
 
@@ -75,5 +75,5 @@ void read_files(t_env *e)
 		close(fd);
 		curr += 1;
 	}
-	print_arena(e);
+	//print_arena(e);
 }

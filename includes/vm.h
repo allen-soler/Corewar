@@ -55,6 +55,15 @@ typedef struct	s_arena
 	int					player;		// index based information, not player number (allespag: what ??)
 }				t_arena;
 
+typedef struct	s_loop
+{
+	int			nb_process_alive;
+	int			current_cycle;
+	int			i_cycle;
+	int			i_check;
+	int			cycle_to_die;
+}				t_loop;
+
 typedef struct	s_env
 {
 	t_player			players[MAX_PLAYERS];
@@ -78,12 +87,18 @@ void		display_error(t_env *env);
 void		display_help(t_env *env);
 
 /*
+**	MAIN LOOP
+*/
+
+void		game_loop(t_env *env);
+
+/*
 **	PROCESS
 */
 
 t_process	*new_process(int player);
 void		append_process(t_process **head, t_process *new);
-void		check_live(t_env env);
+void		delete_process(t_process **head, t_process *ptr);
 
 /*
 **	PLAYER
@@ -95,6 +110,7 @@ void		init_player(t_player *player);
 **	PARSING FILES
 */
 
+void			print_arena(t_env *e);
 void			read_files(t_env *e);
 
 /*

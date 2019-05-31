@@ -36,6 +36,7 @@ SOURCES =	main.c			\
 			utils.c			\
 			debbuging.c		\
 			read_files.c	\
+			loop.c			\
 			exit_vm.c
 
 # header files
