@@ -2,7 +2,9 @@
 
 static void (*g_func_ptr[1])(t_env *e, t_process *cursor) =
 {
-            ft_live
+	ft_live, ft_ld, ft_st, ft_add, ft_sub, ft_and, ft_or,
+	ft_xor, ft_zjmp, ft_ldi, ft_sti, ft_fork, ft_lld, ft_lldi,
+	ft_lfork, ft_aff
 };
 
 static void		exec_cmd(t_env *e, t_process *cursor)
@@ -11,10 +13,10 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 
 	//print_arena(e);
 	op_code = e->arena[cursor->pc].data;
-	ft_fprintf(2, "player pc -> %d data at that index -> %d\n", cursor->pc, op_code);
+	//ft_fprintf(2, "player pc -> %d data at that index -> %d\n", cursor->pc, op_code);
 	if (op_code <= REG_NUMBER && op_code > 0) // make sure that the op code is valid
 	{
-		ft_fprintf(2, "executing instruction with op_code  -> %d\n", op_code);
+		//ft_fprintf(2, "executing instruction with op_code  -> %d\n", op_code);
 		g_func_ptr[e->arena[cursor->pc].data - 1](e, cursor);
 	}
 }

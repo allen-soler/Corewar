@@ -109,6 +109,21 @@ void		delete_process(t_process **head, t_process *ptr);
 */
 
 void	ft_live(t_env *e, t_process *cursor);
+void	ft_ld(t_env *e, t_process *cursor);
+void	ft_st(t_env *e, t_process *cursor);
+void	ft_add(t_env *e, t_process *cursor);
+void	ft_sub(t_env *e, t_process *cursor);
+void	ft_and(t_env *e, t_process *cursor);
+void	ft_or(t_env *e, t_process *cursor);
+void	ft_xor(t_env *e, t_process *cursor);
+void	ft_zjmp(t_env *e, t_process *cursor);
+void	ft_ldi(t_env *e, t_process *cursor);
+void	ft_sti(t_env *e, t_process *cursor);
+void	ft_fork(t_env *e, t_process *cursor);
+void	ft_lld(t_env *e, t_process *cursor);
+void	ft_lldi(t_env *e, t_process *cursor);
+void	ft_lfork(t_env *e, t_process *cursor);
+void	ft_aff(t_env *e, t_process *cursor);
 
 /*
 **	PLAYER
