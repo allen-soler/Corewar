@@ -89,6 +89,21 @@ void	reset_args(t_process *cursor)
 	}
 }
 
+int		mix_bytes(t_env *e, int index, int len)
+{
+	int	res;
+	int	i;
+
+	i = 0;
+	res = 0;
+	while (i < len)
+	{
+		res = (res << 8) | e->arena[index++].data;
+	}
+	ft_printf("mixed %d bytes, having as a result: %d\n", len, res);
+	return (res);
+}
+
 void	read_args(t_env *e, t_process *cursor, t_op op)
 {
 	u_int8_t	i;
@@ -101,7 +116,7 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 		type = e->arena[cursor->pc + 1].data;
 		if (type >> (i * 2) != 0b0)
 		{
-			type = (type >> ((op.param_nb - i) * 2) & 3); // this takes the last two bytes
+			type = (type >> ((op.param_nb - i) * 2) & 3);
 			cursor->args[i].type = type;
 			cursor->args[i].value = e->arena[cursor->pc + i + 2].data;
 		}
@@ -111,9 +126,27 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 
 void	ft_sti(t_env *e, t_process *cursor, t_op op)
 {
+	int	i;
+	unsigned char	indirect;
+	int				pointer;
 	read_args(e, cursor, op);
 	d_display_argument(cursor);
-	return ;
+
+	indirect = 0;
+	while (i < op.param_nb)
+	{
+		if (cursor->args[i].type == T_DIR) // TODO: handle indirect
+		{
+			pointer += cursor->args[i].value;
+		}
+		i += 1;
+	}
+	if (indirect)
+	{
+		pointer += cursor->pc;
+	}
+	ft_printf("charging at address %d the value %d\n", pointer, cursor->regs[cursor->args[0].value - 1]);
+	e->arena[pointer].data = cursor->regs[cursor->args[0].value - 1];
 }
 
 void	ft_fork(t_env *e, t_process *cursor, t_op op)
