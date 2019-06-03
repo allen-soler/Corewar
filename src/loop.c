@@ -1,12 +1,31 @@
 #include "vm.h"
 
+static void (*g_func_ptr[1])(t_env *e, t_process *cursor) =
+{
+            ft_live
+};
+
+static void		exec_cmd(t_env *e, t_process *cursor)
+{
+	char op_code;
+
+	//print_arena(e);
+	op_code = e->arena[cursor->pc].data;
+	ft_fprintf(2, "player pc -> %d data at that index -> %d\n", cursor->pc, op_code);
+	if (op_code <= REG_NUMBER && op_code > 0) // make sure that the op code is valid
+	{
+		ft_fprintf(2, "executing instruction with op_code  -> %d\n", op_code);
+		g_func_ptr[e->arena[cursor->pc].data - 1](e, cursor);
+	}
+}
+
 static void		init_loop(t_loop *loop, int player_nb)
 {
 	loop->nb_process_alive = player_nb;
 	loop->current_cycle = 0;
 	loop->i_cycle = 0;
 	loop->i_check = 0;
-	loop->cycle_to_die = CYCLE_TO_DIE;	
+	loop->cycle_to_die = CYCLE_TO_DIE;
 }
 
 /*
@@ -15,23 +34,25 @@ static void		init_loop(t_loop *loop, int player_nb)
 **			-op w/cycle > 0:				cycle--
 **			-op w/cycle == 0:				exec cmd
 */
+
 static void		exec_process(t_env *env)
 {
-	t_process	*index;
+	t_process	*curr;
 
-	index = env->cursors;
-	while (index != NULL)
+	curr = env->cursors;
+	while (curr != NULL)
 	{
-		if (index->cycle == -1)
-			index->pc = (index->pc + 1) % MEM_SIZE;
-		else if (index->cycle > 0)
-			index->cycle--;
-		else if (index->cycle == 0)
+		if (curr->cycle == -1)
+			curr->pc = (curr->pc + 1) % MEM_SIZE; // isn't this incorrect, it'll reset the pc multiple times
+		else if (curr->cycle > 0)
+			curr->cycle--;
+		else if (curr->cycle == 0)
 		{
 			//exec cmd: TODO: create each cmd
-			index->cycle = -1;
+			exec_cmd(env, curr);
+			curr->cycle = -1;
 		}
-		index = index->next;
+		curr = curr->next;
 	}
 }
 
@@ -82,7 +103,7 @@ void		game_loop(t_env *env)
 	init_processes(env);
 	init_loop(&l, env->players_nb);
 	d_display_full_process(*env);
-	while (l.nb_process_alive)
+	while (l.nb_process_alive > 0)
 	{
 		l.i_cycle = 0;
 		while (l.i_cycle < l.cycle_to_die)

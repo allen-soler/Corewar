@@ -29,6 +29,9 @@
 
 typedef char	t_flag;
 
+t_op    op_tab[17]; // TODO: eclare variable as global here, should look up how
+					// to do it properly using extern.
+
 typedef struct s_player
 {
 	header_t			header;
@@ -100,6 +103,12 @@ void		game_loop(t_env *env);
 t_process	*new_process(int player);
 void		append_process(t_process **head, t_process *new);
 void		delete_process(t_process **head, t_process *ptr);
+
+/*
+**	OP
+*/
+
+void	ft_live(t_env *e, t_process *cursor);
 
 /*
 **	PLAYER
