@@ -40,6 +40,29 @@ void			d_display_full_process(t_env env)
 	}
 }
 
+void			d_display_argument(t_process *cursor)
+{
+	int	i;
+
+	i = 0;
+	ft_printf("{m}---------------------------{R}\n");
+	ft_printf("{m}Printing arguments{R}\n");
+	while (i < MAX_ARGS_NUMBER)
+	{
+		if (cursor->args[i].type == T_REG)
+			ft_printf("Arg %d of type T_REG (%b) with value: %d", i, cursor->args[i].type, cursor->args[i].value);
+		else if (cursor->args[i].type == T_DIR)
+			ft_printf("Arg %d of type T_DIR (%b) with value: %d", i, cursor->args[i].type, cursor->args[i].value);
+		else if (cursor->args[i].type == T_IND)
+			ft_printf("Arg %d of type T_IND (%b) with value: %d", i, cursor->args[i].type, cursor->args[i].value);
+		else
+			ft_printf("Arg %d of unknown type (%b) with value %d", i, cursor->args[i].type, cursor->args[i].value);
+		ft_putendl(0);
+		i += 1;
+	}
+	ft_printf("{m}---------------------------{R}\n");
+}
+
 void			d_display_players(t_env env)
 {
 	int			i;

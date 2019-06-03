@@ -1,6 +1,6 @@
 #include "vm.h"
 
-static void (*g_func_ptr[1])(t_env *e, t_process *cursor) =
+static void (*g_func_ptr[17])(t_env *e, t_process *cursor, t_op op) =
 {
 	ft_live, ft_ld, ft_st, ft_add, ft_sub, ft_and, ft_or,
 	ft_xor, ft_zjmp, ft_ldi, ft_sti, ft_fork, ft_lld, ft_lldi,
@@ -17,7 +17,8 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 	if (op_code <= REG_NUMBER && op_code > 0) // make sure that the op code is valid
 	{
 		//ft_fprintf(2, "executing instruction with op_code  -> %d\n", op_code);
-		g_func_ptr[e->arena[cursor->pc].data - 1](e, cursor);
+		ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", op_tab[op_code - 1].name, op_code);
+		g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
 	}
 }
 
@@ -50,7 +51,6 @@ static void		exec_process(t_env *env)
 			curr->cycle--;
 		else if (curr->cycle == 0)
 		{
-			//exec cmd: TODO: create each cmd
 			exec_cmd(env, curr);
 			curr->cycle = -1;
 		}

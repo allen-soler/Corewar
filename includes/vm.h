@@ -6,6 +6,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <limits.h>
+# include <inttypes.h>
 
 # include "op.h"
 # include "../libft/includes/libft.h"
@@ -40,9 +41,16 @@ typedef struct s_player
 	int					parse_index;
 }				t_player;
 
+typedef struct	s_agument
+{
+	unsigned char	type;
+	u_int8_t		value;
+}				t_argument;
+
 typedef struct	s_process
 {
 	int					regs[REG_NUMBER];
+	t_argument			args[MAX_ARGS_NUMBER];
 	int					pc;
 	int					carry;
 	int					alive;
@@ -55,8 +63,8 @@ typedef struct	s_process
 
 typedef struct	s_arena
 {
-	char				data; 		// hexa value
-	int					player;		// index based information, not player number (allespag: what ??)
+	char				data;
+	int					player;
 }				t_arena;
 
 typedef struct	s_loop
@@ -108,22 +116,22 @@ void		delete_process(t_process **head, t_process *ptr);
 **	OP
 */
 
-void	ft_live(t_env *e, t_process *cursor);
-void	ft_ld(t_env *e, t_process *cursor);
-void	ft_st(t_env *e, t_process *cursor);
-void	ft_add(t_env *e, t_process *cursor);
-void	ft_sub(t_env *e, t_process *cursor);
-void	ft_and(t_env *e, t_process *cursor);
-void	ft_or(t_env *e, t_process *cursor);
-void	ft_xor(t_env *e, t_process *cursor);
-void	ft_zjmp(t_env *e, t_process *cursor);
-void	ft_ldi(t_env *e, t_process *cursor);
-void	ft_sti(t_env *e, t_process *cursor);
-void	ft_fork(t_env *e, t_process *cursor);
-void	ft_lld(t_env *e, t_process *cursor);
-void	ft_lldi(t_env *e, t_process *cursor);
-void	ft_lfork(t_env *e, t_process *cursor);
-void	ft_aff(t_env *e, t_process *cursor);
+void	ft_live(t_env *e, t_process *cursor, t_op op);
+void	ft_ld(t_env *e, t_process *cursor, t_op op);
+void	ft_st(t_env *e, t_process *cursor, t_op op);
+void	ft_add(t_env *e, t_process *cursor, t_op op);
+void	ft_sub(t_env *e, t_process *cursor, t_op op);
+void	ft_and(t_env *e, t_process *cursor, t_op op);
+void	ft_or(t_env *e, t_process *cursor, t_op op);
+void	ft_xor(t_env *e, t_process *cursor, t_op op);
+void	ft_zjmp(t_env *e, t_process *cursor, t_op op);
+void	ft_ldi(t_env *e, t_process *cursor, t_op op);
+void	ft_sti(t_env *e, t_process *cursor, t_op op);
+void	ft_fork(t_env *e, t_process *cursor, t_op op);
+void	ft_lld(t_env *e, t_process *cursor, t_op op);
+void	ft_lldi(t_env *e, t_process *cursor, t_op op);
+void	ft_lfork(t_env *e, t_process *cursor, t_op op);
+void	ft_aff(t_env *e, t_process *cursor, t_op op);
 
 /*
 **	PLAYER
@@ -164,5 +172,6 @@ int			ft_atoi_pimp(char *line, t_env *env);
 void			d_display_env(t_env env);
 void			d_display_process(t_process *pro);
 void			d_display_full_process(t_env env);
+void			d_display_argument(t_process *cursor);
 
 #endif
