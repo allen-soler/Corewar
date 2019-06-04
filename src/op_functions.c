@@ -7,7 +7,6 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	i = 0;
 	ft_fprintf(2, "player %d says: living the good live out here ma'bois\n", cursor->player);
 	while (i < op_tab[0].param_nb) // does this make sense?
-	// isnt't live suppose to have just one parameter at the fourth byte?
 	{
 		return ;
 	}
@@ -65,17 +64,6 @@ void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 **	ARGUMENTS :=
 */
 
-static int get_type(int byte)
-{
-	if (byte == T_REG)
-		return (T_REG);
-	else if (byte == T_DIR)
-		return (T_DIR);
-	else if (byte == T_IND)
-		return (T_IND);
-	return (0);
-}
-
 void	reset_args(t_process *cursor)
 {
 	u_int8_t	i;
@@ -99,8 +87,8 @@ int		mix_bytes(t_env *e, int index, int len)
 	while (i < len)
 	{
 		res = (res << 8) | e->arena[index++].data;
+		i += 1;
 	}
-	ft_printf("mixed %d bytes, having as a result: %d\n", len, res);
 	return (res);
 }
 
@@ -108,7 +96,10 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 {
 	u_int8_t	i;
 	u_int8_t	type;
+	int			arg_len;
+	int			offset;
 
+	offset = 2;
 	reset_args(cursor);
 	i = 0;
 	while (i < op.param_nb)
@@ -116,9 +107,34 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 		type = e->arena[cursor->pc + 1].data;
 		if (type >> (i * 2) != 0b0)
 		{
+			/*
+			** In this bitwise operation we are taking the byte that
+			** represents the arguments and taking the last two bytes (& 3 should do the work),
+			** after previously shifting to right in reversed order (type >> decresing_size).
+			*/
+
 			type = (type >> ((op.param_nb - i) * 2) & 3);
 			cursor->args[i].type = type;
-			cursor->args[i].value = e->arena[cursor->pc + i + 2].data;
+		
+			/*
+			** An argument can have a different size depending on both it's
+			** type and the op_code.
+			** For example a direct type (T_DIR) can have a size of 4 or 2 bytes,
+			** while an indirect type (T_IND) will always have a size of 2 bytes
+			** and a register (T_REG) will always have a size of 1 byte.
+			*/
+
+			arg_len = 1;
+			if ((op.direct_size == 1 && type == T_DIR) || type == T_IND)
+			{
+				arg_len = 2;
+			}
+			else if (type == T_DIR && op.direct_size == 0)
+			{
+				arg_len = 4;
+			}
+			cursor->args[i].value = mix_bytes(e, cursor->pc + offset, arg_len);
+			offset += arg_len;
 		}
 		i += 1;
 	}
@@ -129,9 +145,11 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 	int	i;
 	unsigned char	indirect;
 	int				pointer;
+
 	read_args(e, cursor, op);
 	d_display_argument(cursor);
-
+	pointer = 0;
+	i = 0;
 	indirect = 0;
 	while (i < op.param_nb)
 	{
