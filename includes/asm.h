@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/03 10:29:50 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/04 17:25:02 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <limits.h>
 # include "op.h"
-# include "../libft/includes/libft.h"
+# include "libft.h"
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 

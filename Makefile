@@ -29,7 +29,7 @@ DIR_H = includes
 
 # source files for the project
 
-SOURCES =	
+SOURCES =	srcs/token_automata.c
 
 # header files
 
