@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/04 17:25:02 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/04 19:27:58 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,22 @@
 # include "libft.h"
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
+
+typedef enum	e_lex
+{
+				name1;
+				name2;
+				name3;
+				comment1;
+				comment2;
+				comment3;
+				instructions;
+				reg1;
+				reg2;
+
+
+}				t_lex;
+
+char	*str_repoint(char *haystack, char *needle);
 
 #endif
