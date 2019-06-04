@@ -29,17 +29,11 @@ DIR_H = includes
 
 # source files for the project
 
-SOURCES =	main.c			\
-			t_env.c			\
-			parsing_args.c	\
-			utils.c			\
-			debbuging.c		\
-			read_files.c	\
-			exit_vm.c
+SOURCES =	
 
 # header files
 
-HEADER = vm.h
+HEADER = as.h
 
 # prefixing
 
