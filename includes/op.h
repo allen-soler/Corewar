@@ -6,17 +6,27 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:21:49 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/04 17:23:01 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/05 09:01:20 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OP_H
 # define OP_H
 
+/* Testing out typedefs
+**
+*/
+
+# define END_LINE '\0'
+# define QUOTE '"'
+# define inst "TEST" //not final
+# define REG "r"
+# define DIG "0123456789"
+
 /*
- * ** Toutes les tailles sont en octets.
- * ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
- * */
+** Toutes les tailles sont en octets.
+** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
+*/
 
 # define IND_SIZE 2
 # define REG_SIZE 4
