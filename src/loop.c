@@ -11,12 +11,9 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 {
 	char op_code;
 
-	//print_arena(e);
 	op_code = e->arena[cursor->pc].data;
-	//ft_fprintf(2, "player pc -> %d data at that index -> %d\n", cursor->pc, op_code);
-	if (op_code <= REG_NUMBER && op_code > 0) // make sure that the op code is valid
+	if (op_code <= REG_NUMBER && op_code > 0)
 	{
-		//ft_fprintf(2, "executing instruction with op_code  -> %d\n", op_code);
 		ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", op_tab[op_code - 1].name, op_code);
 		g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
 	}
@@ -46,7 +43,7 @@ static void		exec_process(t_env *env)
 	while (curr != NULL)
 	{
 		if (curr->cycle == -1)
-			curr->pc = (curr->pc + 1) % MEM_SIZE; // isn't this incorrect, it'll reset the pc multiple times
+			curr->pc = (curr->pc + 1) % MEM_SIZE; // what is this? why not just + 1
 		else if (curr->cycle > 0)
 			curr->cycle--;
 		else if (curr->cycle == 0)
@@ -118,7 +115,6 @@ void		game_loop(t_env *env)
 			exec_process(env);
 			l.i_cycle++;
 			l.current_cycle++;
-//			ft_printf("{c}cycle: %d{R}\n", l.current_cycle);
 		}
 		l.nb_process_alive = check_live(env);
 		if (l.nb_process_alive >= NBR_LIVE || l.i_check == MAX_CHECKS)

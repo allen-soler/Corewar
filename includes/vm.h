@@ -44,7 +44,7 @@ typedef struct s_player
 typedef struct	s_agument
 {
 	unsigned char	type;
-	u_int8_t		value;
+	int				value;
 }				t_argument;
 
 typedef struct	s_process
@@ -172,6 +172,6 @@ int			ft_atoi_pimp(char *line, t_env *env);
 void			d_display_env(t_env env);
 void			d_display_process(t_process *pro);
 void			d_display_full_process(t_env env);
-void			d_display_argument(t_process *cursor);
+void			d_display_argument(t_process *cursor, t_op op);
 
 #endif

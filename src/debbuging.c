@@ -40,13 +40,13 @@ void			d_display_full_process(t_env env)
 	}
 }
 
-void			d_display_argument(t_process *cursor)
+void			d_display_argument(t_process *cursor, t_op op)
 {
 	int	i;
 
 	i = 0;
 	ft_printf("{m}---------------------------{R}\n");
-	ft_printf("{m}Printing arguments{R}\n");
+	ft_printf("{m}Printing arguments of %s{R}\n", op.name);
 	while (i < MAX_ARGS_NUMBER)
 	{
 		if (cursor->args[i].type == T_REG)
