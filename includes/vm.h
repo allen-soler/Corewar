@@ -24,6 +24,7 @@
 
 typedef enum	e_error
 {
+	ERROR_NONE,
 	ERROR_SPE_NUMB,
 	ERROR_SPE_DUMP,
 	ERROR_CHAMPION,

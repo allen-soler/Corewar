@@ -88,7 +88,7 @@ static int	choose_turn(int used, t_env *env)
 		else
 			i++;
 	}
-	// already 4 players ???
+	// already 4 players
 	set_error_value(env, ERROR_CHAMPION);
 	return (-1);
 }
@@ -174,10 +174,10 @@ static void	shift_players(t_env *env)
 
 void	display_help(t_env *env)
 {
-	ft_printf("Usage: ./corewar [-d N | -v] [[-n N <champion.cor>] <...>\n\n");
+	ft_printf("Usage: ./corewar [-d N | -v] [[-n N <champion.cor>] <...>]\n\n");
 	ft_printf("options:\n");
 	ft_printf("\t--help (-h)\t: Show this message\n");
-	ft_printf("\t-dump N (-d N)\t: Dump memory after N cycles then exits\n");
+	ft_printf("\t--dump N (-d N)\t: Dump memory after N cycles then exits\n");
 	ft_printf("\t--visual (-v)\t: Ncurses (or whatever) output mode\n");
 	exit_vm(env, (env->flag & FLAG_ERROR) ? EXIT_FAILURE : EXIT_SUCCESS);
 }

@@ -19,6 +19,11 @@ int					ft_atoi_pimp(char *line, t_env *env)
 	if (line[i] == '-' || line[i] == '+')
 	{
 		sign = ((line[i] == '-') ? -1 : 1);
+		if (sign == -1)
+		{
+			env->flag |= FLAG_ERROR;
+			return (-1);
+		}
 		i++;
 	}
 	while (line[i] >= '0' && line[i] <= '9')
