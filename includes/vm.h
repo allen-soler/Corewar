@@ -21,12 +21,16 @@
 # define FLAG_DUMP (1 << 3)
 
 # define ERROR_MAX_VALUE 6
-# define ERROR_SPE_NUMB 1
-# define ERROR_SPE_DUMP 2
-# define ERROR_CHAMPION 3
-# define ERROR_SME_NUMB 4
-# define ERROR_WRG_NUMB 5
-# define ERROR_UNK_ARGV 6
+
+typedef enum	e_error
+{
+	ERROR_SPE_NUMB,
+	ERROR_SPE_DUMP,
+	ERROR_CHAMPION,
+	ERROR_SME_NUMB,
+	ERROR_WRG_NUMB,
+	ERROR_UNK_ARGV
+}				t_error;
 
 typedef char	t_flag;
 
@@ -94,7 +98,7 @@ typedef struct	s_env
 
 void		init_env(t_env *env);
 void		init_arena(t_env *e);
-void		set_error_value(t_env *env, int value);
+void		set_error_value(t_env *env, t_error value);
 void		display_error(t_env *env);
 void		display_help(t_env *env);
 
@@ -108,7 +112,7 @@ void		game_loop(t_env *env);
 **	PROCESS
 */
 
-t_process	*new_process(int player);
+t_process	*new_process(int player, int alive);
 void		append_process(t_process **head, t_process *new);
 void		delete_process(t_process **head, t_process *ptr);
 

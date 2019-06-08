@@ -1,6 +1,6 @@
 #include "../includes/vm.h"
 
-void		set_error_value(t_env *env, int value)
+void		set_error_value(t_env *env, t_error value)
 {
 	if (!(env->flag & FLAG_ERROR))
 	{

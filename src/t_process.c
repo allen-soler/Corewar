@@ -1,6 +1,9 @@
 #include "vm.h"
 
-t_process		*new_process(int player)
+/*
+**	TODO: with which value do we set process->cycle ?
+*/
+t_process		*new_process(int player, int alive)
 {
 	t_process	*new;
 
@@ -8,6 +11,7 @@ t_process		*new_process(int player)
 		return (NULL);
 	ft_bzero(new, sizeof(t_process));
 	ft_bzero(new->regs, sizeof(int) * REG_NUMBER);
+	new->alive = alive;
 	new->player = player;
 	new->regs[0] = player;
 	new->prev = NULL;

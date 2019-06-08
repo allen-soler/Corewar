@@ -30,7 +30,7 @@ static void		init_loop(t_loop *loop, int player_nb)
 
 /*
 **	3 cases:
-**			-no op (cycle == -1)			just move forward in the arena
+**			-no op (cycle == -1):			just move forward in the arena
 **			-op w/cycle > 0:				cycle--
 **			-op w/cycle == 0:				exec cmd
 */
@@ -43,7 +43,7 @@ static void		exec_process(t_env *env)
 	while (curr != NULL)
 	{
 		if (curr->cycle == -1)
-			curr->pc = (curr->pc + 1) % MEM_SIZE; // what is this? why not just + 1
+			curr->pc = (curr->pc + 1) % MEM_SIZE; // what is this? why not just + 1: memory is circular
 		else if (curr->cycle > 0)
 			curr->cycle--;
 		else if (curr->cycle == 0)
@@ -74,6 +74,7 @@ static int		check_live(t_env *env)
 		else
 		{
 			alive++;
+			index->alive = 0;
 			index = index->next;
 		}
 	}
@@ -90,7 +91,7 @@ static void		init_processes(t_env *env)
 	i = 0;
 	while (i < env->players_nb)
 	{
-		append_process(&env->cursors, new_process(env->players[i].number));
+		append_process(&env->cursors, new_process(env->players[i].number, 1));
 		i++;
 	}
 }
