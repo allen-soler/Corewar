@@ -50,7 +50,6 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 	int			arg_len;
 	int			offset;
 
-
 	if (op.encoding_byte)
 		offset = 2;
 	else
@@ -109,6 +108,11 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 	}
 }
 
+/*
+**	OP: live
+**	
+**	it should recieve the process head right?	
+*/
 void	ft_live(t_env *e, t_process *cursor, t_op op)
 {
 	int i;
@@ -116,10 +120,6 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	i = 0;
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	while (i < op_tab[0].param_nb)
-	{
-		return ;
-	}
 }
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
