@@ -38,11 +38,18 @@ static void parse_file(t_env *env, int fd, int curr)
 
 void print_arena(t_env *e)
 {
-	size_t i;
+	size_t	i;
+	size_t	line;
 
 	i = 0;
+	line = 0;
 	while (i < MEM_SIZE)
 	{
+		if (i % 32 == 0)
+		{
+			ft_printf("0x%04x : ", line);
+			line += 32;
+		}
 		if (e->arena[i].player == 0)
 			ft_printf("{r}%02hhx{R} ", e->arena[i++].data);
 		else if (e->arena[i].player == 1)
@@ -53,7 +60,7 @@ void print_arena(t_env *e)
 			ft_printf("{y}%02hhx{R} ", e->arena[i++].data);
 		else
 			ft_printf("%02hhx ", e->arena[i++].data);
-		if (i % 64 == 0)
+		if (i % 32 == 0)
 			ft_putendl(0);
 	}
 }

@@ -108,7 +108,8 @@ void		game_loop(t_env *env)
 		l.i_cycle = 0;
 		while (l.i_cycle < l.cycle_to_die)
 		{
-			if ((env->flag & FLAG_DUMP) && l.current_cycle == env->dump)
+			// if this condition is true, we should maybe exec_process then print arena ?
+			if ((env->flag & FLAG_DUMP) && (l.current_cycle == env->dump))
 			{
 				print_arena(env);
 				return ;
