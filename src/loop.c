@@ -43,7 +43,12 @@ static void		exec_process(t_env *env)
 	while (curr != NULL)
 	{
 		if (curr->cycle == -1)
-			curr->pc = (curr->pc + 1) % MEM_SIZE; // what is this? why not just + 1: memory is circular
+		{
+			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data < 17)
+				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
+			else
+				curr->pc = (curr->pc + 1) % MEM_SIZE;
+		}
 		else if (curr->cycle > 0)
 			curr->cycle--;
 		else if (curr->cycle == 0)
