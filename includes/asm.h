@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/12 16:22:04 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/12 18:16:07 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,29 @@
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 
-char	*str_repoint(char *haystack, char *needle);
-
 typedef struct		s_par
 {
 	char			*param;
 	int				type;
 	struct s_par	*next;
 }					t_par;
+
+/**
+ *		Structure handling
+**/
+
+t_par	*add_parameter(t_par *list, char *inst, int type);
+t_par	test_print(t_par *list);//will have to delete when done
+
+/**
+ *		Handle strings
+**/
+
+char	*str_repoint(char *haystack, char *needle);
+
+/**
+ *		Tokens
+**/
+
 
 #endif
