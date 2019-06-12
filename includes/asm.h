@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/05 09:05:06 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/12 16:22:04 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 
-typedef enum	e_lex
-{
-				name1, name2, name3, comment1, comment2, comment3,
-				instructions, reg1, reg2
-}				t_lex;
-
 char	*str_repoint(char *haystack, char *needle);
+
+typedef struct		s_par
+{
+	char			*param;
+	int				type;
+	struct s_par	*next;
+}					t_par;
 
 #endif

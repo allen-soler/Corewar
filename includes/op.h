@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:21:49 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/05 09:01:20 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/11 21:13:36 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 */
 
 # define END_LINE '\0'
+# define NEWLINE '\n'
+# define SPACE ' '
 # define QUOTE '"'
 # define inst "TEST" //not final
 # define REG "r"
