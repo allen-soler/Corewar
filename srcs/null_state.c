@@ -6,14 +6,14 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/12 18:13:54 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/12 18:39:22 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 #include "asm.h"
 
-int		null_state(char *line, int state, t_par *list)
+int		null_state(char *line, int state, t_par *list) //need array of functions
 {
 	if ((line = str_repoint(line, NAME_CMD_STRING)))
 	{
@@ -34,7 +34,7 @@ int		null_state(char *line, int state, t_par *list)
 }
 
 void	middlefunction(char *line, int state, t_par *list)
-{
+{ //can put array of functions here
 	if (state == 0)
 		null_state(line, state, list);
 /*	else if (state >= 1 && state <= 3)
@@ -49,6 +49,11 @@ void	middlefunction(char *line, int state, t_par *list)
 		dir_label_token(line, state, list);
 	else if (state == 17)
 		comment_out(line, state, list);*/
+	if (state == < 0)
+	{
+		dprintf(1, "ERROR!\n");
+		return ;
+	}
 }
 
 char	*token_automata(char *line)
