@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/12 18:16:07 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:41:24 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct		s_par
 **/
 
 t_par	*add_parameter(t_par *list, char *inst, int type);
-t_par	test_print(t_par *list);//will have to delete when done
+void	test_print(t_par *list);//will have to delete when done
 
 /**
  *		Handle strings
@@ -46,6 +46,8 @@ char	*str_repoint(char *haystack, char *needle);
 /**
  *		Tokens
 **/
+
+void	middlefunction(char *line, int state, t_par *list);
 
 
 #endif

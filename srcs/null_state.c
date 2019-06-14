@@ -6,20 +6,22 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/12 18:39:22 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:49:46 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 #include "asm.h"
 
-int		null_state(char *line, int state, t_par *list) //need array of functions
+void	null_state(char *line, int state, t_par *list) //need array of functions
 {
 	if ((line = str_repoint(line, NAME_CMD_STRING)))
 	{
 		dprintf(1, "LINE : %s\n", line);
-		add_parameter(list, NAME_CMD_STRING, 0);
+		list = add_parameter(list, NAME_CMD_STRING, 0);
 		state += 1;
+		dprintf(1, "___%s\n", list->param);
+		test_print(list); //test
 	}
 /*	else if (line = str_reppoint(line, COMMENT_CMD_STRING))
 		state = 5;
@@ -29,17 +31,20 @@ int		null_state(char *line, int state, t_par *list) //need array of functions
 		reg_token(*(line + 1), state, list);
 	}*/
 	else
-		return(0);
-	return(1);
+		return ;
+	middlefunction(line, state, list);
 }
 
 void	middlefunction(char *line, int state, t_par *list)
 { //can put array of functions here
 	if (state == 0)
+	{
+		dprintf(1, "line before state : %s\n", line);
 		null_state(line, state, list);
-/*	else if (state >= 1 && state <= 3)
+	}
+	else if (state >= 1 && state <= 3)
 		name_token(line, state, list);
-	else if (state >= 5 && state <= 7)
+/*	else if (state >= 5 && state <= 7)
 		init_comm_token(line, state, list);
 	else if (state == 9)
 		intruct_label_token(line, state, list);// LABEL HERE!!! TRACK IT!
@@ -49,7 +54,12 @@ void	middlefunction(char *line, int state, t_par *list)
 		dir_label_token(line, state, list);
 	else if (state == 17)
 		comment_out(line, state, list);*/
-	if (state == < 0)
+	if (state == 1)
+	{	
+		dprintf(1, "line AFTER state : %s\n", line);
+		dprintf(1, "final state = 1!\n");
+	}
+	if (state <= -1)
 	{
 		dprintf(1, "ERROR!\n");
 		return ;
