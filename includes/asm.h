@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/14 16:41:24 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:57:22 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*str_repoint(char *haystack, char *needle);
  *		Tokens
 **/
 
-void	middlefunction(char *line, int state, t_par *list);
+void	middlefunction(char **line, int state, t_par *list);
 
 
 #endif
