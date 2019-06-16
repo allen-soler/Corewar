@@ -1,78 +1,44 @@
-ccred="\033[0;31m"
-ccyellow="\033[0;33m"
-ccend="\033[0m"
-ccgreen= "\033[0;32m"
-
-# compiler
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/12/24 19:25:12 by bghandou          #+#    #+#              #
+#    Updated: 2019/06/16 17:08:50 by bghandou         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 CC = gcc
 
-# compilation flags
+INCLUDE = includes
 
-FLAGS = -Wall -Wextra #-Werror -g
+CFLAGS = -g3 -fsanitize=address -Wall -Wextra -Werror -I $(INCLUDE)
 
-# program name
+SRC = srcs/null_state.c \
+	  srcs/token_automata.c \
+	  srcs/search_point.c \
+	  srcs/para_list.c
 
-NAME = corewar
+NAME = asm
 
-# library including ft_printf and libft
+OBJ = $(SRC:.c=.o)
 
-LIBFT = libft
+all : $(NAME)
 
-# folders
+$(NAME) : $(OBJ)
+	@make -C libft/
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -L libft/ -lft
 
-DIR_S = src
+clean :
+	make -C libft/ clean
+	rm -f $(OBJ)
 
-DIR_O = obj
+fclean : clean
+	make -C libft/ fclean
+	rm -f $(NAME)
 
-DIR_H = includes
+re : fclean all
 
-# source files for the project
-
-SOURCES =	srcs/token_automata.c
-
-# header files
-
-HEADER = as.h
-
-# prefixing
-
-SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
-
-OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
-
-# compile project
-
-all: $(NAME)
-
-$(NAME): $(DIR_H) $(OBJS) lib
-	@gcc -o $(NAME) $(FLAGS) -I $(DIR_H) $(OBJS) $(LIBFT)/libft.a
-	@echo "corewar compiled"
-
-$(DIR_O)/%.o: $(DIR_S)/%.c
-	@printf $(ccgreen)"compiled\t"$(ccend)
-	@printf "$<\n"
-	@mkdir -p $(DIR_O)
-	@$(CC) $(FLAGS) -I $(DIR_H) -o $@ -c $<
-
-lib:
-	@echo "Compiling libraries:"
-	@printf $(ccyellow)"%-20s"$(ccred) $(LIBFT)
-	@make -C $(LIBFT)
-
-clean:
-	@rm -f $(OBJS)
-	@printf $(ccred)"$(DIR_O)/*.o && $(DIR_O)/\n"$(ccend)
-	@rm -rf $(DIR_O)
-	@printf $(ccred)"%s\n"$(ccend) $(LIBFT)
-	@make clean -C $(LIBFT)
-
-fclean: clean
-	@rm -rf $(NAME) $(NAME).dSYM
-	@printf $(ccred)"%s\n"$(ccend) $(NAME)
-	@make fclean -C $(LIBFT)
-	@printf $(ccred)"%s.a\n"$(ccend) $(LIBFT)
-
-re: fclean all
-
-.PHONY: clean fclean all re
+.PHONY : clean fclean all re

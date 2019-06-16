@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:10:03 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/14 16:46:10 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/16 18:25:16 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_par	*add_parameter(t_par *list, char *inst, int type)
 
 	head = list;
 	tmp = NULL;
+	dprintf(1, "=======ADDED : %s\n", inst);
 	if (!list)
 	{
 		if (!(list = malloc(sizeof(t_par))))

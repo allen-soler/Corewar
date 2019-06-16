@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:07:22 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/14 16:41:23 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/16 19:42:28 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,26 @@ char	*str_repoint(char *haystack, char *needle)
 		}
 	}
 	return (NULL);
+}
+
+void	travel_states(char **line, int state)
+{
+	if (state == 1 || state == 3 || state == 5 || state == 7)
+	{
+		if (**line == SPACE)
+		{
+			while (**line == SPACE)
+				*line = *line + 1;
+		}
+		else
+		{
+			dprintf(1, "EERRRRor!\n");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else if (state == 2)
+	{
+		while (**line && **line != '"')
+			*line = *line + 1;
+	}
 }
