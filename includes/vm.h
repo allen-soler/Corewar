@@ -46,7 +46,7 @@ typedef struct s_player
 	int					parse_index;
 }				t_player;
 
-typedef struct	s_agument
+typedef struct	s_argument
 {
 	unsigned char	type;
 	int				value;
@@ -90,6 +90,7 @@ typedef struct	s_env
 	t_flag				flag;
 	int					dump;
 	int					error_value;
+	int					last_live;
 	char				*error_str[ERROR_MAX_VALUE + 1];
 }				t_env;
 
@@ -114,13 +115,15 @@ void		game_loop(t_env *env);
 */
 
 t_process	*new_process(int player, int alive);
-void		append_process(t_process **head, t_process *new);
+void		append_process(t_process **head, t_process *new_p);
 void		delete_process(t_process **head, t_process *ptr);
 
 /*
 **	OP
 */
 
+int		get_args_len(t_process *cursor, t_op op);
+void	read_args(t_env *e, t_process *cursor, t_op op);
 void	ft_live(t_env *e, t_process *cursor, t_op op);
 void	ft_ld(t_env *e, t_process *cursor, t_op op);
 void	ft_st(t_env *e, t_process *cursor, t_op op);

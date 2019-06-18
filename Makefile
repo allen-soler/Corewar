@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra # -Werror -g
+FLAGS = -Wall# -Wextra # -Werror -g
 
 # program name
 
@@ -39,6 +39,7 @@ SOURCES =	main.c			\
 			loop.c			\
 			op.c			\
 			op_functions.c	\
+			args_utils.c	\
 			exit_vm.c
 
 # header files

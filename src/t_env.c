@@ -54,6 +54,7 @@ void		init_env(t_env *env)
 	}
 	env->players_nb = 0;
 	env->flag = 0;
+	env->last_live = -1;
 	env->dump = -1;
 	env->error_value = 0;
 	init_arena(env);
