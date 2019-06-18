@@ -21,6 +21,33 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	cursor->pc += get_args_len(cursor, op);
 }
 
+void	ft_sti(t_env *e, t_process *cursor, t_op op)
+{
+	int	i;
+	unsigned char	indirect;
+	int				pointer;
+
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);
+	pointer = 0;
+	i = 0;
+	indirect = 0;
+	while (i < op.param_nb)
+	{
+		if (cursor->args[i].type == T_DIR) // TODO: handle indirect
+		{
+			pointer += cursor->args[i].value;
+		}
+		i += 1;
+	}
+	if (indirect)
+	{
+		pointer += cursor->pc;
+	}
+	ft_printf("charging at address %d the value %d\n", pointer, cursor->regs[cursor->args[0].value - 1]);
+	e->arena[pointer].data = cursor->regs[cursor->args[0].value - 1];
+}
+
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
 	return ;
@@ -65,42 +92,6 @@ void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 {
 	return ;
 }
-
-/*
-**  Funtion: ft_sti
-**
-**	OP_CODE := 11
-**	ARGUMENTS :=
-*/
-
-
-void	ft_sti(t_env *e, t_process *cursor, t_op op)
-{
-	int	i;
-	unsigned char	indirect;
-	int				pointer;
-
-	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
-	pointer = 0;
-	i = 0;
-	indirect = 0;
-	while (i < op.param_nb)
-	{
-		if (cursor->args[i].type == T_DIR) // TODO: handle indirect
-		{
-			pointer += cursor->args[i].value;
-		}
-		i += 1;
-	}
-	if (indirect)
-	{
-		pointer += cursor->pc;
-	}
-	ft_printf("charging at address %d the value %d\n", pointer, cursor->regs[cursor->args[0].value - 1]);
-	e->arena[pointer].data = cursor->regs[cursor->args[0].value - 1];
-}
-
 void	ft_fork(t_env *e, t_process *cursor, t_op op)
 {
 	return ;
