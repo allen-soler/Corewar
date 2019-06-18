@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/16 19:42:32 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:34:53 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,21 @@
 #include "asm.h"
 //ADD ERROR FUNCTION TO CLEAR TOKEN!
 // don't use GNL
-int		null_state(char **line, int state, t_par *list) //need array of functions
+int		null_state(char **line, int state) //need array of functions
 {
-	(void)list;
-	if ((*line = str_repoint(*line, NAME_CMD_STRING)))
+	size_t repoint;
+
+	repoint = 0;
+	*line = skip_space(*line);
+	if ((repoint = str_repoint(*line, NAME_CMD_STRING)))
 	{
 		state += 1;
 		//test_print(list); //test
 	}
-	else if ((*line = str_repoint(*line, COMMENT_CMD_STRING)))
+	else if ((repoint = str_repoint(*line, COMMENT_CMD_STRING)))
+	{
 		state = 5;
+	}
 /*	else if (line == REG)
 	{
 		state = 11;
@@ -31,6 +36,7 @@ int		null_state(char **line, int state, t_par *list) //need array of functions
 	}*/
 	else
 		return (-1);
+	*line = *line + repoint;
 	return (state);
 }
 
@@ -39,15 +45,15 @@ void	middlefunction(char **line, int state, t_par *list)
 	if (state == 0)
 	{
 		dprintf(1, "line before state : %s\n", *line);
-		state = null_state(line, state, list);
+		state = null_state(line, state);
 	}
 	if (state == 1)
 		state = name_token(line, state, list);
 	else if (state == 5)
 		state = init_comm_token(line, state, list);
-/*	else if (state == 9)
+	else if (state == 9)
 		intruct_label_token(line, state, list);// LABEL HERE!!! TRACK IT!
-	else if (state == 11 && state == 12)
+/*	else if (state == 11 && state == 12)
 		reg_token(line, state, list);
 	else if (state >= 13 && state <= 16)
 		dir_label_token(line, state, list);

@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:10:03 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/16 18:25:16 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:45:53 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_par	*add_parameter(t_par *list, char *inst, int type)
 			return (NULL); 
 		list->param = ft_strdup(inst);
 		list->type = type;
+		list->lbl_ptr = NULL;
 		list->next = NULL;
 		head = list;
 	}
@@ -46,6 +47,7 @@ t_par	*add_parameter(t_par *list, char *inst, int type)
 			return (NULL);
 		tmp->param = ft_strdup(inst);
 		tmp->type = type;
+		tmp->lbl_ptr = NULL;
 		tmp->next = NULL;
 		while (list->next)
 			list = list->next;
