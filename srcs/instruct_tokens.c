@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/19 18:03:07 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/19 18:04:23 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**instructions_array(void)
 	return (instructions);
 }
 
-int		search_valid_inst(char **line, t_par *list) //need something else validate token
+int		search_valid_inst(char **line, t_par *list) //need something else validate token!!!!
 {
 	size_t	i;
 	size_t	len;

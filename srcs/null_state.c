@@ -6,14 +6,14 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/19 18:02:56 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/19 18:04:21 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 #include "asm.h"
 //ADD ERROR FUNCTION TO CLEAR TOKEN!
-
+// CHECK search_valid_inst!!! comment
 int		null_state(char **line, int state, t_par *list) //need array of functions
 {
 	size_t repoint;
