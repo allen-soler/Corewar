@@ -6,16 +6,12 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:45:15 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/18 17:35:14 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:31:07 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "op.h"
-
-int		instruct_label_token(char **line, int state, t_par *list)
-{
-}
 
 int		init_comm_token(char **line, int state, t_par *list)
 {

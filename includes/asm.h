@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/18 17:39:00 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:30:18 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 typedef struct		s_par
 {
 	char			*param;
-	int				type; //1: REG_CODE, 2: DIR_2B, 3: DIR_4B, 4: IND 5: D_LAB
+	int				type; //1: REG_CODE, 2: DIR_2B, 3: DIR_4B, 4: IND 5: D_LAB 6: inst 7: LABEL 8: comment
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
 }					t_par;
@@ -46,6 +46,7 @@ void	test_print(t_par *list);//will have to delete when done
 char	*skip_space(char *line);
 size_t	str_repoint(char *haystack, char *needle);
 void	travel_states(char **line, int state);
+void	free_2d(char **arrray);
 
 /**
  *		Tokens
@@ -55,6 +56,7 @@ char	**instructions_array(void);
 void	middlefunction(char **line, int state, t_par *list);
 int		name_token(char **line, int state, t_par *list);
 int		init_comm_token(char **line, int state, t_par *list);
+int		search_valid_inst(char **line, t_par *list);
 
 
 #endif
