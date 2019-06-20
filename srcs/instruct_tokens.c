@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/19 18:04:23 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/20 18:09:47 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int		search_valid_inst(char **line, t_par *list) //need something else validate 
 	{
 		if ((len = str_repoint(*line, inst[i])))
 		{
-			if (*(*line + len + 1) != ':')
+			if (*(*line + len + 1) == SPACE)
 				list = add_parameter(list, inst[i++], 6);
-			else
+			else if (*(*line + len + 1) == ':')
 			{
-				list = add_parameter(list, inst[i], 7);
+				list = add_parameter(list, inst[i++], 7);
 				len++;
 			}
 			free_2d(inst);
@@ -51,4 +51,3 @@ int		search_valid_inst(char **line, t_par *list) //need something else validate 
 	free_2d(inst);
 	return (0);
 }
-
