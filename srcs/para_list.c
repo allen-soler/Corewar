@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:10:03 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/18 16:45:53 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/21 18:53:37 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	test_print(t_par *list)//delete when done!!
 {
 	while (list)
 	{
-		dprintf(1, "param : %s type : %d --->", list->param, list->type);
+		dprintf(1, "param : %s type : %d |||||||||| \n", list->param, list->type);
 		list = list->next;
 	}
 }
@@ -29,7 +29,7 @@ t_par	*add_parameter(t_par *list, char *inst, int type)
 
 	head = list;
 	tmp = NULL;
-	dprintf(1, "=======ADDED : %s\n", inst);
+	dprintf(1, "=======ADDED : %s, type:%d\n", inst, type);
 	if (!list)
 	{
 		if (!(list = malloc(sizeof(t_par))))

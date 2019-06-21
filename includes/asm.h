@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/19 17:30:18 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/21 19:47:52 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ void	free_2d(char **arrray);
 **/
 
 char	**instructions_array(void);
-void	middlefunction(char **line, int state, t_par *list);
-int		name_token(char **line, int state, t_par *list);
-int		init_comm_token(char **line, int state, t_par *list);
-int		search_valid_inst(char **line, t_par *list);
-
+void	middlefunction(char **line, int state, t_par **list);
+int		name_token(char **line, int state, t_par **list);
+int		init_comm_token(char **line, int state, t_par **list);
+int		search_valid_inst(char **line, t_par **list);
+void	check_args(char **line, t_par **list);
+void	check_register(char *arg, t_par **list);
 
 #endif
