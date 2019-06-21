@@ -1,4 +1,4 @@
-#include "../includes/vm.h"
+#include "vm.h"
 
 void			d_display_process(t_process *pro)
 {
@@ -73,6 +73,7 @@ void			d_display_players(t_env env)
 	{
 		ft_printf("\t%sPlayer n_%d%s (index: %d)\n", S_BOLD, env.players[i].number, E_BOLD, i);
 		ft_printf("\t\t%s-Parse_index%s = %d\n", S_BOLD, E_BOLD, env.players[i].parse_index);
+		ft_printf("\t\t%s-Alive%s = %d\n", S_BOLD, E_BOLD, env.players[i].alive);
 		ft_printf("\t\t%s-File path%s = %s\n", S_BOLD, E_BOLD, env.players[i].file);
 		ft_printf("\t\t%s-Player name%s = %s\n", S_BOLD, E_BOLD, env.players[i].header.prog_name);
 		ft_printf("\t\t%s-Player comment%s = %s\n", S_BOLD, E_BOLD, env.players[i].header.comment);

@@ -6,13 +6,14 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 
 	i = 0;
 	read_args(e, cursor, op);
+	cursor->alive += 1;
 	while (i < e->players_nb)
 	{
 		if (e->players[i].number == cursor->args[0].value)
 		{
 			ft_printf("Player %d(%s) is alive\n",\
 					e->players[i].number, e->players[i].header.prog_name);
-			cursor->alive += 1;
+			e->players[i].alive += 1;
 			e->last_live = i;
 			break ;
 		}

@@ -44,6 +44,7 @@ typedef struct s_player
 	char				*file;
 	int					number;
 	int					parse_index;
+	int					alive;
 }				t_player;
 
 typedef struct	s_argument

@@ -1,4 +1,4 @@
-#include "../includes/vm.h"
+#include "vm.h"
 
 void		set_error_value(t_env *env, t_error value)
 {
