@@ -37,7 +37,6 @@ void	reset_args(t_process *cursor)
 	i = 0;
 	while (i < MAX_ARGS_NUMBER)
 	{
-		cursor->args[i].type = 0;	//allespag: do we have to do it twice ?
 		cursor->args[i].type = 0;
 		i += 1;
 	}
@@ -90,8 +89,7 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 	{
 		if (op.encoding_byte)
 		{
-			// allespag: maybe we should do something like (cursor->pc + 1) % MEM_SIZE
-			type = e->arena[cursor->pc + 1].data;
+			type = e->arena[(cursor->pc + 1) % MEM_SIZE].data;
 			if (type >> (i * 2) != 0)
 			{
 				/*

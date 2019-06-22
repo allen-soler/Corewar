@@ -19,7 +19,7 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 		}
 		++i;
 	}
-	cursor->pc += get_args_len(cursor, op);
+	cursor->pc = (cursor->pc + get_args_len(cursor, op)) % MEM_SIZE;
 }
 
 void	ft_sti(t_env *e, t_process *cursor, t_op op)
@@ -51,13 +51,11 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
-	cursor->pc += get_args_len(cursor, op);
 	return ;
 }
 
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
-	cursor->pc += get_args_len(cursor, op);
 	return ;
 }
 
@@ -71,7 +69,7 @@ void	ft_add(t_env *e, t_process *cursor, t_op op)
 	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
 	cursor->carry = !res;
 	cursor->regs[cursor->args[2].value] = res;
-	cursor->pc += get_args_len(cursor, op);
+	cursor->pc = (cursor->pc + get_args_len(cursor, op)) % MEM_SIZE;
 }
 
 void	ft_sub(t_env *e, t_process *cursor, t_op op)
@@ -83,7 +81,7 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 	res = cursor->regs[cursor->args[0].value] - cursor->regs[cursor->args[1].value];
 	cursor->carry = !res;
 	cursor->regs[cursor->args[2].value] = res;
-	cursor->pc += get_args_len(cursor, op);
+	cursor->pc = (cursor->pc + get_args_len(cursor, op)) % MEM_SIZE;
 }
 
 void	ft_and(t_env *e, t_process *cursor, t_op op)
