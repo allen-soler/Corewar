@@ -166,6 +166,7 @@ void			exit_failure(const char *message, t_env *e);
 **	PARSING_ARGS
 */
 
+void		shift_args(t_process *cursor, int shift);
 void		parsing_args(char **av, int ac, t_env *env);
 
 /*

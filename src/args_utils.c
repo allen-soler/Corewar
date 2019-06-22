@@ -30,6 +30,33 @@ int		get_args_len(t_process *cursor, t_op op)
 	return (size);
 }
 
+// TODO: I have to rename this function
+// TODO: Handle indirect
+void	shift_args(t_process *cursor, int shift)
+{
+	int	i;
+
+	i = 0;
+	while (i < shift)
+	{
+		if (cursor->args[i].type & T_REG)
+		{
+			cursor->args[i].value = cursor->regs[cursor->args[i].value];
+			cursor->args[i].type = T_DIR;	// Don't know if it's ok
+		}
+		else if (cursor->args[i].type & T_DIR)
+			;
+		else if (cursor->args[i].type & T_IND)
+		{
+			// Handle indirect
+			;
+		}
+		else
+			ft_printf("{r}There is a problem in shift_args ; REMOVE THIS LINE{R}\n");
+		i++;
+	}	
+}
+
 void	reset_args(t_process *cursor)
 {
 	u_int8_t	i;
@@ -135,4 +162,3 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 		i += 1;
 	}
 }
-
