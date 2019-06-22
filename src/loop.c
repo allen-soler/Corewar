@@ -101,6 +101,8 @@ static void		init_processes(t_env *env)
 	}
 }
 
+
+// Do we have to reset lives of each players at the end of a cycle ?
 void		game_loop(t_env *env)
 {
 	t_loop		l;

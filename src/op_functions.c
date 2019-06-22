@@ -51,22 +51,39 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
+	cursor->pc += get_args_len(cursor, op);
 	return ;
 }
 
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
+	cursor->pc += get_args_len(cursor, op);
 	return ;
 }
 
+// no idea if it makes sense or not
 void	ft_add(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	int	res;
+
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);
+	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
+	cursor->carry = !res;
+	cursor->regs[cursor->args[2].value] = res;
+	cursor->pc += get_args_len(cursor, op);
 }
 
 void	ft_sub(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	int	res;
+
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);
+	res = cursor->regs[cursor->args[0].value] - cursor->regs[cursor->args[1].value];
+	cursor->carry = !res;
+	cursor->regs[cursor->args[2].value] = res;
+	cursor->pc += get_args_len(cursor, op);
 }
 
 void	ft_and(t_env *e, t_process *cursor, t_op op)
