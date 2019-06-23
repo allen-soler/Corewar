@@ -91,11 +91,11 @@ void			d_display_env(t_env env)
 	ft_printf("%s{c}Flag{R}%s:\n", S_BOLD, E_BOLD);
 	ft_printf("\t\t%s-Error%s: ", S_BOLD, E_BOLD);
 		(env.flag & FLAG_ERROR) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
-	ft_printf("\t\t%s-Help%s:%s ", S_BOLD, E_BOLD);
+	ft_printf("\t\t%s-Help%s:  ", S_BOLD, E_BOLD);
 		(env.flag & FLAG_HELP) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
-	ft_printf("\t\t%s-Visu%s:%s ", S_BOLD, E_BOLD);
+	ft_printf("\t\t%s-Visu%s:  ", S_BOLD, E_BOLD);
 		(env.flag & FLAG_VISU) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
-	ft_printf("\t\t%s-Dump%s:%s ", S_BOLD, E_BOLD);
+	ft_printf("\t\t%s-Dump%s:  ", S_BOLD, E_BOLD);
 		(env.flag & FLAG_DUMP) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
 
 	d_display_players(env);

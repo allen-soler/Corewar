@@ -173,6 +173,7 @@ void		parsing_args(char **av, int ac, t_env *env);
 **	UTILS
 */
 
+int			posmod(int n, int mod);
 int			ft_atoi_pimp(char *line, t_env *env);
 
 /*

@@ -1,4 +1,14 @@
-#include "../includes/vm.h"
+#include "vm.h"
+
+int	posmod(int n, int mod)
+{
+	int	res;
+
+	res = n % mod;
+	if (res < 0 && mod > 0)
+		res += mod;
+	return (0);
+}
 
 int					ft_atoi_pimp(char *line, t_env *env)
 {

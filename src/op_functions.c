@@ -67,8 +67,8 @@ void	ft_add(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
 	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
-	cursor->carry = !res;
 	cursor->regs[cursor->args[2].value] = res;
+	cursor->carry = !res;
 	cursor->pc = (cursor->pc + get_args_len(cursor, op)) % MEM_SIZE;
 }
 
@@ -99,7 +99,7 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	cursor->pc = (cursor->pc + len - 1) % MEM_SIZE;
+	cursor->pc = posmod(cursor->pc + len - 1, MEM_SIZE);
 }
 
 // TODO: Handle indirect in shift_args
@@ -111,12 +111,12 @@ void	ft_or(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	len = get_args_len(cursor, op);
 		ft_printf("{g}len in ft_or == %d{R}\n", len);
-		d_display_argument(cursor, op);
 	shift_args(cursor, 2);
+		d_display_argument(cursor, op);
 	res = cursor->args[0].value | cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	cursor->pc = (cursor->pc + len - 1) % MEM_SIZE;
+	cursor->pc = posmod(cursor->pc + len - 1, MEM_SIZE);
 }
 
 // TODO: Handle indirect in shift_args
@@ -133,18 +133,19 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 	res = cursor->args[0].value ^ cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	cursor->pc = (cursor->pc + len - 1) % MEM_SIZE;
-	d_display_process(cursor);
+	cursor->pc = posmod(cursor->pc + len - 1, MEM_SIZE);
 }
 
 void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	read_args(e, cursor, op);
+	if (cursor->carry)
+		cursor->pc = posmod(cursor->pc + (cursor->args[0].value % IDX_MOD), MEM_SIZE);
 }
 
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	return ;	
 }
 void	ft_fork(t_env *e, t_process *cursor, t_op op)
 {
