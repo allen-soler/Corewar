@@ -1,5 +1,7 @@
 #include "../includes/vm.h"
 
+//TODO: fix cursor->pc = ... in the file (get_args_len)
+
 void	ft_live(t_env *e, t_process *cursor, t_op op)
 {
 	int i;
@@ -51,7 +53,12 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);		// remove
+	shift_args(e, cursor, 2, 1);
+	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
+	cursor->carry = !cursor->args[0].value;
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
 
 void	ft_st(t_env *e, t_process *cursor, t_op op)
@@ -59,13 +66,12 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 	return ;
 }
 
-// no idea if it makes sense or not
 void	ft_add(t_env *e, t_process *cursor, t_op op)
 {
 	int	res;
 
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	d_display_argument(cursor, op);		// remove
 	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -77,15 +83,13 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 	int	res;
 
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	d_display_argument(cursor, op);		// remove
 	res = cursor->regs[cursor->args[0].value] - cursor->regs[cursor->args[1].value];
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
 	cursor->pc = (cursor->pc + get_args_len(cursor, op)) % MEM_SIZE;
 }
 
-
-// TODO: Handle indirect in shift_args
 void	ft_and(t_env *e, t_process *cursor, t_op op)
 {
 	int	res;
@@ -93,16 +97,15 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	len = get_args_len(cursor, op);
-		ft_printf("{g}len in ft_and == %d{R}\n", len);
-	shift_args(cursor, 2);
+	shift_args(e, cursor, 2, 1);
 		d_display_argument(cursor, op);
 	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	cursor->pc = posmod(cursor->pc + len - 1, MEM_SIZE);
+	cursor->pc = posmod(cursor->pc + len, MEM_SIZE);
+	d_display_process(cursor);
 }
 
-// TODO: Handle indirect in shift_args
 void	ft_or(t_env *e, t_process *cursor, t_op op)
 {
 	int	res;
@@ -110,8 +113,7 @@ void	ft_or(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	len = get_args_len(cursor, op);
-		ft_printf("{g}len in ft_or == %d{R}\n", len);
-	shift_args(cursor, 2);
+	shift_args(e, cursor, 2, 1);
 		d_display_argument(cursor, op);
 	res = cursor->args[0].value | cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
@@ -119,7 +121,6 @@ void	ft_or(t_env *e, t_process *cursor, t_op op)
 	cursor->pc = posmod(cursor->pc + len - 1, MEM_SIZE);
 }
 
-// TODO: Handle indirect in shift_args
 void	ft_xor(t_env *e, t_process *cursor, t_op op)
 {
 	int	res;
@@ -127,8 +128,7 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	len = get_args_len(cursor, op);
-		ft_printf("{g}len in ft_xor == %d{R}\n", len);
-	shift_args(cursor, 2);
+	shift_args(e, cursor, 2, 1);
 		d_display_argument(cursor, op);
 	res = cursor->args[0].value ^ cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
@@ -154,7 +154,12 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 
 void	ft_lld(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);		// remove
+	shift_args(e, cursor, 2, 0);
+	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
+	cursor->carry = !cursor->args[0].value;
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
 
 void	ft_lldi(t_env *e, t_process *cursor, t_op op)

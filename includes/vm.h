@@ -7,6 +7,7 @@
 # include <unistd.h>
 # include <limits.h>
 # include <inttypes.h>
+# include <ncurses.h>
 
 # include "op.h"
 # include "../libft/includes/libft.h"
@@ -166,7 +167,7 @@ void			exit_failure(const char *message, t_env *e);
 **	PARSING_ARGS
 */
 
-void		shift_args(t_process *cursor, int shift);
+void		shift_args(t_env *env, t_process *cursor, int shift, int ind_mod);
 void		parsing_args(char **av, int ac, t_env *env);
 
 /*

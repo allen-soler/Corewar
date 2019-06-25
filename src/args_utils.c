@@ -31,8 +31,7 @@ int		get_args_len(t_process *cursor, t_op op)
 }
 
 // TODO: I have to rename this function
-// TODO: Handle indirect
-void	shift_args(t_process *cursor, int shift)
+void	shift_args(t_env *env, t_process *cursor, int shift, int ind_mod)
 {
 	int	i;
 
@@ -40,17 +39,13 @@ void	shift_args(t_process *cursor, int shift)
 	while (i < shift)
 	{
 		if (cursor->args[i].type & T_REG)
-		{
 			cursor->args[i].value = cursor->regs[cursor->args[i].value];
-			cursor->args[i].type = T_DIR;	// Don't know if it's ok
-		}
 		else if (cursor->args[i].type & T_DIR)
 			;
-		else if (cursor->args[i].type & T_IND)
-		{
-			// Handle indirect
-			;
-		}
+		else if ((cursor->args[i].type & T_IND) && ind_mod)
+			cursor->args[i].value = env->arena[posmod((cursor->pc + (cursor->args[i].value % IDX_MOD)), MEM_SIZE)].data;
+		else if ((cursor->args[i].type & T_IND) && !ind_mod)
+			cursor->args[i].value = env->arena[posmod(cursor->pc + cursor->args[i].value, MEM_SIZE)].data;
 		else
 			ft_printf("{r}There is a problem in shift_args ; REMOVE THIS LINE{R}\n");
 		i++;
