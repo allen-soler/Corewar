@@ -99,7 +99,9 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 				** after previously shifting to right in reversed order (type >> decresing_size).
 				*/
 
-				type = (type >> ((op.param_nb - i) * 2) & 3);
+				type = (type >> ((3 - i) * 2) & 3); // that 3 is not the best solution
+				if (type == 0b11)
+					type = T_IND;
 				cursor->args[i].type = type;
 			
 				/*
