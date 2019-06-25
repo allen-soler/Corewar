@@ -6,7 +6,7 @@
 #    By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/24 19:25:12 by bghandou          #+#    #+#              #
-#    Updated: 2019/06/21 17:38:56 by bghandou         ###   ########.fr        #
+#    Updated: 2019/06/25 19:41:28 by bghandou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ SRC = srcs/null_state.c \
 	  srcs/instruct_tokens.c \
 	  srcs/free_systems.c \
 	  srcs/check_args.c \
+	  srcs/handle_errors.c \
+	  srcs/check_comma.c \
 
 NAME = asm
 

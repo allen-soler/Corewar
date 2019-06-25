@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/21 19:47:52 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:41:13 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,16 @@
 typedef struct		s_par
 {
 	char			*param;
-	int				type; //1: REG_CODE, 2: DIR_2B, 3: DIR_4B, 4: IND 5: D_LAB 6: inst 7: LABEL 8: comment
+	int				type; //1: REG_CODE, 2: DIR_2Bytes, 3: DIR_4Bytes, 4: IND 5: DIR_LAB 6: inst 7: LABEL 8: comment
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
 }					t_par;
+
+/**
+ *		Error handling
+**/
+
+void	error_function(char *string, t_par **list);
 
 /**
  *		Structure handling
@@ -58,6 +64,8 @@ int		name_token(char **line, int state, t_par **list);
 int		init_comm_token(char **line, int state, t_par **list);
 int		search_valid_inst(char **line, t_par **list);
 void	check_args(char **line, t_par **list);
-void	check_register(char *arg, t_par **list);
+int		check_register(char *arg, t_par **list);
+int		check_direct(char *arg, t_par **list);
+int		check_comma(char **arg);
 
 #endif

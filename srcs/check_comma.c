@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_errors.c                                    :+:      :+:    :+:   */
+/*   check_comma.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/14 17:13:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/25 18:56:46 by bghandou         ###   ########.fr       */
+/*   Created: 2019/06/25 19:40:00 by bghandou          #+#    #+#             */
+/*   Updated: 2019/06/25 19:40:56 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "op.h"
 #include "asm.h"
+#include "op.h"
 
-void	error_function(char *string, t_par **list)
+int		check_comma(char **args)
 {
-	t_par *tmp;
+	size_t	i;
+	size_t	j;
+	size_t	len;
+	size_t	count;
 
-	tmp = NULL;
-	if (string)
-	{
-		free(string);
-		string = NULL;
-	}
-	while (*list)
-	{
-		tmp = *list;
-		*list = (*list)->next;
-		free(tmp);
-		tmp = NULL;
-	}
-	ft_putstr("File syntax/structure ERROR\n");
-	exit(EXIT_FAILURE);
+	i = -1;
+	j = -1;
+	len = 0;
+	count = 0;
+	if (arg[0][0] == ',')
+		return (1);
+	while(arg[++i])
+		;
+	//if 1 arg no commas
+	// if 2 || 3 only in beetween
 }
