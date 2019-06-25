@@ -113,6 +113,7 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			else
 			{
 				env->players[turn].parse_index = ++i;
+				env->players[turn].alive = 0;
 				env->players_nb++;
 				used |= (1 << turn);
 				i++;
@@ -130,6 +131,7 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			else
 			{
 				env->players[turn].parse_index = i;
+				env->players[turn].alive = 0;
 				env->players_nb++;
 				used |= (1 << turn);
 			}

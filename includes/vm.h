@@ -44,6 +44,7 @@ typedef struct s_player
 	char				*file;
 	int					number;
 	int					parse_index;
+	int					alive;
 }				t_player;
 
 typedef struct	s_argument
@@ -119,11 +120,17 @@ void		append_process(t_process **head, t_process *new_p);
 void		delete_process(t_process **head, t_process *ptr);
 
 /*
-**	OP
+** ARGUMENT UTILS
 */
 
 int		get_args_len(t_process *cursor, t_op op);
 void	read_args(t_env *e, t_process *cursor, t_op op);
+void	set_reg_values(t_process *cursor, t_op op , int skip_index);
+
+/*
+**	OP
+*/
+
 void	ft_live(t_env *e, t_process *cursor, t_op op);
 void	ft_ld(t_env *e, t_process *cursor, t_op op);
 void	ft_st(t_env *e, t_process *cursor, t_op op);
@@ -171,6 +178,7 @@ void		parsing_args(char **av, int ac, t_env *env);
 **	UTILS
 */
 
+int			posmod(int n, int mod);
 int			ft_atoi_pimp(char *line, t_env *env);
 
 /*

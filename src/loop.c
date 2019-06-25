@@ -56,7 +56,8 @@ static void		exec_process(t_env *env)
 			curr->cycle--;
 		else if (curr->cycle == 0)
 		{
-			exec_cmd(env, curr); curr->cycle = -1;
+			exec_cmd(env, curr);
+			curr->cycle = -1;
 		}
 		curr = curr->next;
 	}
@@ -104,6 +105,8 @@ static void		init_processes(t_env *env)
 	}
 }
 
+
+// Do we have to reset lives of each players at the end of a cycle ?
 void		game_loop(t_env *env)
 {
 	t_loop		l;
@@ -137,5 +140,5 @@ void		game_loop(t_env *env)
 	if (env->last_live != -1)
 		ft_printf("Player %d(%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
 	else
-		ft_printf("no winner? you lossers");
+		ft_printf("no winner? you lossers\n");
 }

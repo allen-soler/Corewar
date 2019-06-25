@@ -20,14 +20,14 @@ int		get_args_len(t_process *cursor, t_op op)
 	while (i < op.param_nb)
 	{
 		if (cursor->args[i].type & T_REG)
-			size += 2;
+			size += 1;
 		else if (cursor->args[i].type & T_DIR)
 			size += (op.direct_size == 1) ? 2 : DIR_SIZE;
 		else if (cursor->args[i].type & T_IND)
 			size += IND_SIZE;
 		i += 1;
 	}
-	return (size);
+	return (size + op.encoding_byte);
 }
 
 void	reset_args(t_process *cursor)
@@ -37,7 +37,6 @@ void	reset_args(t_process *cursor)
 	i = 0;
 	while (i < MAX_ARGS_NUMBER)
 	{
-		cursor->args[i].type = 0;	//allespag: do we have to do it twice ?
 		cursor->args[i].type = 0;
 		i += 1;
 	}
@@ -51,7 +50,7 @@ void	reset_args(t_process *cursor)
 
 int		mix_bytes(t_env *e, int index, int len)
 {
-	int	res;
+	unsigned int	res;
 	int	i;
 
 	i = 0;
@@ -84,14 +83,14 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 		offset = 2;
 	else
 		offset = 1;
+	e->arena[cursor->pc].player = 2;
 	reset_args(cursor);
 	i = 0;
 	while (i < op.param_nb)
 	{
 		if (op.encoding_byte)
 		{
-			// allespag: maybe we should do something like (cursor->pc + 1) % MEM_SIZE
-			type = e->arena[cursor->pc + 1].data;
+			type = e->arena[(cursor->pc + 1) % MEM_SIZE].data;
 			if (type >> (i * 2) != 0)
 			{
 				/*
@@ -130,11 +129,34 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 			*/
 
 			cursor->args[i].type = T_DIR;
-			arg_len = 4;
+			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
 		}
 		cursor->args[i].value = mix_bytes(e, cursor->pc + offset, arg_len);
 		offset += arg_len;
 		i += 1;
+	}
+}
+
+/*
+** @function: set_reg_values
+**
+** @params: receives the cursor and the index (0-based) where it shouldn't do the change 
+**
+** This function will simply swap the register number @arg.value for the value
+** stored in the register skipping the specified index
+**
+*/ 
+
+void	set_reg_values(t_process *cursor, t_op op , int skip_index)
+{
+	int	i;
+
+	i = -1;
+	while (++i < op.param_nb)
+	{
+		if (i == skip_index || cursor->args[i].type != T_REG)
+			continue;
+		cursor->args[i].value = cursor->regs[cursor->args[i].value];
 	}
 }
 
