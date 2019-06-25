@@ -45,7 +45,10 @@ static void		exec_process(t_env *env)
 		if (curr->cycle == -1)
 		{
 			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data < 17)
+			{
 				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
+				ft_printf("{g}Adding %d cycles to procces %p{R}\n", op_tab[env->arena[curr->pc].data - 1].nb_cycle, curr);
+			}
 			else
 				curr->pc = (curr->pc + 1) % MEM_SIZE;
 		}
@@ -53,8 +56,7 @@ static void		exec_process(t_env *env)
 			curr->cycle--;
 		else if (curr->cycle == 0)
 		{
-			exec_cmd(env, curr);
-			curr->cycle = -1;
+			exec_cmd(env, curr); curr->cycle = -1;
 		}
 		curr = curr->next;
 	}
@@ -89,6 +91,7 @@ static int		check_live(t_env *env)
 /*
 **	Maybe fill the list from last player to first
 */
+
 static void		init_processes(t_env *env)
 {
 	int			i;

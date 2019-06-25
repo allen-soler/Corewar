@@ -20,7 +20,7 @@ int		get_args_len(t_process *cursor, t_op op)
 	while (i < op.param_nb)
 	{
 		if (cursor->args[i].type & T_REG)
-			size += REG_SIZE;
+			size += 2;
 		else if (cursor->args[i].type & T_DIR)
 			size += (op.direct_size == 1) ? 2 : DIR_SIZE;
 		else if (cursor->args[i].type & T_IND)
