@@ -23,4 +23,5 @@
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 
+void	readfile(int fd, char **line);
 #endif

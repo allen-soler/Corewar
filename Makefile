@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
+#    Updated: 2019/06/22 20:28:00 by nalonso          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 ccred="\033[0;31m"
 ccyellow="\033[0;33m"
 ccend="\033[0m"
@@ -9,11 +21,11 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra #-Werror -g
+FLAGS = -Wall -Werror -Wextra -g
 
 # program name
 
-NAME = corewar
+NAME = asm
 
 # library including ft_printf and libft
 
@@ -23,17 +35,18 @@ LIBFT = libft
 
 DIR_S = src
 
-DIR_O = obj
+DIR_O = temporary
 
 DIR_H = includes
 
 # source files for the project
 
-SOURCES =	
+SOURCES = readfile.c \
+		  main.c
 
 # header files
 
-HEADER = as.h
+HEADER_FILES = includes/asm.h \
 
 # prefixing
 
@@ -45,15 +58,16 @@ OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(DIR_H) $(OBJS) lib
+$(NAME): $(OBJS) lib
 	@gcc -o $(NAME) $(FLAGS) -I $(DIR_H) $(OBJS) $(LIBFT)/libft.a
-	@echo "corewar compiled"
+	@echo "asm compiled"
 
-$(DIR_O)/%.o: $(DIR_S)/%.c
+$(DIR_O)/%.o: $(DIR_S)/%.c $(HEADER_FILES)
 	@printf $(ccgreen)"compiled\t"$(ccend)
 	@printf "$<\n"
-	@mkdir -p $(DIR_O)
+	@mkdir -p temporary
 	@$(CC) $(FLAGS) -I $(DIR_H) -o $@ -c $<
+
 
 lib:
 	@echo "Compiling libraries:"
@@ -62,7 +76,7 @@ lib:
 
 clean:
 	@rm -f $(OBJS)
-	@printf $(ccred)"$(DIR_O)/*.o && $(DIR_O)/\n"$(ccend)
+	@printf $(ccred)"temporary/*.o && temporary/\n"$(ccend)
 	@rm -rf $(DIR_O)
 	@printf $(ccred)"%s\n"$(ccend) $(LIBFT)
 	@make clean -C $(LIBFT)
