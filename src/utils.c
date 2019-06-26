@@ -7,7 +7,7 @@ int	posmod(int n, int mod)
 	res = n % mod;
 	if (res < 0 && mod > 0)
 		res += mod;
-	return (0);
+	return (res);
 }
 
 int					ft_atoi_pimp(char *line, t_env *env)
