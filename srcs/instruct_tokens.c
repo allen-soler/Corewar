@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/21 16:20:22 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:36:13 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**instructions_array(void)
 	return (instructions);
 }
 
-int		search_valid_inst(char **line, t_par **list) //need something else validate token!!!!
+int		search_valid_inst(char **line, t_par **list)
 {
 	size_t	i;
 	size_t	len;
@@ -37,12 +37,12 @@ int		search_valid_inst(char **line, t_par **list) //need something else validate
 		{
 			if (*(*line + len) == SPACE || *(*line + len) == '\t')
 				*list = add_parameter(*list, inst[i++], 6);
-			else if (*(*line + len) == ':')
-			{
-				*list = add_parameter(*list, inst[i++], 7);
-				len++;
-			}
-			free_2d(inst);
+		//	else if (*(*line + len) == ':')
+		//	{
+		//		*list = add_parameter(*list, inst[i++], 7);
+		//		len++;
+		//	}
+			ft_strdel(inst);
 			return (len);
 		}
 		else

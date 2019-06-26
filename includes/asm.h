@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/25 19:41:13 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/26 15:28:27 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef struct		s_par
 **/
 
 void	error_function(char *string, t_par **list);
+int		check_comma(char *line, t_par **list);
+
+/**
+ *		Handle labels
+**/
+
+int		direct_label(t_par **list, char *arg);
 
 /**
  *		Structure handling
@@ -66,6 +73,5 @@ int		search_valid_inst(char **line, t_par **list);
 void	check_args(char **line, t_par **list);
 int		check_register(char *arg, t_par **list);
 int		check_direct(char *arg, t_par **list);
-int		check_comma(char **arg);
 
 #endif

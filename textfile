@@ -1,9 +1,8 @@
  .name         "his ou"          
  .comment "braskov"
-ldi r32 %45
-sti
+   ldi r32, %45      
 salut
-test
+sti:
 123 
 
 

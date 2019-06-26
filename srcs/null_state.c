@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/21 18:52:07 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/26 15:07:47 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int		null_state(char **line, int state, t_par **list) //need array of functions
 	else if ((repoint = str_repoint(*line, COMMENT_CMD_STRING)))
 		state = 5;
 	else if ((repoint = search_valid_inst(line, list)))
-	{
-		state = 20; //final state;	
-	}
-//	else if ((check_reg
+		state = 20;	
 	else
 		return (-1);
 	*line = *line + repoint;

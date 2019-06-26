@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/25 19:41:06 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:08:29 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int		check_direct(char *arg, t_par **list)
 	stk = NULL;
 	if (*arg == '%')
 	{
+	//	if (*(arg + 1) == ':')
+	//		return (direct_label(list, (arg + 2)));
 		while (ft_isdigit(*(arg + 1)) && (*(arg + 1)) != '\0')
 		{
 			arg = arg + 1;
@@ -76,10 +78,10 @@ void	check_args(char **line, t_par **list)
 
 
 	i = -1;
-	args = ft_splitwhite(*line);
 	err = 0;
-	err += check_comma(args);
-	while (args[++i] != '\0')
+	err += check_comma(*line, list);
+	args = ft_splitwhite(*line);
+	while (args[++i] != '\0' && err == 0)
 	{
 		if (args[i][0] == '#')
 		{
