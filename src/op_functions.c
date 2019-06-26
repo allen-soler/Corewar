@@ -166,8 +166,9 @@ void	ft_ld(t_env *e, t_process *cursor, t_op op)
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	shift_args(e, cursor, 2, TRUE);
-	write_byte(cursor->regs[cursor->args[0].value], e, posmod(cursor->pc + (cursor->args[1].value % IDX_MOD), MEM_SIZE), cursor);
+	if (cursor->args[0].type == T_IND)
+		cursor->args[0].value += cursor->pc;
+	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
