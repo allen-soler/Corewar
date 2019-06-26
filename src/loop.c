@@ -117,6 +117,7 @@ static void		print_winner(t_env *env)
 		ft_printf("Player %d(%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
 	else
 		ft_printf("no winner? you lossers\n");
+	d_display_env(*env);
 	exit_vm(env, EXIT_SUCCESS);
 }
 

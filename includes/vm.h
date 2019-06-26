@@ -19,6 +19,7 @@
 # define FLAG_HELP (1 << 1)
 # define FLAG_VISU (1 << 2)
 # define FLAG_DUMP (1 << 3)
+# define FLAG_DBUG (1 << 4)
 
 # define ERROR_MAX_VALUE 6
 

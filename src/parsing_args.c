@@ -50,6 +50,8 @@ static int	set_flag(char **av, int ac, t_env *env)
 				set_dump(av, ac, i, env);
 				i++;
 			}
+			else if ((!ft_strcmp(av[i], "-db") || !ft_strcmp(av[i], "--debbug")) && ++i)
+					env->flag |= FLAG_DBUG;
 			else
 				break ;
 		}

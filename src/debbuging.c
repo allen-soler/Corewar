@@ -97,7 +97,8 @@ void			d_display_env(t_env env)
 		(env.flag & FLAG_VISU) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
 	ft_printf("\t\t%s-Dump%s:  ", S_BOLD, E_BOLD);
 		(env.flag & FLAG_DUMP) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
-
+	ft_printf("\t\t%s-Dbug%s:  ", S_BOLD, E_BOLD);
+		(env.flag & FLAG_DBUG) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
 	d_display_players(env);
 	ft_putchar('\n');
 
