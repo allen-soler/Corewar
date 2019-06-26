@@ -62,16 +62,20 @@ void			delete_process(t_process **head, t_process *ptr)
 			if (*head)
 				(*head)->prev = NULL;
 		}
-		while (tmp->next)
+		while (tmp && tmp->next)
 		{
 			if (ptr == tmp->next)
 			{
-				tmp->next = ptr->next;
-				if (ptr->next != NULL)
+				if (ptr->next)
 				{
+					tmp->next = ptr->next;
 					ptr->next->prev = tmp;
 				}
-				free(tmp);
+				else
+				{
+					tmp->next = NULL;
+				}
+				free(ptr);
 			}
 			tmp = tmp->next;
 		}
