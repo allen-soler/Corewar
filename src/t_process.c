@@ -47,6 +47,7 @@ void			append_process(t_process **head, t_process *new)
 	}
 }
 
+// There is a segfault in here
 void			delete_process(t_process **head, t_process *ptr)
 {
 	t_process 	*tmp;

@@ -74,7 +74,7 @@ void	ft_add(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	shift_args(e, cursor, 2, 1);
+	shift_args(e, cursor, 2, TRUE);
 	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -87,7 +87,7 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	shift_args(e, cursor, 2, 1);
+	shift_args(e, cursor, 2, TRUE);
 	res = cursor->regs[cursor->args[0].value] - cursor->regs[cursor->args[1].value];
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -113,7 +113,7 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	shift_args(e, cursor, 2, 1);
+	shift_args(e, cursor, 2, TRUE);
 	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -126,7 +126,7 @@ void	ft_or(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	shift_args(e, cursor, 2, 1);
+	shift_args(e, cursor, 2, TRUE);
 	res = cursor->args[0].value | cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -139,7 +139,7 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	shift_args(e, cursor, 2, 1);
+	shift_args(e, cursor, 2, TRUE);
 	res = cursor->args[0].value ^ cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -150,26 +150,33 @@ void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	shift_args(e, cursor, 2, 1);
+	shift_args(e, cursor, 1, TRUE);
 	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
 	cursor->carry = !cursor->args[0].value;
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
 
+// i don't know what i'm doing here
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	read_args(e, cursor, op);
+	shift_args(e, cursor, 2, TRUE);
+	e->arena[posmod(cursor->pc + (cursor->args[1].value % IDX_MOD), MEM_SIZE)].data = cursor->args[0].value;
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
 
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 {
 	return ;	
 }
+
 void	ft_fork(t_env *e, t_process *cursor, t_op op)
 {
 	t_process	*child;
 
 	child = new_process(cursor->player, cursor->alive);
+	if (!child)
+		exit_failure("Error: malloc failed in ft_fork", e);
 	cpy_process(child, cursor);		// need to check if it's ok
 	read_args(e, cursor, op);
 	child->pc = posmod(cursor->pc + (cursor->regs[cursor->args[0].value] % IDX_MOD), MEM_SIZE); 
@@ -181,7 +188,7 @@ void	ft_lld(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	shift_args(e, cursor, 2, 0);
+	shift_args(e, cursor, 1, FALSE);
 	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
 	cursor->carry = !cursor->args[0].value;
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
@@ -197,6 +204,8 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 	t_process	*child;
 
 	child = new_process(cursor->player, cursor->alive);
+	if (!child)
+		exit_failure("Error: malloc failed in ft_lfork", e);
 	cpy_process(child, cursor);		// need to check if it's ok
 	read_args(e, cursor, op);
 	child->pc = posmod(cursor->pc + cursor->regs[cursor->args[0].value], MEM_SIZE); 

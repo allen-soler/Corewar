@@ -22,6 +22,12 @@
 
 # define ERROR_MAX_VALUE 6
 
+typedef enum	e_bool
+{
+	FALSE,
+	TRUE
+}				t_bool;
+
 typedef enum	e_error
 {
 	ERROR_NONE,
@@ -125,7 +131,7 @@ void		delete_process(t_process **head, t_process *ptr);
 */
 
 int		get_args_len(t_process *cursor, t_op op);
-void	shift_args(t_env *env, t_process *cursor, int shift, int ind_mod);
+void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod);
 void	read_args(t_env *e, t_process *cursor, t_op op);
 void	set_reg_values(t_process *cursor, t_op op , int skip_index);
 

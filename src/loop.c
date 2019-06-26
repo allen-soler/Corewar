@@ -96,18 +96,31 @@ static int		check_live(t_env *env)
 static void		init_processes(t_env *env)
 {
 	int			i;
+	t_process	*tmp;
 
 	i = 0;
 	while (i < env->players_nb)
 	{
-		append_process(&env->cursors, new_process(env->players[i].number, 1));
+		tmp = new_process(env->players[i].number, 1);
+		if (!tmp)
+			exit_failure("Error: malloc failed in init_processes", env);
+		append_process(&env->cursors, tmp);
 		i++;
 	}
 }
 
+static void		print_winner(t_env *env)
+{
+	
+	if (env->last_live != -1)
+		ft_printf("Player %d(%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+	else
+		ft_printf("no winner? you lossers\n");
+	exit_vm(env, EXIT_SUCCESS);
+}
 
 // Do we have to reset lives of each players at the end of a cycle ?
-void		game_loop(t_env *env)
+void			game_loop(t_env *env)
 {
 	t_loop		l;
 
@@ -129,7 +142,9 @@ void		game_loop(t_env *env)
 			l.current_cycle++;
 		}
 		l.nb_process_alive = check_live(env);
-		if (l.nb_process_alive >= NBR_LIVE || l.i_check == MAX_CHECKS)
+		if (l.nb_process_alive == 0)
+			print_winner(env);
+		else if (l.nb_process_alive >= NBR_LIVE || l.i_check == MAX_CHECKS)
 		{
 			l.i_check = 0;
 			l.cycle_to_die -= CYCLE_DELTA;
@@ -137,8 +152,4 @@ void		game_loop(t_env *env)
 		else
 			l.i_check++;
 	}
-	if (env->last_live != -1)
-		ft_printf("Player %d(%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
-	else
-		ft_printf("no winner? you lossers\n");
 }

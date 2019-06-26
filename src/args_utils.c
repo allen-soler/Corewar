@@ -30,7 +30,7 @@ int		get_args_len(t_process *cursor, t_op op)
 	return (size + op.encoding_byte);
 }
 
-void	shift_args(t_env *env, t_process *cursor, int shift, int ind_mod)
+void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod)
 {
 	int				i;
 
@@ -41,9 +41,9 @@ void	shift_args(t_env *env, t_process *cursor, int shift, int ind_mod)
 			cursor->args[i].value = cursor->regs[cursor->args[i].value];
 		else if (cursor->args[i].type & T_DIR)
 			;
-		else if ((cursor->args[i].type & T_IND) && ind_mod)
+		else if ((cursor->args[i].type & T_IND) && ind_mod == TRUE)
 			cursor->args[i].value = env->arena[posmod((cursor->pc + (cursor->args[i].value % IDX_MOD)), MEM_SIZE)].data;
-		else if ((cursor->args[i].type & T_IND) && !ind_mod)
+		else if ((cursor->args[i].type & T_IND) && ind_mod == FALSE)
 			cursor->args[i].value = env->arena[posmod(cursor->pc + cursor->args[i].value, MEM_SIZE)].data;
 		else
 			ft_printf("{r}There is a problem in shift_args ; REMOVE THIS LINE{R}\n");
