@@ -59,7 +59,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 **
 ** This op code, moves the cursor->pc to the position indicated
 ** in the argument, ONLY if the carry is equal to 1
-*/ 
+*/
 
 void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
@@ -167,7 +167,14 @@ void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 }
 void	ft_fork(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	t_process	*child;
+
+	child = new_process(cursor->player, cursor->alive);
+	cpy_process(child, cursor);		// need to check if it's ok
+	read_args(e, cursor, op);
+	child->pc = posmod(cursor->pc + (cursor->regs[cursor->args[0].value] % IDX_MOD), MEM_SIZE); 
+	append_process(&e->cursors, child);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
 
 void	ft_lld(t_env *e, t_process *cursor, t_op op)
@@ -187,7 +194,14 @@ void	ft_lldi(t_env *e, t_process *cursor, t_op op)
 
 void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	t_process	*child;
+
+	child = new_process(cursor->player, cursor->alive);
+	cpy_process(child, cursor);		// need to check if it's ok
+	read_args(e, cursor, op);
+	child->pc = posmod(cursor->pc + cursor->regs[cursor->args[0].value], MEM_SIZE); 
+	append_process(&e->cursors, child);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
 
 void	ft_aff(t_env *e, t_process *cursor, t_op op)

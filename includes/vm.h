@@ -116,6 +116,7 @@ void		game_loop(t_env *env);
 */
 
 t_process	*new_process(int player, int alive);
+void		cpy_process(t_process *dst, t_process *src);
 void		append_process(t_process **head, t_process *new_p);
 void		delete_process(t_process **head, t_process *ptr);
 
