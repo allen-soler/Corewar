@@ -51,10 +51,8 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	ft_printf("{y}cursor[%d] = %d\n{R}", cursor->args[0].value, cursor->regs[cursor->args[0].value]);
 	shift_args(e, cursor, 3, TRUE);
 	sum = (cursor->args[1].value + cursor->args[2].value) % IDX_MOD;
-	ft_printf("{y}cursor[%d] = %d\n{R}", cursor->args[0].value, cursor->regs[cursor->args[0].value]);
 	write_byte(cursor->regs[cursor->args[0].value], e, sum, cursor);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
@@ -72,7 +70,7 @@ void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	if (cursor->carry && ft_printf("{y}bigzork carry = 1\n{R}"))
+	if (cursor->carry)
 		cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 	else
 		cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
