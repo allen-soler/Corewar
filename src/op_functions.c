@@ -25,32 +25,25 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
 }
 
-/*void	ft_sti(t_env *e, t_process *cursor, t_op op)
+void	write_byte(long value, t_env *e, long number, t_process *process)
 {
-	int	i;
-	int				pointer;
+	int		byte;
+	long	mult;
+	int		i;
 
-	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
-	set_reg_values(cursor, op, 0);
-	pointer = 0;
-	i = 1;
-	while (i < op.param_nb)
+	i = 0;
+	mult = 256L * 256L * 256L;
+	if (value < 0)
+		value = mult * 256L + value;
+	while (i < 4)
 	{
-		if (cursor->args[i].type == T_IND)
-			pointer += cursor->pc;
-		pointer += cursor->args[i].value;
-		i += 1;
+		byte = value / mult;
+		e->arena[posmod(process->pc + number + i, MEM_SIZE)].data = byte;
+		value -= byte * mult;
+		mult /= 256L;
+		i++;
 	}
-
-	pointer += 4; // There is something that I'm missing here
-
-	pointer = MIDX(pointer);
-
-	e->arena[pointer - 1].data = cursor->regs[cursor->args[0].value - 1];
-	e->arena[pointer - 1].player = 3;
-	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
-}*/
+}
 
 void	ft_sti(t_env *e, t_process *cursor, t_op op)
 {
@@ -58,11 +51,12 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
+	ft_printf("{y}cursor[%d] = %d\n{R}", cursor->args[0].value, cursor->regs[cursor->args[0].value]);
 	shift_args(e, cursor, 3, TRUE);
 	sum = (cursor->args[1].value + cursor->args[2].value) % IDX_MOD;
-	e->arena[posmod(sum, MEM_SIZE)].data = cursor->args[0].value;
-	e->arena[posmod(sum, MEM_SIZE)].player = 1;
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	ft_printf("{y}cursor[%d] = %d\n{R}", cursor->args[0].value, cursor->regs[cursor->args[0].value]);
+	write_byte(cursor->regs[cursor->args[0].value], e, sum, cursor);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 /*
@@ -77,8 +71,11 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	if (cursor->carry)
-		SET_MIDX(cursor->pc, cursor->args[0].value);
+	d_display_argument(cursor, op);
+	if (cursor->carry && ft_printf("{y}bigzork carry = 1\n{R}"))
+		cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	else
+		cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_add(t_env *e, t_process *cursor, t_op op)
@@ -164,7 +161,7 @@ void	ft_ld(t_env *e, t_process *cursor, t_op op)
 	shift_args(e, cursor, 1, TRUE);
 	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
 	cursor->carry = !cursor->args[0].value;
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 // i don't know what i'm doing here
@@ -172,8 +169,8 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
 	shift_args(e, cursor, 2, TRUE);
-	e->arena[posmod(cursor->pc + (cursor->args[1].value % IDX_MOD), MEM_SIZE)].data = cursor->args[0].value;
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	write_byte(cursor->regs[cursor->args[0].value], e, posmod(cursor->pc + (cursor->args[1].value % IDX_MOD), MEM_SIZE), cursor);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 #define SOMETHING 2 // we need to think and sleep
@@ -185,8 +182,9 @@ void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	shift_args(e, cursor, 2, FALSE);
 	res = posmod((cursor->args[0].value + cursor->args[1].value) % IDX_MOD, MEM_SIZE);
+	
 	cursor->regs[cursor->args[2].value] = mix_bytes(e, res, SOMETHING);
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_fork(t_env *e, t_process *cursor, t_op op)
@@ -200,7 +198,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	child->pc = posmod(cursor->pc + (cursor->regs[cursor->args[0].value] % IDX_MOD), MEM_SIZE); 
 	append_process(&e->cursors, child);
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_lld(t_env *e, t_process *cursor, t_op op)
@@ -210,7 +208,7 @@ void	ft_lld(t_env *e, t_process *cursor, t_op op)
 	shift_args(e, cursor, 1, FALSE);
 	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
 	cursor->carry = !cursor->args[0].value;
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_lldi(t_env *e, t_process *cursor, t_op op)
@@ -221,7 +219,7 @@ void	ft_lldi(t_env *e, t_process *cursor, t_op op)
 	shift_args(e, cursor, 2, FALSE);
 	res = posmod(cursor->args[0].value + cursor->args[1].value, MEM_SIZE);
 	cursor->regs[cursor->args[2].value] = mix_bytes(e, res, SOMETHING);
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_lfork(t_env *e, t_process *cursor, t_op op)
@@ -235,7 +233,7 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	child->pc = posmod(cursor->pc + cursor->regs[cursor->args[0].value], MEM_SIZE); 
 	append_process(&e->cursors, child);
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
@@ -243,5 +241,5 @@ void	ft_aff(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
 	ft_putchar(cursor->regs[cursor->args[0].value] % 256);
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }

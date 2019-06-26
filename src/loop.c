@@ -47,7 +47,7 @@ static void		exec_process(t_env *env)
 			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data < 17)
 			{
 				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
-				ft_printf("{g}Adding %d cycles to procces %p{R}\n", op_tab[env->arena[curr->pc].data - 1].nb_cycle, curr);
+				ft_printf("{g}Adding %d cycles to procces %s{R}\n", op_tab[env->arena[curr->pc].data - 1].nb_cycle, env->players[curr->player - 1].header.prog_name);
 			}
 			else
 				curr->pc = (curr->pc + 1) % MEM_SIZE;
@@ -104,6 +104,7 @@ static void		init_processes(t_env *env)
 		tmp = new_process(env->players[i].number, 1);
 		if (!tmp)
 			exit_failure("Error: malloc failed in init_processes", env);
+		tmp->pc = tmp->player * (MEM_SIZE / env->players_nb);
 		append_process(&env->cursors, tmp);
 		i++;
 	}
