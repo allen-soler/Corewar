@@ -25,7 +25,7 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
 }
 
-void	ft_sti(t_env *e, t_process *cursor, t_op op)
+/*void	ft_sti(t_env *e, t_process *cursor, t_op op)
 {
 	int	i;
 	int				pointer;
@@ -50,6 +50,19 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 	e->arena[pointer - 1].data = cursor->regs[cursor->args[0].value - 1];
 	e->arena[pointer - 1].player = 3;
 	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
+}*/
+
+void	ft_sti(t_env *e, t_process *cursor, t_op op)
+{
+	int		sum;
+
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);
+	shift_args(e, cursor, 3, TRUE);
+	sum = (cursor->args[1].value + cursor->args[2].value) % IDX_MOD;
+	e->arena[posmod(sum, MEM_SIZE)].data = cursor->args[0].value;
+	e->arena[posmod(sum, MEM_SIZE)].player = 1;
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
 
 /*
