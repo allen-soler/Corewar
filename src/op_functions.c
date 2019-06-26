@@ -148,7 +148,12 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
-
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);
+	shift_args(e, cursor, 2, 1);
+	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
+	cursor->carry = !cursor->args[0].value;
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
 
 void	ft_st(t_env *e, t_process *cursor, t_op op)
@@ -167,7 +172,12 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 
 void	ft_lld(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);
+	shift_args(e, cursor, 2, 0);
+	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
+	cursor->carry = !cursor->args[0].value;
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
 
 void	ft_lldi(t_env *e, t_process *cursor, t_op op)
@@ -182,5 +192,8 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);
+	ft_putchar(cursor->regs[cursor->args[0].value] % 256);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 }
