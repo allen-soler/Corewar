@@ -53,6 +53,48 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 }
 
 /*
+** @function: ft_zjmp
+**
+** @arg: one argument of type T_DIR and no encoding byte
+**
+** This op code, moves the cursor->pc to the position indicated
+** in the argument, ONLY if the carry is equal to 1
+*/ 
+
+void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
+{
+	read_args(e, cursor, op);
+	if (cursor->carry)
+		SET_MIDX(cursor->pc, cursor->args[0].value);
+}
+
+void	ft_add(t_env *e, t_process *cursor, t_op op)
+{
+	int	res;
+
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);
+	shift_args(e, cursor, 2, 1);
+	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
+	cursor->regs[cursor->args[2].value] = res;
+	cursor->carry = !res;
+	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
+}
+
+void	ft_sub(t_env *e, t_process *cursor, t_op op)
+{
+	int	res;
+
+	read_args(e, cursor, op);
+	d_display_argument(cursor, op);
+	shift_args(e, cursor, 2, 1);
+	res = cursor->regs[cursor->args[0].value] - cursor->regs[cursor->args[1].value];
+	cursor->regs[cursor->args[2].value] = res;
+	cursor->carry = !res;
+	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
+}
+
+/*
 ** @function: ft_and
 ** 
 ** @args: Takes 3 registers as parameter where the value
@@ -67,62 +109,12 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 void	ft_and(t_env *e, t_process *cursor, t_op op)
 {
-	int i;
-
-	i = 0;
-	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
-	set_reg_values(cursor, op, 2);
-	cursor->regs[cursor->args[2].value] = cursor->args[0].value & cursor->args[1].value;
-	ft_printf("Register %d now has the value %d\n", cursor->args[2].value,\
-			cursor->regs[cursor->args[2].value]);
-	if (cursor->regs[cursor->args[2].value] == 0)
-		cursor->carry = 1;
-	else
-		cursor->carry = 0;
-	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
-}
-
-/*
-** @function: ft_zjmp
-**
-** @arg: one argument of type T_DIR and no encoding byte
-**
-** This op code, moves the cursor->pc to the position indicated
-** in the argument, ONLY if the carry is equal to 1
-*/ 
-
-void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
-{
-	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
-	if (cursor->carry == 1)
-	{
-		SET_MIDX(cursor->pc, cursor->args[0].value);
-	}
-}
-
-void	ft_add(t_env *e, t_process *cursor, t_op op)
-{
-	int	res;
+	int		res;
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	set_reg_values(cursor, op, 2);
-	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
-	cursor->regs[cursor->args[2].value] = res;
-	cursor->carry = !res;
-	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
-}
-
-void	ft_sub(t_env *e, t_process *cursor, t_op op)
-{
-	int	res;
-
-	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
-	set_reg_values(cursor, op, 2);
-	res = cursor->regs[cursor->args[0].value] - cursor->regs[cursor->args[1].value];
+	shift_args(e, cursor, 2, 1);
+	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
 	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
@@ -134,7 +126,7 @@ void	ft_or(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	set_reg_values(cursor, op, 2);
+	shift_args(e, cursor, 2, 1);
 	res = cursor->args[0].value | cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -147,7 +139,7 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	d_display_argument(cursor, op);
-	set_reg_values(cursor, op, 2);
+	shift_args(e, cursor, 2, 1);
 	res = cursor->args[0].value ^ cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -156,7 +148,7 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+
 }
 
 void	ft_st(t_env *e, t_process *cursor, t_op op)
