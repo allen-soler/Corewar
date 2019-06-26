@@ -25,6 +25,27 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
 }
 
+void	write_byte(long value, t_env *e, long number, t_process *process)
+{
+	int		byte;
+	long	mult;
+	int		i;
+
+	i = 0;
+	mult = 256L * 256L * 256L;
+	if (value < 0)
+		value = mult * 256L + value;
+	while (i < 4)
+	{
+		byte = value / mult;
+		e->arena[posmod(process->pc + number + i, MEM_SIZE)].data = byte;
+		e->arena[posmod(process->pc + number + i, MEM_SIZE)].player = 3;
+		value -= byte * mult;
+		mult /= 256L;
+		i++;
+	}
+}
+
 void	ft_sti(t_env *e, t_process *cursor, t_op op)
 {
 	int	i;
@@ -43,12 +64,9 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 		i += 1;
 	}
 
-	pointer += 4; // There is something that I'm missing here
-
 	pointer = MIDX(pointer);
 
-	e->arena[pointer - 1].data = cursor->regs[cursor->args[0].value - 1];
-	e->arena[pointer - 1].player = 3;
+	write_byte(cursor->regs[cursor->args[0].value - 1], e, pointer, cursor);
 	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
 }
 
