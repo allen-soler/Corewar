@@ -50,7 +50,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 	int		sum;
 
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	shift_args(e, cursor, 3, TRUE);
 	sum = (cursor->args[1].value + cursor->args[2].value) % IDX_MOD;
 	write_byte(cursor->regs[cursor->args[0].value], e, sum, cursor);
@@ -69,7 +69,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	if (cursor->carry)
 		cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
 	else
@@ -81,7 +81,7 @@ void	ft_add(t_env *e, t_process *cursor, t_op op)
 	int	res;
 
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -93,7 +93,7 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 	int	res;
 
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	res = cursor->regs[cursor->args[0].value] - cursor->regs[cursor->args[1].value];
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
@@ -118,7 +118,7 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 	int		res;
 
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	shift_args(e, cursor, 2, TRUE);
 	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
@@ -131,7 +131,7 @@ void	ft_or(t_env *e, t_process *cursor, t_op op)
 	int	res;
 
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	shift_args(e, cursor, 2, TRUE);
 	res = cursor->args[0].value | cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
@@ -144,7 +144,7 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 	int	res;
 
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	shift_args(e, cursor, 2, TRUE);
 	res = cursor->args[0].value ^ cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
@@ -155,7 +155,7 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	shift_args(e, cursor, 1, TRUE);
 	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
 	cursor->carry = !cursor->args[0].value;
@@ -202,7 +202,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 void	ft_lld(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	shift_args(e, cursor, 1, FALSE);
 	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
 	cursor->carry = !cursor->args[0].value;
@@ -237,7 +237,7 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	d_display_argument(cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	ft_putchar(cursor->regs[cursor->args[0].value] % 256);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }

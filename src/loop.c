@@ -14,7 +14,7 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 	op_code = e->arena[cursor->pc].data;
 	if (op_code <= REG_NUMBER && op_code > 0)
 	{
-		ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", op_tab[op_code - 1].name, op_code);
+		DEBUG(ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", op_tab[op_code - 1].name, op_code))
 		g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
 	}
 }
@@ -47,7 +47,7 @@ static void		exec_process(t_env *env)
 			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data < 17)
 			{
 				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
-				ft_printf("{g}Adding %d cycles to procces %s{R}\n", op_tab[env->arena[curr->pc].data - 1].nb_cycle, env->players[curr->player - 1].header.prog_name);
+				DEBUG(ft_printf("{g}Adding %d cycles to procces %s{R}\n", op_tab[env->arena[curr->pc].data - 1].nb_cycle, env->players[curr->player - 1].header.prog_name))
 			}
 			else
 				curr->pc = (curr->pc + 1) % MEM_SIZE;
@@ -104,7 +104,7 @@ static void		init_processes(t_env *env)
 		tmp = new_process(env->players[i].number, 1);
 		if (!tmp)
 			exit_failure("Error: malloc failed in init_processes", env);
-		tmp->pc = tmp->player * (MEM_SIZE / env->players_nb);
+		tmp->pc = (tmp->player - 1) * (MEM_SIZE / env->players_nb);
 		append_process(&env->cursors, tmp);
 		i++;
 	}
@@ -117,7 +117,7 @@ static void		print_winner(t_env *env)
 		ft_printf("Player %d(%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
 	else
 		ft_printf("no winner? you lossers\n");
-	d_display_env(*env);
+	DEBUG(d_display_env(*env))
 	exit_vm(env, EXIT_SUCCESS);
 }
 
@@ -128,7 +128,7 @@ void			game_loop(t_env *env)
 
 	init_processes(env);
 	init_loop(&l, env->players_nb);
-	d_display_full_process(*env);
+	DEBUG(d_display_full_process(*env))
 	while (l.nb_process_alive > 0)
 	{
 		l.i_cycle = 0;

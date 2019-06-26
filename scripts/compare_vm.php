@@ -32,13 +32,25 @@ foreach ($argv as $arg)
 	}
 }
 
-$i = 0;
+$i = 1;
 
 while ($i < 1000) {
-	$vm1_output = `./$vm1 -dump $i $players > /tmp/vm1_output`;
-	$vm2_output = `./$vm2 -dump $i $players > /tmp/vm2_output`;
+	$vm1_command = "$vm1 -dump $i $players ";
+	$vm2_command = "$vm2 -dump $i $players ";
+	$vm1_output = `$vm1_command > /tmp/vm1_output`;
+	$vm2_output = `$vm2_command > /tmp/vm2_output`;
 
-	echo  "====================== dump $i ==============" . PHP_EOL . `diff /tmp/vm1_output /tmp/vm2_output` . PHP_EOL;
+	echo "====================== dump $i ==============" . PHP_EOL;
+	echo "Executing $vm1_command --- $vm2_command" . PHP_EOL;
+
+	$diff = `diff /tmp/vm1_output /tmp/vm2_output`;
+	if (strlen($diff) > 4)
+	{
+		echo $diff . PHP_EOL;
+		echo "Found a difference!, files at /tmp/vm1_output and /tmp/vm2_output" . PHP_EOL;
+
+		exit();
+	}
 	$i += 1;
 
 }

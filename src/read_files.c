@@ -50,7 +50,9 @@ void print_arena(t_env *e)
 			ft_printf("0x%04x : ", line);
 			line += 32;
 		}
-		if (e->arena[i].player == 0)
+		if (g_debug == 0)
+			ft_printf("%02hhx ", e->arena[i++].data);
+		else if (e->arena[i].player == 0)
 			ft_printf("{r}%02hhx{R} ", e->arena[i++].data);
 		else if (e->arena[i].player == 1)
 			ft_printf("{b}%02hhx{R} ", e->arena[i++].data);

@@ -23,11 +23,15 @@
 
 # define ERROR_MAX_VALUE 6
 
+#define DEBUG(x) if (g_debug == 1) x;
+
 typedef enum	e_bool
 {
 	FALSE,
 	TRUE
 }				t_bool;
+
+t_bool g_debug;
 
 typedef enum	e_error
 {
