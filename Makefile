@@ -6,7 +6,7 @@
 #    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/06/22 20:28:00 by nalonso          ###   ########.fr        #
+#    Updated: 2019/06/26 16:17:35 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall  -g
 
 # program name
 
