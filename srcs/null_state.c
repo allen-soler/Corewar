@@ -6,14 +6,13 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/26 15:07:47 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/26 18:08:32 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 #include "asm.h"
-//ADD ERROR FUNCTION TO CLEAR TOKEN!
-// CHECK search_valid_inst!!! comment
+//currecntly working on "set_label"
 int		null_state(char **line, int state, t_par **list) //need array of functions
 {
 	size_t repoint;
@@ -24,6 +23,8 @@ int		null_state(char **line, int state, t_par **list) //need array of functions
 		state += 1;
 	else if ((repoint = str_repoint(*line, COMMENT_CMD_STRING)))
 		state = 5;
+	else if ((repoint = set_label(line, list)))
+		state = 20;
 	else if ((repoint = search_valid_inst(line, list)))
 		state = 20;	
 	else

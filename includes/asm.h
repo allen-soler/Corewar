@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/26 15:28:27 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:50:26 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		check_comma(char *line, t_par **list);
 **/
 
 int		direct_label(t_par **list, char *arg);
+int		set_label(char **line, t_par **list);
 
 /**
  *		Structure handling
