@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/26 17:50:26 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/27 17:00:48 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ int		search_valid_inst(char **line, t_par **list);
 void	check_args(char **line, t_par **list);
 int		check_register(char *arg, t_par **list);
 int		check_direct(char *arg, t_par **list);
+int		check_indirect(char *arg, t_par **list);
 
 #endif

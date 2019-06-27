@@ -6,13 +6,13 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/26 18:08:32 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/27 17:12:22 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 #include "asm.h"
-//currecntly working on "set_label"
+
 int		null_state(char **line, int state, t_par **list) //need array of functions
 {
 	size_t repoint;
@@ -24,9 +24,15 @@ int		null_state(char **line, int state, t_par **list) //need array of functions
 	else if ((repoint = str_repoint(*line, COMMENT_CMD_STRING)))
 		state = 5;
 	else if ((repoint = set_label(line, list)))
+	{
 		state = 20;
+		*line = *line + repoint;
+		repoint = search_valid_inst(line, list);
+	}
 	else if ((repoint = search_valid_inst(line, list)))
 		state = 20;	
+	else if (ft_strlen(*line) == 0)
+		return (0);
 	else
 		return (-1);
 	*line = *line + repoint;
@@ -40,7 +46,7 @@ void	middlefunction(char **line, int state, t_par **list)
 //	dprintf(1, "__________\n");
 	if (state == 0)
 	{
-		dprintf(1, "line before state : %s\n", *line);
+//		dprintf(1, "line before state : %s\n", *line);
 		state = null_state(line, state, list);
 	}
 	if (state == 1)
@@ -49,17 +55,11 @@ void	middlefunction(char **line, int state, t_par **list)
 		state = init_comm_token(line, state, list);
 	else if (state == 20)
 		check_args(line, list);
-//	else if (state == 9)
-//		intruct_label_token(line, state, list);// LABEL HERE!!! TRACK IT!
-/*	else if (state == 11 && state == 12)
-		reg_token(line, state, list);
-	else if (state >= 13 && state <= 16)
-		dir_label_token(line, state, list);
-	else if (state == 17)
-		comment_out(line, state, list);*/
+	if (state < 0)
+		error_function(*line, list);
 }
 
-char	*token_automata(char *line, t_par **list)
+void	token_automata(char *line, t_par **list)
 {
 	// Also type of instructions for memory space!! -> stock tokens raw?
 	static int	state;
@@ -74,7 +74,6 @@ lld lldi lfork fork aff", ' ');
 	middlefunction(&line, state, list);
 	while (instructions[i] != '\0')
 		free(instructions[i++]);
-	return(NULL);
 }
 
 void	ingest_file(char *file)
@@ -91,6 +90,7 @@ void	ingest_file(char *file)
 		token_automata(line, &list);
 		free(line);
 	}
+	test_print(list);
 }
 
 int		main(int ac, char **av)

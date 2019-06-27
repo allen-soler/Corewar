@@ -1,9 +1,7 @@
  .name         "his ou"          
  .comment "braskov"
-   ldi r32, %45      
-salut
-sti:
-123 
+   ldi r32, %45, %:broksi     
+sti: sti r1, %12, 3
 
 
-ay2131   2342 34 
+sti: sti r1, %12, 3

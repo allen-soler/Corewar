@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:07:22 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/26 17:27:50 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/27 16:49:25 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*skip_space(char *line)
 	i = 0;
 	if (!line)
 		return (NULL);
-	while ((line[i] == ' ' || line[i] == '\t')  && line[i] != '\0')
+	while ((line[i] == ' ' || line[i] == '\t')
+		&& line[i] != '\0' && line[i] != '#')
 		i++;
 	return (&line[i]);
 }
