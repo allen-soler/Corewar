@@ -6,7 +6,7 @@
 #    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/06/26 16:17:35 by jallen           ###   ########.fr        #
+#    Updated: 2019/06/27 15:53:02 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ DIR_H = includes
 
 # source files for the project
 
-SOURCES = readfile.c \
+SOURCES = create_file.c \
 		  main.c
 
 # header files
