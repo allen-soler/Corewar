@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 17:18:38 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:36:34 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ t_par	*ingest_file(char *file)
 
 int		main(int ac, char **av)
 {
+	t_par	*list;
+
 	(void)ac;
-	ingest_file(av[1]);
+	list = ingest_file(av[1]);
+//	check_syntax(list);
 }

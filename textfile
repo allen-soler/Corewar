@@ -1,7 +1,7 @@
  .name         "his ou"          
  .comment "braskov"
    ldi r32, %45, %:broksi     
-sti: sti r1, %12, 3
+sti: sti r1, %-12, %5
 
 
-sti: sti r1, %12, 3
+sti: sti r1, %-12, -3
