@@ -71,7 +71,7 @@ void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	DEBUG(d_display_argument(cursor, op))
 	if (cursor->carry)
-		cursor->pc = posmod(cursor->pc + get_args_len(cursor, op), MEM_SIZE);
+		cursor->pc = posmod(cursor->pc + (cursor->args[0].value % IDX_MOD), MEM_SIZE);
 	else
 		cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
