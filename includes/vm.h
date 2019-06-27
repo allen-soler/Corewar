@@ -23,6 +23,12 @@
 
 # define ERROR_MAX_VALUE 6
 
+# define ZMASK(x) (x & 0xff)
+# define POSMOD(x) (x % MEM_SIZE < 0 ? x % MEM_SIZE + MEM_SIZE : x % MEM_SIZE)
+# define MODMS(x)	(x % MEM_SIZE)
+# define MODX(x)	(x % IDX_MOD)
+# define ABS(value)  (value > 0 ? value : -value)
+
 #define DEBUG(x) if (g_debug == 1) x;
 
 typedef enum	e_bool

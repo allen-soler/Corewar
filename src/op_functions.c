@@ -11,12 +11,14 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 
 	i = 0;
 	read_args(e, cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	cursor->alive += 1;
 	while (i < e->players_nb)
 	{
 		if (e->players[i].number == cursor->args[0].value)
 		{
 			e->players[i].alive += 1;
+			DEBUG(ft_printf("Player %d(%s) is alive!\n", e->players[i].number, e->players[i].header.prog_name))
 			e->last_live = i;
 			break ;
 		}
@@ -163,20 +165,27 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
+	set_reg_values(cursor, op, 1);
 	DEBUG(d_display_argument(cursor, op))
-	shift_args(e, cursor, 1, TRUE);
-	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
-	cursor->carry = !cursor->args[0].value;
+	if (cursor->args[0].type == T_IND)
+		cursor->args[0].value = e->arena[\
+								posmod(cursor-> pc + (cursor->args[0].value % IDX_MOD), MEM_SIZE)].data;
+	cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
+	if (cursor->args[0].value)
+		cursor->carry = 1;
+	else
+		cursor->carry = 0;
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
-// i don't know what i'm doing here
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	if (cursor->args[0].type == T_IND)
-		cursor->args[0].value += cursor->pc;
-	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
+	set_reg_values(cursor, op, 0);
+	DEBUG(d_display_argument(cursor, op))
+	if (cursor->args[1].type == T_IND)
+		cursor->args[1].value = posmod((cursor->pc + cursor->args[0].value) % IDX_MOD, MEM_SIZE);
+	write_byte(cursor->regs[cursor->args[0].value - 1], e, cursor->args[1].value, cursor);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
