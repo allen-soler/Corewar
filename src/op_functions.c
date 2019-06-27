@@ -173,7 +173,7 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 }
 
 #define SOMETHING 2 // we need to think and sleep
-
+// TODO: so using mix_bytes for ldi and lldi is wrong, we have to use something like write_bytes
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
@@ -181,7 +181,6 @@ void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	shift_args(e, cursor, 2, FALSE);
 	res = posmod((cursor->args[0].value + cursor->args[1].value) % IDX_MOD, MEM_SIZE);
-	
 	cursor->regs[cursor->args[2].value] = mix_bytes(e, res, SOMETHING);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
