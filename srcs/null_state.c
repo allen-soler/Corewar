@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 18:36:34 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/27 19:09:03 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_par	*ingest_file(char *file)
 		token_automata(line, &list);
 		free(line);
 	}
-	test_print(list);
+//	test_print(list);
 	return (list);
 }
 
@@ -100,5 +100,5 @@ int		main(int ac, char **av)
 
 	(void)ac;
 	list = ingest_file(av[1]);
-//	check_syntax(list);
+	check_syntax(list);
 }

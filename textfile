@@ -4,4 +4,4 @@
 sti: sti r1, %-12, %5
 
 
-sti: sti r1, %-12, -3
+sti: sti r99, %-12, -3

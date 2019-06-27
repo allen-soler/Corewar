@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/27 17:45:26 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/27 20:02:58 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct		s_par
 **/
 
 void	error_function(char *string, t_par **list);
+void	error_custom(char *message, t_par *list);
 int		check_comma(char *line, t_par **list);
 
 /**
@@ -51,6 +52,7 @@ int		set_label(char **line, t_par **list);
 **/
 
 t_par	*add_parameter(t_par *list, char *inst, int type);
+t_par	*next_inst(t_par *list);
 void	test_print(t_par *list);//will have to delete when done
 
 /**
@@ -81,5 +83,11 @@ int		check_indirect(char *arg, t_par **list);
 **/
 
 void	check_syntax(t_par *list);
+int		check_class(int	cur);
+t_par	match_instruction(t_par *tmp, char **instructions, t_par *head);
+void	fetch_function(t_par *tmp, int class, t_par *head);
+
+t_par	*live_function(t_par *tmp, t_par *head);
+t_par	class_7(t_par *tmp, t_par *head);
 
 #endif
