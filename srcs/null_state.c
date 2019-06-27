@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 17:12:22 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/27 17:18:38 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ lld lldi lfork fork aff", ' ');
 		free(instructions[i++]);
 }
 
-void	ingest_file(char *file)
+t_par	*ingest_file(char *file)
 {
 	int		fd;
 	char	*line;
@@ -91,6 +91,7 @@ void	ingest_file(char *file)
 		free(line);
 	}
 	test_print(list);
+	return (list);
 }
 
 int		main(int ac, char **av)
