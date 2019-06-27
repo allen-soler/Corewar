@@ -80,7 +80,7 @@ int		mix_bytes(t_env *e, int index, int len)
 	res = 0;
 	while (i < len)
 	{
-		res = (res << 8) | e->arena[index++].data;
+		res = (res << (len - i) *8) | e->arena[index++].data;
 		i += 1;
 	}
 	return (res);
@@ -181,7 +181,7 @@ void	set_reg_values(t_process *cursor, t_op op , int skip_index)
 	{
 		if (i == skip_index || cursor->args[i].type != T_REG)
 			continue;
-		cursor->args[i].value = cursor->regs[cursor->args[i].value];
+		cursor->args[i].value = cursor->regs[cursor->args[i].value - 1];
 	}
 }
 
