@@ -47,13 +47,21 @@ void	write_byte(long value, t_env *e, long number, t_process *process)
 
 void	ft_sti(t_env *e, t_process *cursor, t_op op)
 {
-	int		sum;
+	int	sum;
+	int	i;
 
 	read_args(e, cursor, op);
+	set_reg_values(cursor, op , 0);
 	DEBUG(d_display_argument(cursor, op))
-	shift_args(e, cursor, 3, TRUE);
+	i = -1;
+	while (++i < op.param_nb)
+	{
+		if (cursor->args[i].type != T_IND)
+			continue;
+		cursor->args[i].value += cursor->pc;
+	}
 	sum = (cursor->args[1].value + cursor->args[2].value) % IDX_MOD;
-	write_byte(cursor->regs[cursor->args[0].value], e, sum, cursor);
+	write_byte(cursor->regs[cursor->args[0].value - 1], e, sum, cursor);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
