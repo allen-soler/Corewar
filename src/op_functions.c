@@ -53,7 +53,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 	DEBUG(d_display_argument(cursor, op))
 	shift_args(e, cursor, 3, TRUE);
 	sum = (cursor->args[1].value + cursor->args[2].value) % IDX_MOD;
-	write_byte(cursor->regs[cursor->args[0].value], e, sum, cursor);
+	write_byte(cursor->args[0].value, e, sum, cursor);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
