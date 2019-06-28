@@ -191,14 +191,12 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 {
 	t_process	*child;
 
-	child = new_process(cursor->player, cursor->alive);
-	if (!child)
-		exit_failure("Error: malloc failed in ft_fork", e);
-	duplicate_process(child, cursor);
 	read_args(e, cursor, op);
-	child->pc = posmod(cursor->pc + (cursor->regs[cursor->args[0].value] % IDX_MOD), MEM_SIZE); 
+	child = new_process(cursor->player, cursor->alive);
+	duplicate_process(child, cursor);
+	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value)); 
 	append_process(&e->cursors, child);
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 void	ft_add(t_env *e, t_process *cursor, t_op op)
@@ -221,11 +219,6 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 }
 
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
-{
-	return ;
-}
-
-void	ft_fork(t_env *e, t_process *cursor, t_op op)
 {
 	return ;
 }
