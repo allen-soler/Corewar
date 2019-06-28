@@ -38,7 +38,7 @@ void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod)
 	while (i < shift)
 	{
 		if (cursor->args[i].type & T_REG)
-			cursor->args[i].value = cursor->regs[cursor->args[i].value];
+			cursor->args[i].value = cursor->regs[cursor->args[i].value - 1];	//maybe we should remove -1
 		else if (cursor->args[i].type & T_DIR)
 			;
 		else if ((cursor->args[i].type & T_IND) && ind_mod == TRUE)

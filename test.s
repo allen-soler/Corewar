@@ -1,4 +1,5 @@
 .name "remove"
 .comment "pls"
 
-aff r1
+and %1, %1, r2
+ldi %12, %0, r2

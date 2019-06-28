@@ -52,8 +52,8 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	DEBUG(d_display_argument(cursor, op))
 	shift_args(e, cursor, 3, TRUE);
-	sum = (cursor->args[1].value + cursor->args[2].value) % IDX_MOD;
-	write_byte(cursor->args[0].value, e, sum, cursor);
+	sum = posmod(cursor->pc + ((cursor->args[1].value + cursor->args[2].value) % IDX_MOD), MEM_SIZE);
+	write_byte(cursor->args[0].value + 1, e, sum, cursor);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
@@ -85,7 +85,7 @@ void	ft_add(t_env *e, t_process *cursor, t_op op)
 	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_sub(t_env *e, t_process *cursor, t_op op)
@@ -97,7 +97,7 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 	res = cursor->regs[cursor->args[0].value] - cursor->regs[cursor->args[1].value];
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 /*
@@ -123,7 +123,7 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_or(t_env *e, t_process *cursor, t_op op)
@@ -136,7 +136,7 @@ void	ft_or(t_env *e, t_process *cursor, t_op op)
 	res = cursor->args[0].value | cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_xor(t_env *e, t_process *cursor, t_op op)
@@ -149,7 +149,7 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 	res = cursor->args[0].value ^ cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
@@ -162,26 +162,36 @@ void	ft_ld(t_env *e, t_process *cursor, t_op op)
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
-// i don't know what i'm doing here
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	if (cursor->args[0].type == T_IND)
-		cursor->args[0].value += cursor->pc;
-	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
+	DEBUG(d_display_argument(cursor, op));
+	if (cursor->args[1].type & T_IND)
+	{
+		DEBUG(ft_printf("{y}ST.IND TRIGGERED{R}\n"));
+		DEBUG(ft_printf("{r}cursor->args[0].value = %d\n\
+				cursor->args[0].type = %d\n\
+				cursor->args[1],value = %d\n\
+				cursor->args[1].type = %d\n\
+				cursor->regs[%d] = %d\n	\
+				cursor->regs[%d] = %d{R}\n"\
+		, cursor->args[0].value, cursor->args[0].type, cursor->args[1].value, cursor->args[1].type, cursor->args[0].value, cursor->regs[cursor->args[0].value], cursor->args[0].value - 1, cursor->regs[cursor->args[0].value - 1]));
+		DEBUG(ft_printf("{y}%d will be write at %d{R}\n", cursor->regs[cursor->args[0].value - 1], posmod(cursor->args[1].value % IDX_MOD, MEM_SIZE)));
+		write_byte(cursor->regs[cursor->args[0].value - 1], e, posmod(cursor->args[1].value % IDX_MOD, MEM_SIZE), cursor);
+	}
+	else	
+		write_byte(cursor->regs[cursor->args[0].value - 1], e, posmod(cursor->regs[cursor->args[1].value - 1] % IDX_MOD, MEM_SIZE), cursor);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
-#define SOMETHING 2 // we need to think and sleep
-// TODO: so using mix_bytes for ldi and lldi is wrong, we have to use something like write_bytes
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
 	read_args(e, cursor, op);
 	shift_args(e, cursor, 2, FALSE);
-	res = posmod((cursor->args[0].value + cursor->args[1].value) % IDX_MOD, MEM_SIZE);
-	cursor->regs[cursor->args[2].value] = mix_bytes(e, res, SOMETHING);
+	res = posmod(((cursor->args[0].value + cursor->args[1].value) % IDX_MOD) + cursor->pc, MEM_SIZE);
+	cursor->regs[cursor->args[2].value] = mix_bytes(e, res, DIR_SIZE);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
@@ -192,7 +202,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	child = new_process(cursor->player, cursor->alive);
 	if (!child)
 		exit_failure("Error: malloc failed in ft_fork", e);
-	cpy_process(child, cursor);		// need to check if it's ok
+	cpy_process(child, cursor);
 	read_args(e, cursor, op);
 	child->pc = posmod(cursor->pc + (cursor->regs[cursor->args[0].value] % IDX_MOD), MEM_SIZE); 
 	append_process(&e->cursors, child);
@@ -215,8 +225,8 @@ void	ft_lldi(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	shift_args(e, cursor, 2, FALSE);
-	res = posmod(cursor->args[0].value + cursor->args[1].value, MEM_SIZE);
-	cursor->regs[cursor->args[2].value] = mix_bytes(e, res, SOMETHING);
+	res = posmod(cursor->args[0].value + cursor->args[1].value + cursor->pc, MEM_SIZE);
+	cursor->regs[cursor->args[2].value] = mix_bytes(e, res, DIR_SIZE);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
@@ -227,7 +237,7 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 	child = new_process(cursor->player, cursor->alive);
 	if (!child)
 		exit_failure("Error: malloc failed in ft_lfork", e);
-	cpy_process(child, cursor);		// need to check if it's ok
+	cpy_process(child, cursor);
 	read_args(e, cursor, op);
 	child->pc = posmod(cursor->pc + cursor->regs[cursor->args[0].value], MEM_SIZE); 
 	append_process(&e->cursors, child);

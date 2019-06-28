@@ -134,6 +134,7 @@ void			game_loop(t_env *env)
 		l.i_cycle = 0;
 		while (l.i_cycle < l.cycle_to_die)
 		{
+			DEBUG(ft_printf("{c}Cycle: %d{R}\nCycle_To_Die: %d\n", l.i_cycle, l.cycle_to_die));
 			if ((env->flag & FLAG_DUMP) && (l.current_cycle == env->dump))
 			{
 				print_arena(env);

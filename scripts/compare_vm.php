@@ -47,7 +47,7 @@ while ($i < 1000) {
 	if (strlen($diff) > 4)
 	{
 		echo $diff . PHP_EOL;
-		echo "Found a difference!, files at /tmp/vm1_output and /tmp/vm2_output" . PHP_EOL;
+		echo "Found a difference!, files at /tmp/vm1_output and /tmp/vm2_output (cycle.$i)" . PHP_EOL;
 
 		exit();
 	}
