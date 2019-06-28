@@ -176,6 +176,31 @@ void	ft_ld(t_env *e, t_process *cursor, t_op op)
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
+/*
+** @function: ft_fork
+**
+** @args: T_DIR
+**
+** Takes an address as a parameter, it will copy the process except
+** the number of lives and the pc, that will be set to the 
+** specified values.
+**
+*/ 
+
+void	ft_fork(t_env *e, t_process *cursor, t_op op)
+{
+	t_process	*child;
+
+	child = new_process(cursor->player, cursor->alive);
+	if (!child)
+		exit_failure("Error: malloc failed in ft_fork", e);
+	duplicate_process(child, cursor);
+	read_args(e, cursor, op);
+	child->pc = posmod(cursor->pc + (cursor->regs[cursor->args[0].value] % IDX_MOD), MEM_SIZE); 
+	append_process(&e->cursors, child);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+}
+
 void	ft_add(t_env *e, t_process *cursor, t_op op)
 {
 	return ;

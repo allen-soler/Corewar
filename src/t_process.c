@@ -20,7 +20,7 @@ t_process		*new_process(int player, int alive)
 	return (new);
 }
 
-void			cpy_process(t_process *dst, t_process *src)
+void			duplicate_process(t_process *dst, t_process *src)
 {
 	ft_memcpy(dst->regs, src->regs, sizeof(int) * REG_NUMBER);
 	dst->carry = src->carry;
