@@ -169,7 +169,7 @@ void	ft_ld(t_env *e, t_process *cursor, t_op op)
 	if (cursor->args[0].type == T_IND)
 		cursor->args[0].value = e->arena[POSMOD(cursor->pc + MODX(cursor->args[0].value))].data;
 	cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
-	if (cursor->args[0].value)
+	if (cursor->args[0].value == 0)
 		cursor->carry = 1;
 	else
 		cursor->carry = 0;
