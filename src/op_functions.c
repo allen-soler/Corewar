@@ -3,7 +3,35 @@
 #define SET_MSIZE(where, x) where = (where + x) % MEM_SIZE
 #define SET_MIDX(where, x) where = (where + (x % IDX_MOD)) % MEM_SIZE
 #define MIDX(x) x % IDX_MOD
-#define P_CURSOR_PC(where) ft_printf("cursor->pc @ %d", where); ft_putendl(0);
+#define P_CURSOR_PC ft_printf("cursor->pc @ %d", cursor->pc); ft_putendl(0);
+#define PRINT_D(x) ft_printf("%s: %d\n",#x, x);
+#define OP_CODE_LEN 1
+
+void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
+{
+	int8_t i;
+
+	i = 0;
+	while (size--)
+	{
+		e->arena[POSMOD(addr + size - 1)].data = (uint8_t)((value >> i) & 0xFF);
+		i += 8;
+		size--;
+	}
+}
+
+void	int_to_bytecode(t_env *e, int addr, int value, int size)
+{
+	int8_t i;
+
+	i = 0;
+	while (size)
+	{
+		e->arena[POSMOD(addr + size - 1)].data = (uint8_t)((value >> i) & 0xFF);
+		i += 8;
+		size--;
+	}
+}
 
 void	ft_live(t_env *e, t_process *cursor, t_op op)
 {
@@ -11,50 +39,70 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 
 	i = 0;
 	read_args(e, cursor, op);
+	DEBUG(d_display_argument(cursor, op))
 	cursor->alive += 1;
 	while (i < e->players_nb)
 	{
 		if (e->players[i].number == cursor->args[0].value)
 		{
 			e->players[i].alive += 1;
+			DEBUG(ft_printf("Player %d(%s) is alive!\n", e->players[i].number, e->players[i].header.prog_name))
 			e->last_live = i;
 			break ;
 		}
 		++i;
 	}
-	SET_MSIZE(cursor->pc, get_args_len(cursor, op) + 1);
-}
-
-void	write_byte(long value, t_env *e, long number, t_process *process)
-{
-	int		byte;
-	long	mult;
-	int		i;
-
-	i = 0;
-	mult = 256L * 256L * 256L;
-	if (value < 0)
-		value = mult * 256L + value;
-	while (i < 4)
-	{
-		byte = value / mult;
-		e->arena[posmod(process->pc + number + i, MEM_SIZE)].data = byte;
-		value -= byte * mult;
-		mult /= 256L;
-		i++;
-	}
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);
 }
 
 void	ft_sti(t_env *e, t_process *cursor, t_op op)
 {
-	int		sum;
+	int	addr;
+	int	i;
 
 	read_args(e, cursor, op);
+	set_reg_values(cursor, op , -1);
 	DEBUG(d_display_argument(cursor, op))
-	shift_args(e, cursor, 3, TRUE);
-	sum = posmod(cursor->pc + ((cursor->args[1].value + cursor->args[2].value) % IDX_MOD), MEM_SIZE);
-	write_byte(cursor->args[0].value + 1, e, sum, cursor);
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+	i = -1;
+	while (++i < op.param_nb)
+	{
+		if (cursor->args[i].type != T_IND)
+			continue;
+		cursor->args[i].value += cursor->pc;
+	}
+	addr = MODX(cursor->args[1].value + cursor->args[2].value);
+	write_byte(e, cursor->pc + addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE); // Adding the pc here makes it work but should we?
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+}
+
+/*
+** @function: ft_st
+**
+** @args: T_REG, T_IND | T_REG 
+**
+** This instruction saves the first parameter to a memory address or a
+** register, depending of the second parameter
+**
+** Example: st r1 42, will save the value in r1 to (PC + (42 % IDX_MOD)
+*/ 
+
+void	ft_st(t_env *e, t_process *cursor, t_op op)
+{
+	read_args(e, cursor, op);
+	set_reg_values(cursor, op, 1);
+	DEBUG(d_display_argument(cursor, op))
+	if (cursor->args[1].type == T_IND)
+	{
+		int addr = cursor->pc + MODX(cursor->args[1].value);
+		DEBUG(PRINT_D(addr))
+		write_byte(e, addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE);
+
+	}
+	else if( cursor->args[1].type == T_REG)
+	{
+		cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
+	}
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 /*
@@ -123,65 +171,39 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value] = res;
 	cursor->carry = !res;
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
-void	ft_or(t_env *e, t_process *cursor, t_op op)
-{
-	int	res;
-
-	read_args(e, cursor, op);
-	DEBUG(d_display_argument(cursor, op))
-	shift_args(e, cursor, 2, TRUE);
-	res = cursor->args[0].value | cursor->args[1].value;
-	cursor->regs[cursor->args[2].value] = res;
-	cursor->carry = !res;
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
-}
-
-void	ft_xor(t_env *e, t_process *cursor, t_op op)
-{
-	int	res;
-
-	read_args(e, cursor, op);
-	DEBUG(d_display_argument(cursor, op))
-	shift_args(e, cursor, 2, TRUE);
-	res = cursor->args[0].value ^ cursor->args[1].value;
-	cursor->regs[cursor->args[2].value] = res;
-	cursor->carry = !res;
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
-}
+/*
+** @function: ft_ld
+**
+** @args: T_IND | T_DIR, T_REG
+**
+** Load the value of the first argument into the registry
+** 
+** MODIFIES CARRY
+**
+*/ 
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
+	set_reg_values(cursor, op, 1);
 	DEBUG(d_display_argument(cursor, op))
-	shift_args(e, cursor, 1, TRUE);
-	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
-	cursor->carry = !cursor->args[0].value;
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+	if (cursor->args[0].type == T_IND)
+		cursor->args[0].value = e->arena[POSMOD(cursor->pc + MODX(cursor->args[0].value))].data;
+	cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
+	if (cursor->args[0].value == 0)
+		cursor->carry = 1;
+	else
+		cursor->carry = 0;
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
-void	ft_st(t_env *e, t_process *cursor, t_op op)
+
+void	ft_xor(t_env *e, t_process *cursor, t_op op)
 {
-	read_args(e, cursor, op);
-	DEBUG(d_display_argument(cursor, op));
-	if (cursor->args[1].type & T_IND)
-	{
-		DEBUG(ft_printf("{y}ST.IND TRIGGERED{R}\n"));
-		DEBUG(ft_printf("{r}cursor->args[0].value = %d\n\
-				cursor->args[0].type = %d\n\
-				cursor->args[1],value = %d\n\
-				cursor->args[1].type = %d\n\
-				cursor->regs[%d] = %d\n	\
-				cursor->regs[%d] = %d{R}\n"\
-		, cursor->args[0].value, cursor->args[0].type, cursor->args[1].value, cursor->args[1].type, cursor->args[0].value, cursor->regs[cursor->args[0].value], cursor->args[0].value - 1, cursor->regs[cursor->args[0].value - 1]));
-		DEBUG(ft_printf("{y}%d will be write at %d{R}\n", cursor->regs[cursor->args[0].value - 1], posmod(cursor->args[1].value % IDX_MOD, MEM_SIZE)));
-		write_byte(cursor->regs[cursor->args[0].value - 1], e, posmod(cursor->args[1].value % IDX_MOD, MEM_SIZE), cursor);
-	}
-	else	
-		write_byte(cursor->regs[cursor->args[0].value - 1], e, posmod(cursor->regs[cursor->args[1].value - 1] % IDX_MOD, MEM_SIZE), cursor);
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+	return ;
 }
 
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
@@ -211,12 +233,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 
 void	ft_lld(t_env *e, t_process *cursor, t_op op)
 {
-	read_args(e, cursor, op);
-	DEBUG(d_display_argument(cursor, op))
-	shift_args(e, cursor, 1, FALSE);
-	cursor->regs[cursor->args[1].value] = cursor->args[0].value;
-	cursor->carry = !cursor->args[0].value;
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+	return ;
 }
 
 void	ft_lldi(t_env *e, t_process *cursor, t_op op)
@@ -246,8 +263,5 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
 {
-	read_args(e, cursor, op);
-	DEBUG(d_display_argument(cursor, op))
-	ft_putchar(cursor->regs[cursor->args[0].value] % 256);
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+	return ;
 }

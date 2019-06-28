@@ -14,7 +14,7 @@ t_process		*new_process(int player, int alive)
 	new->alive = alive;
 	new->player = player;
 	new->regs[0] = player;
-	new->cycle = -1;
+	new->cycle = 0;
 	new->prev = NULL;
 	new->next = NULL;
 	return (new);

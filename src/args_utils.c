@@ -69,19 +69,24 @@ void	reset_args(t_process *cursor)
  **	and it'll mix those bytes into one number.
  */
 
-int		mix_bytes(t_env *e, int index, int len)
+int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes)
 {
-	unsigned int	res;
-	int				i;
+	unsigned short	res;
+	unsigned int	res2;
 
-	i = 0;
-	res = 0;
-	while (i < len)
-	{
-		res = (res << 8) | e->arena[index++].data;
-		i += 1;
-	}
-	return (res);
+	if (bytes == 1)
+		return ((char)(ZMASK(e->arena[POSMOD(cursor->pc + offset)].data)));
+	if (bytes == 2)
+		res = (ZMASK(e->arena[POSMOD(cursor->pc + offset)].data) << 8) |
+				ZMASK(e->arena[POSMOD(cursor->pc + offset + 1)].data);
+	else if (bytes == 4)
+		res2 = (ZMASK(e->arena[POSMOD(cursor->pc + offset)].data) << 24) |
+				(ZMASK(e->arena[POSMOD(cursor->pc + offset + 1)].data) << 16) |
+				(ZMASK(e->arena[POSMOD(cursor->pc + offset + 2)].data) << 8) |
+				ZMASK(e->arena[POSMOD(cursor->pc + offset + 3)].data);
+	if (bytes == 2)
+		return ((short)res);
+	return ((int)res2);
 }
 
 /*
@@ -100,10 +105,7 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 	int				arg_len;
 	int				offset;
 
-	if (op.encoding_byte)
-		offset = 2;
-	else
-		offset = 1;
+	offset = 1 + op.encoding_byte;
 	e->arena[cursor->pc].player = 2;
 	reset_args(cursor);
 	i = 0;
@@ -154,7 +156,7 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 			cursor->args[i].type = T_DIR;
 			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
 		}
-		cursor->args[i].value = mix_bytes(e, cursor->pc + offset, arg_len);
+		cursor->args[i].value = mix_bytes(e, cursor, offset, arg_len);
 		offset += arg_len;
 		i += 1;
 	}
@@ -179,7 +181,7 @@ void	set_reg_values(t_process *cursor, t_op op , int skip_index)
 	{
 		if (i == skip_index || cursor->args[i].type != T_REG)
 			continue;
-		cursor->args[i].value = cursor->regs[cursor->args[i].value];
+		cursor->args[i].value = cursor->regs[cursor->args[i].value - 1];
 	}
 }
 

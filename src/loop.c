@@ -42,22 +42,21 @@ static void		exec_process(t_env *env)
 	curr = env->cursors;
 	while (curr != NULL)
 	{
-		if (curr->cycle == -1)
+		if (curr->cycle == 0)
 		{
 			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data < 17)
 			{
 				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
-				DEBUG(ft_printf("{g}Adding %d cycles to procces %s{R}\n", op_tab[env->arena[curr->pc].data - 1].nb_cycle, env->players[curr->player - 1].header.prog_name))
+				DEBUG(ft_printf("{g}Adding %d cycles to procces %s{R}\n", curr->cycle, env->players[curr->player - 1].header.prog_name))
 			}
 			else
 				curr->pc = (curr->pc + 1) % MEM_SIZE;
 		}
-		else if (curr->cycle > 0)
+		if (curr->cycle > 0)
 			curr->cycle--;
-		else if (curr->cycle == 0)
+		if (curr->cycle == 0)
 		{
 			exec_cmd(env, curr);
-			curr->cycle = -1;
 		}
 		curr = curr->next;
 	}

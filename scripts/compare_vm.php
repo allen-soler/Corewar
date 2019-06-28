@@ -34,7 +34,7 @@ foreach ($argv as $arg)
 
 $i = 1;
 
-while ($i < 1000) {
+while (true) {
 	$vm1_command = "$vm1 -dump $i $players ";
 	$vm2_command = "$vm2 -dump $i $players ";
 	$vm1_output = `$vm1_command > /tmp/vm1_output`;
