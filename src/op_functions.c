@@ -3,28 +3,35 @@
 #define SET_MSIZE(where, x) where = (where + x) % MEM_SIZE
 #define SET_MIDX(where, x) where = (where + (x % IDX_MOD)) % MEM_SIZE
 #define MIDX(x) x % IDX_MOD
-#define P_CURSOR_PC(where) ft_printf("cursor->pc @ %d", where); ft_putendl(0);
+#define P_CURSOR_PC ft_printf("cursor->pc @ %d", cursor->pc); ft_putendl(0);
+#define PRINT_D(x) ft_printf("%s: %d\n",#x, x);
+#define OP_CODE_LEN 1
 
-void	write_byte(long value, t_env *e, long number, t_process *process)
+void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 {
-	int		byte;
-	long	mult;
-	int		i;
+	int8_t i;
 
 	i = 0;
-	mult = 256L * 256L * 256L;
-	if (value < 0)
-		value = mult * 256L + value;
-	while (i < 4)
+	while (size--)
 	{
-		byte = value / mult;
-		e->arena[posmod(process->pc + number + i, MEM_SIZE)].data = byte;
-		value -= byte * mult;
-		mult /= 256L;
-		i++;
+		e->arena[POSMOD(addr + size - 1)].data = (uint8_t)((value >> i) & 0xFF);
+		i += 8;
+		size--;
 	}
 }
 
+void	int_to_bytecode(t_env *e, int addr, int value, int size)
+{
+	int8_t i;
+
+	i = 0;
+	while (size)
+	{
+		e->arena[POSMOD(addr + size - 1)].data = (uint8_t)((value >> i) & 0xFF);
+		i += 8;
+		size--;
+	}
+}
 
 void	ft_live(t_env *e, t_process *cursor, t_op op)
 {
@@ -32,7 +39,7 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 
 	i = 0;
 	read_args(e, cursor, op);
-	//DEBUG(d_display_argument(cursor, op))
+	DEBUG(d_display_argument(cursor, op))
 	cursor->alive += 1;
 	while (i < e->players_nb)
 	{
@@ -50,11 +57,11 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 
 void	ft_sti(t_env *e, t_process *cursor, t_op op)
 {
-	int	sum;
+	int	addr;
 	int	i;
 
 	read_args(e, cursor, op);
-	set_reg_values(cursor, op , 0);
+	set_reg_values(cursor, op , -1);
 	DEBUG(d_display_argument(cursor, op))
 	i = -1;
 	while (++i < op.param_nb)
@@ -63,16 +70,15 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 			continue;
 		cursor->args[i].value += cursor->pc;
 	}
-	sum = MODX(cursor->args[1].value + cursor->args[2].value);
-	write_byte(cursor->regs[cursor->args[0].value - 1], e, sum, cursor);
+	addr = MODX(cursor->args[1].value + cursor->args[2].value);
+	write_byte(e, cursor->pc + addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE); // Adding the pc here makes it work but should we?
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
 /*
 ** @function: ft_st
 **
-** @args: two arguments, a value and a register or address where we'll
-** store the value.
+** @args: T_REG, T_IND | T_REG 
 **
 ** This instruction saves the first parameter to a memory address or a
 ** register, depending of the second parameter
@@ -87,14 +93,16 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 	DEBUG(d_display_argument(cursor, op))
 	if (cursor->args[1].type == T_IND)
 	{
-		int pos = POSMOD(cursor->pc + MIDX(cursor->args[1].value));
-		write_byte(cursor->args[0].value, e, pos, cursor);
+		int addr = cursor->pc + MODX(cursor->args[1].value);
+		DEBUG(PRINT_D(addr))
+		write_byte(e, addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE);
+
 	}
 	else if( cursor->args[1].type == T_REG)
 	{
 		cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
 	}
-	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 /*
