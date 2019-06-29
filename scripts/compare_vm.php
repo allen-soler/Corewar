@@ -2,7 +2,7 @@
 <?php
 
 function print_help() {
-	echo 'Usage: ./compare_vm vm1 vm2 [players.s | players.cor]' . PHP_EOL;
+	echo 'Usage: ./compare_vm [[--cycles | -c] from step_size] vm1 vm2 [players.s | players.cor]' . PHP_EOL;
 	echo 'set PATH_TO_ASM for the assembler to work' . PHP_EOL;
 }
 
@@ -15,10 +15,23 @@ if ($argc < 4) {
 	exit(1);
 }
 
-$vm1 = $argv[1];
-$vm2 = $argv[2];
+$step_size = 1;
+$offset = 0;
+$from = 1;
+
+if (strcmp($argv[1], "--cycles") == 0 or strcmp($argv[1], "-c") == 0) {
+	echo "modified cycles\n";
+	$from = intval($argv[2]);
+	$step_size = intval($argv[3]);
+	$offset += 3;
+}
+
+$vm1 = $argv[$offset + 1];
+$vm2 = $argv[$offset + 2];
 
 $players = "";
+
+echo "step size $step_size\n";
 
 foreach ($argv as $arg)
 {
@@ -32,7 +45,7 @@ foreach ($argv as $arg)
 	}
 }
 
-$i = 1;
+$i = $from;
 
 while (true) {
 	$vm1_command = "$vm1 -dump $i $players ";
@@ -51,7 +64,7 @@ while (true) {
 
 		exit();
 	}
-	$i += 1;
+	$i = $i + $step_size;
 
 }
 
