@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:12:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 16:52:01 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:59:48 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include "op.h"
+#include "../includes/asm.h"
 
 static int	in_labelchar(char car)
 {

@@ -1,3 +1,15 @@
+/* Testing out typedefs
+**
+*/
+
+# define END_LINE '\0'
+# define NEWLINE '\n'
+# define SPACE ' '
+# define QUOTE '"'
+//# define inst "TEST" //not final
+# define REG "r"
+# define DIG "0123456789"
+
 /*
  * ** Toutes les tailles sont en octets.
  * ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?

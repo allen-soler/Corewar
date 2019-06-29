@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 15:52:23 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/29 16:37:26 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_par	*ingest_file(char *file)
 		token_automata(line, &list);
 		free(line);
 	}
-//	test_print(list);
+	close(fd);
+	test_print(list);
 	return (list);
 }

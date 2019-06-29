@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 20:03:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/28 13:29:55 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 16:08:06 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include "op.h"
+#include "../includes/asm.h"
 
 t_par	*class_7(t_par *tmp, t_par *head)
 {

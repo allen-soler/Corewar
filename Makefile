@@ -6,7 +6,7 @@
 #    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/06/29 15:49:38 by jallen           ###   ########.fr        #
+#    Updated: 2019/06/29 16:06:02 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,23 +41,28 @@ DIR_H = includes
 
 # source files for the project
 
-SOURCES =	check_args.c		\
-			free_systems.c		\
-			instruct_tokens.c	\
-			para_list.c			\
-			token_automata.c	\
-			check_comma.c		\
-			handle_errors.c		\
-			search_point.c		\
-			create_file.c		\
-			handle_labels.c		\
-			null_state.c		\
+SOURCES =	check_args.c			\
+			free_systems.c			\
+			instruct_tokens.c		\
+			para_list.c				\
+			token_automata.c		\
+			check_comma.c			\
+			handle_errors.c			\
+			search_point.c			\
+			create_file.c			\
+			handle_labels.c			\
+			null_state.c			\
+			first_half.c			\
+			instruction_utils.c		\
+			second_half.c			\
+			syntax_checker.c		\
 			main.c
 
 # header files
 
 HEADER_FILES =	includes/asm.h \
 				includes/op.h
+
 # prefixing
 
 SRCS = $(addprefix $(DIR_S)/,$(SOURCES))

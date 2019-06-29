@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:53:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/28 12:39:01 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 16:07:03 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include "op.h"
+#include "../includes/asm.h"
 
 t_par	*live_function(t_par *tmp, t_par *head)
 {
