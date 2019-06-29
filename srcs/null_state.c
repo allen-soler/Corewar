@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 19:09:03 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:36:04 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ int		null_state(char **line, int state, t_par **list) //need array of functions
 	else if ((repoint = set_label(line, list)))
 	{
 		state = 20;
-		*line = *line + repoint;
+		//*line = *line + repoint;
 		repoint = search_valid_inst(line, list);
+		if (**line != '#' && repoint == 0)
+			error_function(NULL, list);
 	}
 	else if ((repoint = search_valid_inst(line, list)))
 		state = 20;	
@@ -44,9 +46,11 @@ void	middlefunction(char **line, int state, t_par **list)
 //	dprintf(1, "__________\n");
 //	test_print(*list);
 //	dprintf(1, "__________\n");
+	if (**line == '#')
+		return ;
 	if (state == 0)
 	{
-//		dprintf(1, "line before state : %s\n", *line);
+		dprintf(1, "line before state : %s\n", *line);
 		state = null_state(line, state, list);
 	}
 	if (state == 1)

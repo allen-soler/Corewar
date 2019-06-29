@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 18:35:59 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 14:45:07 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		check_direct(char *arg, t_par **list)
 	if (*arg == '%')
 	{
 		if (*(arg + 1) == ':')
-			return (direct_label(list, (arg + 2)));
+			return (direct_label(list, (arg + 2), 5));
 		else if (ft_isdigit(*(arg + 1)) || (*(arg + 1) == '-'
 			&& ft_isdigit(*(arg + 2))))
 			stock = ft_atoi(arg + 1);
@@ -68,7 +68,9 @@ int		check_indirect(char *arg, t_par **list)
 
 	stock = 1;
 	stk = NULL;
-	if (ft_isdigit(*arg) || *arg == '-')
+	if (*arg == ':')
+		return (direct_label(list, (arg + 1), 9));
+	else if (ft_isdigit(*arg) || *arg == '-')
 	{
 		if (*arg == '-' && !ft_isdigit(*(arg + 1)))
 			return (1);

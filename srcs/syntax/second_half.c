@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 20:03:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/28 13:29:55 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 14:31:45 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ t_par	*class_7(t_par *tmp, t_par *head)
 				return (tmp->next);
 		}
 	}
-	error_custom("Wrong argument(s) used.\n", head);
+	error_custom("Wrong argument(s) used for 'ldi' | 'lldi'.\n", head);
 	return (tmp);
 }

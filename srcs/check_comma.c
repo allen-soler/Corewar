@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:40:00 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/26 14:45:06 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:20:32 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		check_comma(char *line, t_par **list)
 	count = 0;
 	err = 0;
 	len = ft_strlen(line);
-	while (line[++i] == ' ')
+	while (line && line[++i] == ' ')
 		;
 	if (line[i] == ',')
 		return (1);

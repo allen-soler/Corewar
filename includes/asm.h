@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/28 12:39:42 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:14:39 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 typedef struct		s_par
 {
 	char			*param;
-	int				type; //1: REG_CODE, 2: DIR_2Bytes, 3: DIR_4Bytes, 4: IND 5: DIR_LAB 6: inst 7: LABEL 8: comment
+	int				type; //1: REG_CODE, 2: DIR_2Bytes, 3: DIR_4Bytes, 4: IND 5: DIR_LAB 6: inst 7: LABEL 8: comment 9: IND_LAB
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
 }					t_par;
@@ -44,8 +44,10 @@ int		check_comma(char *line, t_par **list);
  *		Handle labels
 **/
 
-int		direct_label(t_par **list, char *arg);
+int		direct_label(t_par **list, char *arg, int type);
 int		set_label(char **line, t_par **list);
+int		search_label(char *param, t_par *tmp);
+void	match_labels(t_par *tmp, t_par *head);
 
 /**
  *		Structure handling
@@ -85,7 +87,7 @@ int		check_indirect(char *arg, t_par **list);
 void	check_syntax(t_par *list);
 int		check_class(int	cur);
 void	match_instruction(t_par *tmp, char **instructions, t_par *head);
-void	fetch_function(t_par *tmp, int class, t_par *head);
+t_par	*fetch_function(t_par *tmp, int class, t_par *head);
 t_par	*convert_size_direct(t_par *list);
 
 t_par	*live_function(t_par *tmp, t_par *head);

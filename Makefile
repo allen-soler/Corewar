@@ -6,7 +6,7 @@
 #    By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/24 19:25:12 by bghandou          #+#    #+#              #
-#    Updated: 2019/06/27 20:04:06 by bghandou         ###   ########.fr        #
+#    Updated: 2019/06/29 15:36:19 by bghandou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = gcc
 
 INCLUDE = includes
 
-CFLAGS = -g3 -fsanitize=address -Wall -Wextra -Werror -I $(INCLUDE)
+CFLAGS = -g3 -Wall -Wextra -Werror -I $(INCLUDE) -fsanitize=address
 
 SRC = srcs/null_state.c \
 	  srcs/token_automata.c \
@@ -30,6 +30,7 @@ SRC = srcs/null_state.c \
 	  srcs/syntax/instruction_utils.c \
 	  srcs/syntax/first_half.c \
 	  srcs/syntax/second_half.c \
+	  srcs/syntax/match_labels.c
 
 NAME = asm
 
