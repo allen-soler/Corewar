@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:10:03 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 18:36:43 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:52:33 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include "op.h"
+#include "../includes/asm.h"
 
 void	test_print(t_par *list)//delete when done!!
 {

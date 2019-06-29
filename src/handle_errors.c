@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 17:13:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 19:20:14 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:53:02 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "op.h"
-#include "asm.h"
+#include "../includes/asm.h"
 
 void	error_custom(char *message, t_par *list)
 {

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/29 15:35:05 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/29 15:54:55 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 
-void	readfile(int fd, char **line);
-void	to_binary(char *src);
-
 
 typedef struct		s_par
 {
@@ -34,6 +31,10 @@ typedef struct		s_par
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
 }					t_par;
+
+void	readfile(int fd, char **line);
+void	to_binary(char *src);
+
 
 /**
  *		Error handling

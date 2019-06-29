@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 15:35:25 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/29 15:51:10 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include "op.h"
+#include "../includes/asm.h"
 
 int		check_register(char *arg, t_par **list)
 {

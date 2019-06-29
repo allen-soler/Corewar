@@ -6,7 +6,7 @@
 #    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/06/29 15:39:41 by jallen           ###   ########.fr        #
+#    Updated: 2019/06/29 15:49:38 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +56,8 @@ SOURCES =	check_args.c		\
 
 # header files
 
-HEADER_FILES = includes/asm.h \
-
+HEADER_FILES =	includes/asm.h \
+				includes/op.h
 # prefixing
 
 SRCS = $(addprefix $(DIR_S)/,$(SOURCES))

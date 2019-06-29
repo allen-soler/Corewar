@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:40:00 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/26 14:45:06 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:51:29 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include "op.h"
+#include "../includes/asm.h"
 
 static int	check_end_comma(char *line)
 {

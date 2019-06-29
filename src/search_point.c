@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:07:22 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 16:49:25 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:52:48 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "op.h"
-#include "asm.h"
+#include "../includes/asm.h"
 
 char	*skip_space(char *line)
 {

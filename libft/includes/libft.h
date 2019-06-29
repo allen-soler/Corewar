@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 16:52:20 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/22 15:43:24 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/29 15:48:44 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void				ft_free_tab(char **tab);
 void				ft_print_tab(char **tab);
 int					ft_isquote(char c);
 int					ft_isblank(char c);
+char				**ft_splitwhite(char const *s);
 
 /*
 ** Aditional functions

@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 16:47:34 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:52:11 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "op.h"
-#include "asm.h"
+#include "../includes/asm.h"
 
 char	**instructions_array(void)
 {

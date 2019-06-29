@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:45:15 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/21 16:26:38 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 15:52:59 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include "op.h"
+#include "../includes/asm.h"
 
 int		init_comm_token(char **line, int state, t_par **list)
 {

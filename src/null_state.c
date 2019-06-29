@@ -6,12 +6,11 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 15:35:53 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/29 15:52:23 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "op.h"
-#include "asm.h"
+#include "../includes/asm.h"
 
 int		null_state(char **line, int state, t_par **list) //need array of functions
 {
