@@ -17,7 +17,7 @@
 // TODO: add a FLAG_VERB
 # define FLAG_ERROR (1 << 0)
 # define FLAG_HELP (1 << 1)
-# define FLAG_VISU (1 << 2)
+# define FLAG_VERB (1 << 2)
 # define FLAG_DUMP (1 << 3)
 # define FLAG_DBUG (1 << 4)
 
@@ -31,6 +31,19 @@
 # define ABS(value)  (value > 0 ? value : -value)
 
 #define DEBUG(x) if (g_debug == 1) x;
+
+typedef enum	e_verb
+{
+	VERB_WINNER,
+	VERB_AFF,
+	VERB_LIVE,
+	VERB_DUMP_START,
+	VERB_PLAYER_DEATH,
+	VERB_PROCESS_CREATION_DEATH,
+	VERB_OP,
+	VERB_SHOW_CYCLES,
+	VER_PRINT_REGISTERS
+}				t_verb;
 
 typedef enum	e_bool
 {
@@ -109,6 +122,7 @@ typedef struct	s_env
 	t_flag				flag;
 	int					dump;
 	int					error_value;
+	t_verb				verb;
 	int					last_live;
 	char				*error_str[ERROR_MAX_VALUE + 1];
 }				t_env;

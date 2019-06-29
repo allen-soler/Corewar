@@ -57,6 +57,7 @@ void		init_env(t_env *env)
 	env->last_live = -1;
 	env->dump = -1;
 	env->error_value = 0;
+	env->verb = 0;
 	init_arena(env);
 	init_env_error(env);
 	env->cursors = NULL;

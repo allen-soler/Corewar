@@ -93,8 +93,8 @@ void			d_display_env(t_env env)
 		(env.flag & FLAG_ERROR) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
 	ft_printf("\t\t%s-Help%s:  ", S_BOLD, E_BOLD);
 		(env.flag & FLAG_HELP) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
-	ft_printf("\t\t%s-Visu%s:  ", S_BOLD, E_BOLD);
-		(env.flag & FLAG_VISU) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
+	ft_printf("\t\t%s-Verb %d%s:  ", S_BOLD, env.verb, E_BOLD);
+		(env.flag & FLAG_VERB) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
 	ft_printf("\t\t%s-Dump%s:  ", S_BOLD, E_BOLD);
 		(env.flag & FLAG_DUMP) ? ft_printf("{g}[OK]{R}\n") : ft_printf("{r}[KO]{R}\n");
 	ft_printf("\t\t%s-Dbug%s:  ", S_BOLD, E_BOLD);

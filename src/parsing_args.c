@@ -31,6 +31,23 @@ static void set_dump(char **av, int ac, int index, t_env *env)
 	}
 }
 
+// i don't now if i did this right
+static void set_verb_level(char **av, int ac, int index, t_env *env)
+{
+	if (ac == index)
+		set_error_value(env, ERROR_SPE_DUMP);
+	else
+	{
+		int level =  ft_atoi_pimp(av[index], env); // check number
+		env->verb = (1 << level);
+		if (env->flag & FLAG_ERROR)
+		{
+			env->flag ^= 1;
+			set_error_value(env, ERROR_SPE_DUMP); // change errors
+		}
+	}
+}
+
 static int	set_flag(char **av, int ac, t_env *env)
 {
 	int		i;
@@ -42,8 +59,12 @@ static int	set_flag(char **av, int ac, t_env *env)
 	{
 		while (i < ac)
 		{
-			if ((!ft_strcmp(av[i], "-v") || !ft_strcmp(av[i], "--visual")) && ++i)
-				env->flag |= FLAG_VISU;
+			if ((!ft_strcmp(av[i], "-v") || !ft_strcmp(av[i], "--verbose")) && ++i)
+			{
+				env->flag |= FLAG_VERB;
+				set_verb_level(av, ac, i, env);
+				i++;
+			}
 			else if ((!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "--dump") || !ft_strcmp(av[i], "-dump")) && ++i)
 			{
 				env->flag |= FLAG_DUMP;
