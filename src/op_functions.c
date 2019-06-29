@@ -46,8 +46,8 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 		if (e->players[i].number == cursor->args[0].value)
 		{
 			e->players[i].alive += 1;
-			DEBUG(ft_printf("Player %d(%s) is alive!\n", e->players[i].number, e->players[i].header.prog_name))
 			e->last_live = i;
+			ft_printf("A process shows that player %d (%s) is alive\n", e->players[i].number, e->players[i].header.prog_name);
 			break ;
 		}
 		++i;
@@ -130,8 +130,8 @@ void	ft_add(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	DEBUG(d_display_argument(cursor, op))
-	res = cursor->regs[cursor->args[0].value] + cursor->regs[cursor->args[1].value];
-	cursor->regs[cursor->args[2].value] = res;
+	res = cursor->regs[cursor->args[0].value - 1] + cursor->regs[cursor->args[1].value - 1];
+	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
@@ -142,8 +142,8 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	DEBUG(d_display_argument(cursor, op))
-	res = cursor->regs[cursor->args[0].value] - cursor->regs[cursor->args[1].value];
-	cursor->regs[cursor->args[2].value] = res;
+	res = cursor->regs[cursor->args[0].value - 1] - cursor->regs[cursor->args[1].value - 1];
+	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
@@ -169,7 +169,33 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 	DEBUG(d_display_argument(cursor, op))
 	shift_args(e, cursor, 2, TRUE);
 	res = cursor->args[0].value & cursor->args[1].value;
-	cursor->regs[cursor->args[2].value] = res;
+	cursor->regs[cursor->args[2].value - 1] = res;
+	cursor->carry = !res;
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+}
+
+void	ft_or(t_env *e, t_process *cursor, t_op op)
+{
+	int		res;
+
+	read_args(e, cursor, op);
+	DEBUG(d_display_argument(cursor, op))
+	shift_args(e, cursor, 2, TRUE);
+	res = cursor->args[0].value | cursor->args[1].value;
+	cursor->regs[cursor->args[2].value - 1] = res;
+	cursor->carry = !res;
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+}
+
+void	ft_xor(t_env *e, t_process *cursor, t_op op)
+{
+	int		res;
+
+	read_args(e, cursor, op);
+	DEBUG(d_display_argument(cursor, op))
+	shift_args(e, cursor, 2, TRUE);
+	res = cursor->args[0].value ^ cursor->args[1].value;
+	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
@@ -200,12 +226,6 @@ void	ft_ld(t_env *e, t_process *cursor, t_op op)
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
-
-void	ft_xor(t_env *e, t_process *cursor, t_op op)
-{
-	return ;
-}
-
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
@@ -213,7 +233,7 @@ void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	shift_args(e, cursor, 2, FALSE);
 	res = posmod(((cursor->args[0].value + cursor->args[1].value) % IDX_MOD) + cursor->pc, MEM_SIZE);
-	cursor->regs[cursor->args[2].value] = mix_bytes(e, res, DIR_SIZE);
+	cursor->regs[cursor->args[2].value - 1] = mix_bytes(e, cursor, res, DIR_SIZE);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
@@ -226,7 +246,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 		exit_failure("Error: malloc failed in ft_fork", e);
 	cpy_process(child, cursor);
 	read_args(e, cursor, op);
-	child->pc = posmod(cursor->pc + (cursor->regs[cursor->args[0].value] % IDX_MOD), MEM_SIZE); 
+	child->pc = posmod(cursor->pc + (cursor->regs[cursor->args[0].value - 1] % IDX_MOD), MEM_SIZE); 
 	append_process(&e->cursors, child);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
@@ -243,7 +263,7 @@ void	ft_lldi(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	shift_args(e, cursor, 2, FALSE);
 	res = posmod(cursor->args[0].value + cursor->args[1].value + cursor->pc, MEM_SIZE);
-	cursor->regs[cursor->args[2].value] = mix_bytes(e, res, DIR_SIZE);
+	cursor->regs[cursor->args[2].value - 1] = mix_bytes(e, cursor, res, DIR_SIZE);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
@@ -256,12 +276,14 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 		exit_failure("Error: malloc failed in ft_lfork", e);
 	cpy_process(child, cursor);
 	read_args(e, cursor, op);
-	child->pc = posmod(cursor->pc + cursor->regs[cursor->args[0].value], MEM_SIZE); 
+	child->pc = posmod(cursor->pc + cursor->regs[cursor->args[0].value - 1], MEM_SIZE); 
 	append_process(&e->cursors, child);
 	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
 
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	read_args(e, cursor, op);
+	ft_putchar(cursor->regs[cursor->args[0].value - 1] % 256);
+	cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
 }
