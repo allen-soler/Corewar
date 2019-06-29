@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 17:29:33 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/29 17:43:05 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	token_automata(char *line, t_par **list)
 
 void	ingest_file(char *line, t_par **list)
 {
-	int		fd;
 	int		i;
 	char	**tab;
 	t_par	*tmp;
