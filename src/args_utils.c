@@ -184,4 +184,3 @@ void	set_reg_values(t_process *cursor, t_op op , int skip_index)
 		cursor->args[i].value = cursor->regs[cursor->args[i].value - 1];
 	}
 }
-

@@ -137,6 +137,8 @@ void			game_loop(t_env *env)
 			if ((env->flag & FLAG_DUMP) && (l.current_cycle == env->dump))
 			{
 				print_arena(env);
+				if (l.nb_process_alive == 0)
+					print_winner(env);
 				return ;
 			}
 			exec_process(env);
