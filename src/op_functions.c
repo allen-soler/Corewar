@@ -19,19 +19,6 @@ void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 	}
 }
 
-void	int_to_bytecode(t_env *e, int addr, int value, int size)
-{
-	int8_t i;
-
-	i = 0;
-	while (size)
-	{
-		e->arena[POSMOD(addr + size - 1)].data = (uint8_t)((value >> i) & 0xFF);
-		i += 8;
-		size--;
-	}
-}
-
 void	ft_live(t_env *e, t_process *cursor, t_op op)
 {
 	int i;

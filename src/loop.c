@@ -22,9 +22,9 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 static void		init_loop(t_loop *loop, int player_nb)
 {
 	loop->nb_process_alive = player_nb;
-	loop->current_cycle = 0;
+	loop->current_cycle = 1;
 	loop->i_cycle = 0;
-	loop->i_check = 0;
+	loop->i_check = 1;
 	loop->cycle_to_die = CYCLE_TO_DIE;
 }
 
@@ -80,8 +80,10 @@ static int		check_live(t_env *env)
 		}
 		else
 		{
-			alive++;
+			alive += index->alive;
 			index->alive = 0;
+			if (index->player >= 0 && index->player <= env->players_nb)	//dunno if it's ok
+				env->players[index->player - 1].alive = 0;
 			index = index->next;
 		}
 	}
@@ -103,7 +105,7 @@ static void		init_processes(t_env *env)
 		tmp = new_process(env->players[i].number, 1);
 		if (!tmp)
 			exit_failure("Error: malloc failed in init_processes", env);
-		tmp->pc = (tmp->player - 1) * (MEM_SIZE / env->players_nb);
+		tmp->pc = i * (MEM_SIZE / env->players_nb);
 		append_process(&env->cursors, tmp);
 		i++;
 	}
@@ -113,7 +115,7 @@ static void		print_winner(t_env *env)
 {
 	
 	if (env->last_live != -1)
-		ft_printf("Player %d(%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+		ft_printf("Player %d (%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
 	else
 		ft_printf("no winner? you lossers\n");
 	DEBUG(d_display_env(*env))
@@ -136,21 +138,26 @@ void			game_loop(t_env *env)
 			DEBUG(ft_printf("{c}Cycle: %d{R}\nCycle_To_Die: %d\n", l.i_cycle, l.cycle_to_die));
 			if ((env->flag & FLAG_DUMP) && (l.current_cycle == env->dump))
 			{
-				print_arena(env);
-				if (l.nb_process_alive == 0)
+				if (l.nb_process_alive <= 0)
+				{
+					d_display_full_process(*env);
 					print_winner(env);
+				}
+				else
+					print_arena(env);
 				return ;
 			}
 			exec_process(env);
 			l.i_cycle++;
 			l.current_cycle++;
+			ft_printf("{y}Total cycle: %d{R}\n", l.current_cycle);
 		}
 		l.nb_process_alive = check_live(env);
-		if (l.nb_process_alive == 0)
+		if (env->cursors == NULL)
 			print_winner(env);
 		else if (l.nb_process_alive >= NBR_LIVE || l.i_check == MAX_CHECKS)
 		{
-			l.i_check = 0;
+			l.i_check = 1;
 			l.cycle_to_die -= CYCLE_DELTA;
 		}
 		else
