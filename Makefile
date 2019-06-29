@@ -6,7 +6,7 @@
 #    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/06/27 15:53:02 by jallen           ###   ########.fr        #
+#    Updated: 2019/06/29 15:39:41 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,18 @@ DIR_H = includes
 
 # source files for the project
 
-SOURCES = create_file.c \
-		  main.c
+SOURCES =	check_args.c		\
+			free_systems.c		\
+			instruct_tokens.c	\
+			para_list.c			\
+			token_automata.c	\
+			check_comma.c		\
+			handle_errors.c		\
+			search_point.c		\
+			create_file.c		\
+			handle_labels.c		\
+			null_state.c		\
+			main.c
 
 # header files
 
