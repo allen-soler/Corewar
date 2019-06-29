@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 14:45:07 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/29 19:57:10 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int		check_indirect(char *arg, t_par **list)
 
 	stock = 1;
 	stk = NULL;
-	if (*arg == ':')
-		return (direct_label(list, (arg + 1), 9));
-	else if (ft_isdigit(*arg) || *arg == '-')
+//	if (*arg == ':')
+//		return (direct_label(list, (arg + 1), 9));
+	if (ft_isdigit(*arg) || *arg == '-')
 	{
 		if (*arg == '-' && !ft_isdigit(*(arg + 1)))
 			return (1);
@@ -82,32 +82,17 @@ int		check_indirect(char *arg, t_par **list)
 	return (0);
 }
 
-void	check_args(char **line, t_par **list)
+int		check_args(char *line, t_par **list)
 {
-	char 	**args;
-	size_t	i;
-	int		err;
+	int		i;
+	int		state;
 
-	i = -1;
-	err = 0;
-	err += check_comma(*line, list);
-	args = ft_splitwhite(*line);
-	while (args[++i] != '\0' && err == 0)
+	i = 0;
+	state = 0;
+	while (line[i] != '\0' || line[i] != '#')
 	{
-		if (args[i][0] == '#')
-		{
-			line = NULL;
-			break;
-		}
-		err += check_register(args[i], list);
-		err += check_direct(args[i], list);
-		err += check_indirect(args[i], list);
+		check_indirect(&line[i], list);
+		i++;
 	}
-	i = -1;
-	while (args[++i] != '\0')
-		free(args[i]);
-	if (err > 0)
-		error_function(NULL, list);
+	return (-1);
 }
-
-

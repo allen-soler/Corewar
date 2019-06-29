@@ -1,7 +1,7 @@
  .name         "his ou"          
  .comment "braskov"
- live %:sti
-   ldi r32, %45, r2
+ live :sti,
+   ldi r32,%45,r2
 stti:	#
 #sti: sti r1, %-12, %5
 

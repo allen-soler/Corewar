@@ -6,7 +6,7 @@
 #    By: bghandou <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 12:39:45 by bghandou          #+#    #+#              #
-#    Updated: 2019/06/21 19:02:28 by bghandou         ###   ########.fr        #
+#    Updated: 2019/06/29 18:48:44 by bghandou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ AR = ar rc
 CFLAGS = -Wall -Wextra -Werror
 
 SRC = ./ft_atoi.c \
-	  ./ft_splitwhite.c \
+	  ./ft_strndup.c\
+	  ./ft_split.c \
 	  ./ft_strrev.c \
 	  ./ft_isascii.c \
 	  ./ft_strcat.c \
