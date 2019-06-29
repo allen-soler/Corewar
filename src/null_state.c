@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 16:37:26 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/29 17:29:33 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int		null_state(char **line, int state, t_par **list) //need array of functions
 
 void	middlefunction(char **line, int state, t_par **list)
 { //can put array of functions here
-//	dprintf(1, "__________\n");
-//	test_print(*list);
-//	dprintf(1, "__________\n");
+	//	dprintf(1, "__________\n");
+	//	test_print(*list);
+	//	dprintf(1, "__________\n");
 	if (state == 0)
 	{
-//		dprintf(1, "line before state : %s\n", *line);
+		//		dprintf(1, "line before state : %s\n", *line);
 		state = null_state(line, state, list);
 	}
 	if (state == 1)
@@ -68,28 +68,27 @@ void	token_automata(char *line, t_par **list)
 	i = 0;
 	state = 0;
 	instructions = ft_strsplit("ld st live add sub and or xor zjmp ldi sti \
-lld lldi lfork fork aff", ' ');
+			lld lldi lfork fork aff", ' ');
 
 	middlefunction(&line, state, list);
 	while (instructions[i] != '\0')
 		free(instructions[i++]);
 }
 
-t_par	*ingest_file(char *file)
+void	ingest_file(char *line, t_par **list)
 {
 	int		fd;
-	char	*line;
-	t_par	*list;
+	int		i;
+	char	**tab;
+	t_par	*tmp;
 
-	fd = open(file, O_RDONLY);
-	line = NULL;
-	list = NULL;
-	while (get_next_line(fd, &line) > 0)
+	i = 0;
+	tmp = *list;
+	tab = ft_strsplit(line, '\n');
+	while (tab[i])
 	{
-		token_automata(line, &list);
-		free(line);
+		token_automata(tab[i], &tmp);
+		i++;
 	}
-	close(fd);
-	test_print(list);
-	return (list);
+	*list = tmp;
 }
