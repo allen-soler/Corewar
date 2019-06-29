@@ -14,9 +14,8 @@ void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 	i = 0;
 	while (size--)
 	{
-		e->arena[POSMOD(addr + size - 1)].data = (uint8_t)((value >> i) & 0xFF);
+		e->arena[POSMOD(addr + size - 1)].data = ZMASK((value >> i));
 		i += 8;
-		size--;
 	}
 }
 
