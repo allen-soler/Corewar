@@ -18,6 +18,7 @@ static void parse_file(t_env *env, int fd, int curr)
 					env->players[curr].file, offset, CHAMP_MAX_SIZE);
 		exit_vm(env, EXIT_FAILURE);
 	}
+	env->players[curr].header.prog_size = offset;
 	if (lseek(fd, sizeof(header_t), SEEK_SET) == sizeof(header_t))
 	{
 		position = curr * (MEM_SIZE / env->players_nb);

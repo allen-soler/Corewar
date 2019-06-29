@@ -1,5 +1,22 @@
 #include "vm.h"
 
+void	display_contestants(t_env *env)
+{
+	int		i;
+
+	i = 0;
+	ft_printf("Introducing contestants...\n");
+	while (i < env->players_nb)
+	{
+		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n"
+			, env->players[i].number
+			, env->players[i].header.prog_size
+			, env->players[i].header.prog_name
+			, env->players[i].header.comment);
+		i++;
+	}
+}
+
 int		main(int ac, char **av)
 {
 	t_env		env;
@@ -8,6 +25,7 @@ int		main(int ac, char **av)
 	init_env(&env);
 	parsing_args(av, ac, &env);
 	read_files(&env);
+	display_contestants(&env);
 	game_loop(&env);
 	DEBUG(d_display_env(env))
 	exit_vm(&env, EXIT_SUCCESS);
