@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/27 20:02:58 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:39:42 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,11 @@ int		check_indirect(char *arg, t_par **list);
 
 void	check_syntax(t_par *list);
 int		check_class(int	cur);
-t_par	match_instruction(t_par *tmp, char **instructions, t_par *head);
+void	match_instruction(t_par *tmp, char **instructions, t_par *head);
 void	fetch_function(t_par *tmp, int class, t_par *head);
+t_par	*convert_size_direct(t_par *list);
 
 t_par	*live_function(t_par *tmp, t_par *head);
-t_par	class_7(t_par *tmp, t_par *head);
+t_par	*class_7(t_par *tmp, t_par *head);
 
 #endif

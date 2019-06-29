@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 17:43:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 20:02:42 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:39:37 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,17 @@ void	fetch_function(t_par *tmp, int class, t_par *head)
 	{
 		if (class == 1)
 			tmp = live_function(tmp, head);
+//		else if (class == 3)
+//			tmp = class_3(tmp, head);
 		else if (class == 7)
 			tmp = class_7(tmp, head);
 	/*	else if (class == 2)
-		else if (class == 3)
 		else if (class == 4)
 		else if (class == 5)
 		else if (class == 6)
-		else if (class == 7)
 		else if (class == 8)
 		else if (class == 9)*/
+		tmp = next_inst(tmp);
 	}
 }
 
@@ -41,7 +42,7 @@ void	match_instruction(t_par *tmp, char **instructions, t_par *head)
 	class = 0;
 	while (ft_strcmp(instructions[i], tmp->param) != 0)
 		i++;
-	class = check_class(instruct);
+	class = check_class(i);
 	if (ft_strcmp(instructions[i], tmp->param) == 0)
 		fetch_function(tmp, class, head);
 }
@@ -57,7 +58,7 @@ void	check_syntax(t_par *list)
 	else
 	{
 		instruct = instructions_array();
-		match_instruction(tmp, instructi, head);
+		match_instruction(tmp, instruct, list);
 	}
 	test_print(tmp);
 }

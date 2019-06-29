@@ -6,15 +6,28 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:46:44 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/27 19:47:55 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/28 12:38:29 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "op.h"
 
+t_par	*convert_size_direct(t_par *list)
+{
+	if (list->type == 3)
+	{
+		list->type = 2;
+		return (list);
+	}
+	return (list);
+}
+
 int		check_class(int	cur)
 {
+	int class;
+	
+	class = 0;
 	if (cur == 0 || cur == 11)
 		class = 7;
 	else if (cur == 1)
@@ -33,6 +46,7 @@ int		check_class(int	cur)
 		class = 3;
 	else if (cur == 15)
 		class = 9;
+	return (class);
 }
 
 t_par	*next_inst(t_par *list)
