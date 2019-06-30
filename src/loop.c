@@ -75,6 +75,9 @@ static int		check_live(t_env *e)
 		if (index->alive == 0)
 		{
 			tmp = index;
+			VERB(VERB_PLAYER_DEATH, ft_printf("\tProcess %d of player %d died\n",\
+						index->pid,
+						index->player)); // should we add this to delete process?
 			index = index->next;
 			delete_process(&e->cursors, tmp);
 		}
@@ -86,11 +89,10 @@ static int		check_live(t_env *e)
 		}
 	}
 	int i = 0;
-	while (alive != 0 && i < e->players_nb)
+	while (i < e->players_nb)
 	{
 		if (e->players[i].alive == 0 && e->players[i].death != 1)
 		{
-			VERB(VERB_PLAYER_DEATH, ft_printf("Player died\n"));
 			e->players[i].death = 1;
 		}
 		else
@@ -114,7 +116,8 @@ static void		init_processes(t_env *env)
 	i = 0;
 	while (i < env->players_nb)
 	{
-		tmp = new_process(env->players[i].number, 1);
+		tmp = new_process(env->players[i].number, 1, env->last_pid);
+		env->last_pid += 1;
 		if (!tmp)
 			exit_failure("Error: malloc failed in init_processes", env);
 		tmp->pc = i * (MEM_SIZE / env->players_nb);
@@ -149,24 +152,25 @@ int				run_cycle(t_env *e, t_loop *l)
 		l->i_cycle++;
 		l->current_cycle++;
 	}
+	VERB(VERB_SHOW_CYCLES, ft_printf("Cycle %d\n", l->current_cycle)); // this might not be right
 	return (1);
 }
 
 
-void			game_loop(t_env *env)
+void			game_loop(t_env *e)
 {
 	t_loop		l;
 
-	init_processes(env);
-	init_loop(&l, env->players_nb);
-	DEBUG(d_display_full_process(*env))
-	while (env->cursors != NULL)
+	init_processes(e);
+	init_loop(&l, e->players_nb);
+	DEBUG(d_display_full_process(*e))
+	while (e->cursors != NULL)
 	{
-		if (!run_cycle(env, &l))
+		if (!run_cycle(e, &l))
 			break ;
-		l.nb_process_alive = check_live(env);
-		if (env->cursors == NULL)
-			print_winner(env);
+		l.nb_process_alive = check_live(e);
+		if (e->cursors == NULL)
+			print_winner(e);
 		else if (l.nb_process_alive >= NBR_LIVE || l.i_check == MAX_CHECKS)
 		{
 			l.i_check = 1;
@@ -174,5 +178,6 @@ void			game_loop(t_env *env)
 		}
 		else
 			l.i_check++;
+		VERB(VERB_SHOW_CYCLES, ft_printf("Cycle to die is now %d\n", l.cycle_to_die)); 
 	}
 }

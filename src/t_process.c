@@ -3,7 +3,7 @@
 /*
 **	TODO: with which value do we set process->cycle ?
 */
-t_process		*new_process(int player, int alive)
+t_process		*new_process(int player, int alive, int pid)
 {
 	t_process	*new;
 
@@ -14,6 +14,7 @@ t_process		*new_process(int player, int alive)
 	new->alive = alive;
 	new->player = player;
 	new->regs[0] = player;
+	new->pid = pid;
 	new->cycle = 0;
 	new->prev = NULL;
 	new->next = NULL;

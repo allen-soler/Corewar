@@ -70,7 +70,7 @@ typedef enum	e_error
 typedef char	t_flag;
 
 t_op    op_tab[17]; // TODO: eclare variable as global here, should look up how
-					// to do it properly using extern.
+				
 
 typedef struct s_player
 {
@@ -93,6 +93,7 @@ typedef struct	s_process
 	int					regs[REG_NUMBER];
 	t_argument			args[MAX_ARGS_NUMBER];
 	int					pc;
+	int					pid;
 	int					carry;
 	int					alive;
 	int					cycle;
@@ -125,6 +126,7 @@ typedef struct	s_env
 	int					players_nb;
 	t_flag				flag;
 	int					dump;
+	int					last_pid;
 	int					error_value;
 	t_verb				verb;
 	int					last_live;
@@ -151,7 +153,7 @@ void		game_loop(t_env *env);
 **	PROCESS
 */
 
-t_process	*new_process(int player, int alive);
+t_process	*new_process(int player, int alive, int pid);
 void		duplicate_process(t_process *dst, t_process *src);
 void		append_process(t_process **head, t_process *new_p);
 void		delete_process(t_process **head, t_process *ptr);
