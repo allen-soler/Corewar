@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 17:43:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 18:51:47 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 19:11:16 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,19 @@
 t_par	*fetch_function(t_par *tmp, int class, t_par *head)
 {
 	//dprintf(1, "VALIDATE--->%s__type:%d\n", tmp->param, tmp->type);
-	if (class == 1)
+	t_par	*(*class_arr[9])(t_par*, t_par*);
+
+	class_arr[0] = class_1;
+	class_arr[1] = class_2;
+	class_arr[2] = class_3;
+	class_arr[3] = class_4;
+	class_arr[4] = class_5;
+	class_arr[5] = class_6;
+	class_arr[6] = class_7;
+	class_arr[7] = class_8;
+	class_arr[8] = class_9;
+	tmp = class_arr[class - 1](tmp, head);
+/*	if (class == 1)
 		tmp = class_1(tmp, head);
 	else if (class == 2)
 		tmp = class_2(tmp, head);
@@ -34,7 +46,8 @@ t_par	*fetch_function(t_par *tmp, int class, t_par *head)
 		tmp = class_8(tmp, head);
 	else if (class == 9)
 		tmp = class_9(tmp, head);
-	return (tmp);
+		*/
+	return (tmp);	
 }
 
 void	match_instruction(t_par *tmp, char **instructions, t_par *head)

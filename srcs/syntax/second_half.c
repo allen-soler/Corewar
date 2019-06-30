@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 20:03:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 18:51:59 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 19:11:10 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ t_par	*class_9(t_par *tmp, t_par *head)
 	{
 		return (tmp->next);
 	}
-	error_custom("Invalid argument used for 'aff'.\n", head);
+	error_custom("Invalid argument(s) used for 'aff'.\n", head);
 	return (tmp);
 }
