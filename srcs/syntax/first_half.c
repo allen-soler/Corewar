@@ -6,14 +6,14 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:53:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 14:58:25 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 18:49:32 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "op.h"
 
-t_par	*live_function(t_par *tmp, t_par *head)
+t_par	*class_1(t_par *tmp, t_par *head)
 {
 	tmp = tmp->next;
 	if (tmp && (tmp->type == 3 || tmp->type == 5)
@@ -29,7 +29,7 @@ t_par	*class_2(t_par *tmp, t_par *head)
 	if (tmp && (tmp->type == 3 || tmp->type == 5)
 			&& remaining_tokens(tmp))
 	{
-		tmp->type = tmp->type == 3 ? 2 : 15;
+		tmp = convert_size_direct(tmp);
 		return (tmp->next);
 	}
 	error_custom("Invalid argument(s) for 'zjmp' | 'fork' | 'lfork' \
@@ -39,7 +39,6 @@ match.\n", head);
 
 t_par	*class_3(t_par *tmp, t_par *head)
 {
-		test_print(tmp);
 	tmp = tmp->next;
 	if (tmp && (tmp->type == 3 || tmp->type == 5
 				|| tmp->type == 4 || tmp->type == 9))

@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 15:08:29 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 16:33:02 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //PROBLEM WIIITHHHH HASHTAG AT END
@@ -20,7 +20,7 @@ int		check_register(char *arg, t_par **list)
 
 	stock = 0;
 	stk = NULL;
-	if (*arg == 'r')
+	if (*arg == 'r' && (ft_isdigit(*(arg + 1))))
 	{
 		while (ft_isdigit(*(arg + 1)) && (*(arg + 1)) != '\0')
 		{
@@ -30,6 +30,8 @@ int		check_register(char *arg, t_par **list)
 			else
 				stock = (stock * 10) + (*arg - 48);
 		}
+		if (stock > 99)
+			error_custom("Error : register size > 99.\n", *list);
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			return (1);
 		arg = arg + 1;
@@ -111,11 +113,11 @@ void	check_args(char **line, t_par **list)
 	err += check_comma(*line, list);
 	while (args[++i] != '\0')
 	{
-		if (args[i][0] == '#')
+/*		if (args[i][0] == '#')
 		{
 			line = NULL;
 			break;
-		}
+		}*/
 		err += check_register(args[i], list);
 		err += check_direct(args[i], list);
 		err += check_indirect(args[i], list);

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/30 15:08:36 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 18:49:27 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int		check_comma(char *line, t_par **list);
 size_t	str_repoint(char *haystack, char *needle);
 void	travel_states(char **line, int state);
 void	free_2d(char **arrray);
+char	*ignore_hash_comment(char *line);
 
 /**
  *		Tokens
@@ -90,13 +91,15 @@ int		check_class(int	cur);
 void	match_instruction(t_par *tmp, char **instructions, t_par *head);
 t_par	*fetch_function(t_par *tmp, int class, t_par *head);
 t_par	*convert_size_direct(t_par *list);
-
-t_par	*live_function(t_par *tmp, t_par *head);
+t_par	*class_1(t_par *tmp, t_par *head);
 t_par	*class_2(t_par *tmp, t_par *head);
 t_par	*class_3(t_par *tmp, t_par *head);
 t_par	*class_4(t_par *tmp, t_par *head);
 t_par	*class_5(t_par *tmp, t_par *head);
+t_par	*class_6(t_par *tmp, t_par *head);
 t_par	*class_7(t_par *tmp, t_par *head);
+t_par	*class_8(t_par *tmp, t_par *head);
+t_par	*class_9(t_par *tmp, t_par *head);
 
 
 #endif

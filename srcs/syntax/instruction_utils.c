@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:46:44 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 14:36:07 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 16:41:21 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ int		remaining_tokens(t_par *tmp)
 t_par	*convert_size_direct(t_par *list)
 {
 	if (list->type == 3)
-	{
 		list->type = 2;
-		return (list);
-	}
+	else if (list->type == 5)
+		list->type = 15;
 	return (list);
 }
 

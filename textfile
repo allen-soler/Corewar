@@ -3,7 +3,6 @@
 sti:	#
  live %:sti
    lfork %:sti		   
+   sti r1 ,	:sti   , %:sti
 
 	#fsd #sdf,,sdfas
-	   ld :sti,  r1 
-	  sub r1,  		 r1, r5#
