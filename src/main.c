@@ -27,6 +27,11 @@ int		main(int ac, char **av)
 	read_files(&env);
 	if (env.verb >= VERB_AFF)
 		display_contestants(&env);
+	if (env.verb >= VERB_DUMP_START)
+	{
+		ft_printf("Arena:\n");
+		print_arena(&env);
+	}
 	game_loop(&env);
 	DEBUG(d_display_env(env))
 	exit_vm(&env, EXIT_SUCCESS);
