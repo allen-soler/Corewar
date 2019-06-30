@@ -86,7 +86,7 @@ static int		check_live(t_env *e)
 		}
 	}
 	int i = 0;
-	while (i < e->players_nb)
+	while (alive != 0 && i < e->players_nb)
 	{
 		if (e->players[i].alive == 0 && e->players[i].death != 1)
 		{
@@ -134,7 +134,25 @@ static void		print_winner(t_env *env)
 	exit_vm(env, EXIT_SUCCESS);
 }
 
-// Do we have to reset lives of each players at the end of a cycle ?
+int				run_cycle(t_env *e, t_loop *l)
+{
+	l->i_cycle = 0;
+	while (l->i_cycle < l->cycle_to_die)
+	{
+		VERB(VERB_SHOW_CYCLES, ft_printf("Cycle %d\n", l->current_cycle));
+		if ((e->flag & FLAG_DUMP) && (l->current_cycle == e->dump))
+		{
+			print_arena(e);
+			return (0);
+		}
+		exec_process(e);
+		l->i_cycle++;
+		l->current_cycle++;
+	}
+	return (1);
+}
+
+
 void			game_loop(t_env *env)
 {
 	t_loop		l;
@@ -142,27 +160,10 @@ void			game_loop(t_env *env)
 	init_processes(env);
 	init_loop(&l, env->players_nb);
 	DEBUG(d_display_full_process(*env))
-	while (l.nb_process_alive > 0)
+	while (env->cursors != NULL)
 	{
-		l.i_cycle = 0;
-		while (l.i_cycle < l.cycle_to_die)
-		{
-			DEBUG(ft_printf("{c}Cycle: %d{R}\nCycle_To_Die: %d\n", l.i_cycle, l.cycle_to_die));
-			if ((env->flag & FLAG_DUMP) && (l.current_cycle == env->dump))
-			{
-				if (l.nb_process_alive <= 0)
-				{
-					d_display_full_process(*env);
-					print_winner(env);
-				}
-				else
-					print_arena(env);
-				return ;
-			}
-			exec_process(env);
-			l.i_cycle++;
-			l.current_cycle++;
-		}
+		if (!run_cycle(env, &l))
+			break ;
 		l.nb_process_alive = check_live(env);
 		if (env->cursors == NULL)
 			print_winner(env);
