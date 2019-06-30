@@ -30,6 +30,8 @@
 # define MODX(x) (x % IDX_MOD)
 # define ABS(value)  (value > 0 ? value : -value)
 
+# define VERB(val, func) if (e->verb >= val) func
+
 #define DEBUG(x) if (g_debug == 1) x;
 
 typedef enum	e_verb

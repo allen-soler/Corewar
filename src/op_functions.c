@@ -45,7 +45,9 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 		if (e->players[i].number == cursor->args[0].value)
 		{
 			e->players[i].alive += 1;
-			DEBUG(ft_printf("Player %d(%s) is alive!\n", e->players[i].number, e->players[i].header.prog_name))
+			VERB(VERB_LIVE,\
+					ft_printf("A process shows that player %d (%s) is alive\n",\
+						e->players[i].number, e->players[i].header.prog_name));
 			e->last_live = i;
 			break ;
 		}

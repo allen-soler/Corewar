@@ -25,7 +25,8 @@ int		main(int ac, char **av)
 	init_env(&env);
 	parsing_args(av, ac, &env);
 	read_files(&env);
-	display_contestants(&env);
+	if (env.verb >= VERB_AFF)
+		display_contestants(&env);
 	game_loop(&env);
 	DEBUG(d_display_env(env))
 	exit_vm(&env, EXIT_SUCCESS);

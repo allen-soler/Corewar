@@ -39,7 +39,7 @@ static void set_verb_level(char **av, int ac, int index, t_env *env)
 	else
 	{
 		int level =  ft_atoi_pimp(av[index], env); // check number
-		env->verb = (1 << level);
+		env->verb = (level == 0) ? 0 : (1 << (level - 1));
 		if (env->flag & FLAG_ERROR)
 		{
 			env->flag ^= 1;
