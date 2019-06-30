@@ -75,7 +75,7 @@ static int		check_live(t_env *e)
 		if (index->alive == 0)
 		{
 			tmp = index;
-			VERB(VERB_PLAYER_DEATH, ft_printf("\tProcess %d of player %d died\n",\
+			VERB(VERB_PROCESS_CREATION_DEATH, ft_printf("\tProcess %d of player %d died\n",\
 						index->pid,
 						index->player)); // should we add this to delete process?
 			index = index->next;
@@ -143,12 +143,12 @@ int				run_cycle(t_env *e, t_loop *l)
 	while (l->i_cycle < l->cycle_to_die)
 	{
 		VERB(VERB_SHOW_CYCLES, ft_printf("Cycle %d\n", l->current_cycle));
+		exec_process(e);
 		if ((e->flag & FLAG_DUMP) && (l->current_cycle == e->dump))
 		{
 			print_arena(e);
 			return (0);
 		}
-		exec_process(e);
 		l->i_cycle++;
 		l->current_cycle++;
 	}
