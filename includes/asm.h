@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/30 12:56:43 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 15:08:36 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	match_labels(t_par *tmp, t_par *head);
 
 t_par	*add_parameter(t_par *list, char *inst, int type);
 t_par	*next_inst(t_par *list);
+int		remaining_tokens(t_par *tmp);
 void	test_print(t_par *list);//will have to delete when done
 
 /**
@@ -91,6 +92,11 @@ t_par	*fetch_function(t_par *tmp, int class, t_par *head);
 t_par	*convert_size_direct(t_par *list);
 
 t_par	*live_function(t_par *tmp, t_par *head);
+t_par	*class_2(t_par *tmp, t_par *head);
+t_par	*class_3(t_par *tmp, t_par *head);
+t_par	*class_4(t_par *tmp, t_par *head);
+t_par	*class_5(t_par *tmp, t_par *head);
 t_par	*class_7(t_par *tmp, t_par *head);
+
 
 #endif

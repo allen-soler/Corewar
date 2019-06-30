@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 12:46:30 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 14:20:39 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	middlefunction(char **line, int state, t_par **list)
 //	dprintf(1, "__________\n");
 //	test_print(*list);
 //	dprintf(1, "__________\n");
+	*line = skip_space(*line);
 	if (**line == '#')
 		return ;
 	if (state == 0)

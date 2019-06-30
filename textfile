@@ -1,9 +1,9 @@
  .name         "his ou"          
  .comment "braskov"
 sti:	#
- live %:stti
-   ldi r032  ,%000, %4,7,577,54
-#sti: sti r1, %-12, %5
+ live %:sti
+   lfork %:sti		   
 
-
-#sti: sti r99, %-12, -3
+	#fsd #sdf,,sdfas
+	   ld :sti,  r1 
+	  sub r1,  		 r1, r5#

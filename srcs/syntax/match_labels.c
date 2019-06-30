@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:10:25 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 13:26:48 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 14:17:22 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		search_label(char *param, t_par *tmp)
 		}
 		tmp = tmp->next;
 	}
+	error_custom("Did not find matching label to argument.\n", tmp);
 	return (0);
 }
 

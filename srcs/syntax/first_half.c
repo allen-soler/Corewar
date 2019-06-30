@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:53:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 14:29:57 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 14:58:25 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,52 @@
 t_par	*live_function(t_par *tmp, t_par *head)
 {
 	tmp = tmp->next;
-	if ((tmp->type == 3 || tmp->type == 5)
-			&& (tmp->next->type == 6 || tmp->next == NULL))
+	if (tmp && (tmp->type == 3 || tmp->type == 5)
+			&& remaining_tokens(tmp))
 		return (tmp->next);
-	else
-		error_custom("Argument type 'live' doesn't match\n", head);
+	error_custom("Invalid argument(s) for 'live'.\n", head);
+	return (tmp);
+}
+
+t_par	*class_2(t_par *tmp, t_par *head)
+{
+	tmp = tmp->next;
+	if (tmp && (tmp->type == 3 || tmp->type == 5)
+			&& remaining_tokens(tmp))
+	{
+		tmp->type = tmp->type == 3 ? 2 : 15;
+		return (tmp->next);
+	}
+	error_custom("Invalid argument(s) for 'zjmp' | 'fork' | 'lfork' \
+match.\n", head);
+	return (tmp);
+}
+
+t_par	*class_3(t_par *tmp, t_par *head)
+{
+		test_print(tmp);
+	tmp = tmp->next;
+	if (tmp && (tmp->type == 3 || tmp->type == 5
+				|| tmp->type == 4 || tmp->type == 9))
+	{
+		tmp = tmp->next;
+		if (tmp && (tmp->type == 1) && remaining_tokens(tmp))
+			return (tmp->next);
+	}
+	error_custom("Invalid argument(s) for 'ld' | 'lld'.\n", head);
+	return (tmp);
+}
+
+t_par	*class_4(t_par *tmp, t_par *head)
+{
+	tmp = tmp->next;
+	if (tmp && (tmp->type == 1))
+	{
+		tmp = tmp->next;
+		if (tmp && (tmp->type == 1 || tmp->type == 4 || tmp->type == 9)
+				&& remaining_tokens(tmp))
+			return (tmp->next);
+	}
+	error_custom("Invalid argument(s) for 'st'.\n", head);
 	return (tmp);
 }

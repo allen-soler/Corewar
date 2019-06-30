@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 15:31:12 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 14:52:43 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,12 @@ int		search_valid_inst(char **line, t_par **list)
 		if ((len = str_repoint(*line, inst[i])))
 		{
 			if (*(*line + len) == SPACE || *(*line + len) == '\t')
+			{
 				*list = add_parameter(*list, inst[i++], 6);
-			ft_strdel(inst);
+				ft_strdel(inst);
+			}
+			else
+				error_custom("Non-existant instruction.\n", *list);
 			return (len);
 		}
 		else
