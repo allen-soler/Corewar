@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 12:56:49 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 13:19:10 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,15 @@ int		check_indirect(char *arg, t_par **list)
 	{
 		if (*arg == ':')
 			return (direct_label(list, (arg + 1), 9));
-		while (ft_isdigit(*(arg + 1)) && (*(arg + 1)) != '\0')
+		while (ft_isdigit(*arg) && *arg != '\0')
 		{
-			arg = arg + 1;
 			if (stock == 0)
 				stock = *arg - 48;
 			else
 				stock = (stock * 10) + (*arg - 48);
+			arg = arg + 1;
 		}
-		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
+		if (*arg != '\0' && *arg != ',')
 			return (1);
 		arg = arg + 1;
 		stk = ft_itoa(stock);

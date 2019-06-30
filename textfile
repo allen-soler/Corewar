@@ -1,8 +1,8 @@
  .name         "his ou"          
  .comment "braskov"
- live %:sti
-   ldi r032  ,%00045,r0002 #,
-stti:	#
+sti:	#
+ live %:stti
+   ldi r032  ,%000,%4,7,5 i50,54 brsoo
 #sti: sti r1, %-12, %5
 
 
