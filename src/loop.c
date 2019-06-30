@@ -62,30 +62,42 @@ static void		exec_process(t_env *env)
 	}
 }
 
-static int		check_live(t_env *env)
+static int		check_live(t_env *e)
 {
 	int			alive;
 	t_process	*index;
 	t_process	*tmp;
 
 	alive = 0;
-	index = env->cursors;
+	index = e->cursors;
 	while (index != NULL)
 	{
 		if (index->alive == 0)
 		{
 			tmp = index;
 			index = index->next;
-			delete_process(&env->cursors, tmp);
+			delete_process(&e->cursors, tmp);
 		}
 		else
 		{
 			alive += index->alive;
 			index->alive = 0;
-			if (index->player >= 0 && index->player <= env->players_nb)	//dunno if it's ok
-				env->players[index->player - 1].alive = 0;
 			index = index->next;
 		}
+	}
+	int i = 0;
+	while (i < e->players_nb)
+	{
+		if (e->players[i].alive == 0 && e->players[i].death != 1)
+		{
+			VERB(VERB_PLAYER_DEATH, ft_printf("Player died\n"));
+			e->players[i].death = 1;
+		}
+		else
+		{
+			e->players[i].alive = 0;
+		}
+		i += 1;
 	}
 	return (alive);
 }
