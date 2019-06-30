@@ -2,7 +2,7 @@
  .comment "braskov"
 sti:	#
  live %:stti
-   ldi r032  ,%000,%4,7,5 i50,54 brsoo
+   ldi r032  ,%000, %4,7,577,54
 #sti: sti r1, %-12, %5
 
 
