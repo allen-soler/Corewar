@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 19:47:44 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 12:46:30 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	middlefunction(char **line, int state, t_par **list)
 	else if (state == 5)
 		state = init_comm_token(line, state, list);
 	else if (state == 20)
-		state = check_args(*line, list);
+		check_args(line, list);
 	if (state < 0)
 		error_function(NULL, list);
 }

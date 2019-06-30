@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:12:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 19:57:12 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 12:41:40 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int			direct_label(t_par **list, char *arg, int type)
 	i = 0;
 	len = ft_strlen(arg);
 	stock = ft_memalloc(len + 1);
-	dprintf(1, "__%s\n", &arg[i]);
 	while (arg[i] && in_labelchar(arg[i]) == 1)
 	{
 		stock[i] = arg[i];

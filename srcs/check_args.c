@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 20:02:54 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/06/30 12:56:49 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int		check_register(char *arg, t_par **list)
 {
-	int		stock;
+	size_t	stock;
 	char	*stk;
 
 	stock = 0;
@@ -42,7 +42,7 @@ int		check_register(char *arg, t_par **list)
 
 int		check_direct(char *arg, t_par **list)
 {
-	int		stock;
+	size_t	stock;
 	char	*stk;
 
 	stock = 0;
@@ -51,9 +51,17 @@ int		check_direct(char *arg, t_par **list)
 	{
 		if (*(arg + 1) == ':')
 			return (direct_label(list, (arg + 2), 5));
-		else if (ft_isdigit(*(arg + 1)) || (*(arg + 1) == '-'
-			&& ft_isdigit(*(arg + 2))))
-			stock = ft_atoi(arg + 1);
+		while (ft_isdigit(*(arg + 1)) && (*(arg + 1)) != '\0')
+		{
+			arg = arg + 1;
+			if (stock == 0)
+				stock = *arg - 48;
+			else
+				stock = (stock * 10) + (*arg - 48);
+		}
+		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
+			return (1);
+		arg = arg + 1;
 		stk = ft_itoa(stock);
 		*list  = add_parameter(*list, stk, 3);
 		free(stk);
@@ -63,18 +71,26 @@ int		check_direct(char *arg, t_par **list)
 
 int		check_indirect(char *arg, t_par **list)
 {
-	int		stock;
+	size_t	stock;
 	char	*stk;
 
-	stock = 1;
+	stock = 0;
 	stk = NULL;
-//	if (*arg == ':')
-//		return (direct_label(list, (arg + 1), 9));
-	if (ft_isdigit(*arg) || *arg == '-')
+	if (ft_isdigit(*arg) || *arg == ':')
 	{
-		if (*arg == '-' && !ft_isdigit(*(arg + 1)))
+		if (*arg == ':')
+			return (direct_label(list, (arg + 1), 9));
+		while (ft_isdigit(*(arg + 1)) && (*(arg + 1)) != '\0')
+		{
+			arg = arg + 1;
+			if (stock == 0)
+				stock = *arg - 48;
+			else
+				stock = (stock * 10) + (*arg - 48);
+		}
+		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			return (1);
-		stock = ft_atoi(arg);
+		arg = arg + 1;
 		stk = ft_itoa(stock);
 		*list  = add_parameter(*list, stk, 4);
 		free(stk);
@@ -82,17 +98,31 @@ int		check_indirect(char *arg, t_par **list)
 	return (0);
 }
 
-int		check_args(char *line, t_par **list)
+void	check_args(char **line, t_par **list)
 {
-	int		i;
-	int		state;
+	char 	**args;
+	size_t	i;
+	int		err;
 
-	i = 0;
-	state = 0;
-	while (line[i] != '\0' || line[i] != '#')
+
+	i = -1;
+	args = ft_split(*line, " 	,");
+	err = 0;
+	err += check_comma(*line, list);
+	while (args[++i] != '\0')
 	{
-		check_indirect(&line[i], list);
-		i++;
+		if (args[i][0] == '#')
+		{
+			line = NULL;
+			break;
+		}
+		err += check_register(args[i], list);
+		err += check_direct(args[i], list);
+		err += check_indirect(args[i], list);
 	}
-	return (-1);
+	i = -1;
+	while (args[++i] != '\0')
+		free(args[i]);
+	if (err > 0)
+		error_function(NULL, list);
 }
