@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 16:28:36 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 12:05:06 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	middlefunction(char **line, int state, t_par **list)
 //	dprintf(1, "__________\n");
 	*line = skip_space(*line);
 	*line = ignore_hash_comment(*line);
-		dprintf(1, "line before state : %s\n", *line);
+		//dprintf(1, "line before state : %s\n", *line);
 	if (state == 0)
 	{
 		state = null_state(line, state, list);
