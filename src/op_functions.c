@@ -45,9 +45,11 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 		if (e->players[i].number == cursor->args[0].value)
 		{
 			e->players[i].alive += 1;
+			VERB(VERB_OP, ft_printf("\n"));
 			VERB(VERB_LIVE,\
-					ft_printf("A process shows that player %d (%s) is alive\n",\
-						e->players[i].number, e->players[i].header.prog_name));
+					ft_printf("A process shows that player %d (%s) is alive%s",\
+						e->players[i].number, e->players[i].header.prog_name,
+						(e->verb < VERB_OP) ? "\n" : ""));
 			e->last_live = i;
 			break ;
 		}
@@ -120,9 +122,15 @@ void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	DEBUG(d_display_argument(cursor, op))
 	if (cursor->carry)
-		cursor->pc = posmod(cursor->pc + (cursor->args[0].value % IDX_MOD), MEM_SIZE);
+	{
+		cursor->pc = POSMOD(cursor->pc + (cursor->args[0].value % IDX_MOD));
+		VERB(VERB_OP, ft_printf(" OK"));
+	}
 	else
-		cursor->pc = posmod(cursor->pc + get_args_len(cursor, op) + 1, MEM_SIZE);
+	{
+		VERB(VERB_OP, ft_printf(" FAILED"));
+	}
+	
 }
 
 /*
@@ -144,9 +152,9 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	DEBUG(d_display_argument(cursor, op))
-	shift_args(e, cursor, 2, TRUE);
+	set_reg_values(cursor, op, 3);
 	res = cursor->args[0].value & cursor->args[1].value;
-	cursor->regs[cursor->args[2].value] = res;
+	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
@@ -198,6 +206,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value)); 
 	push_process_front(&e->cursors, child);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
+	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
 }
 
 void	ft_add(t_env *e, t_process *cursor, t_op op)

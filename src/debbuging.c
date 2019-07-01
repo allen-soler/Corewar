@@ -1,6 +1,6 @@
 #include "vm.h"
 
-void			d_display_process(t_process *pro)
+void			d_display_process(t_env e, t_process *pro)
 {
 	int			i;
 
@@ -20,7 +20,7 @@ void			d_display_process(t_process *pro)
 	ft_printf("\t%sPC%s: %d\n", S_BOLD, E_BOLD, pro->pc);
 	ft_printf("\t%sCarry%s: %d\n", S_BOLD, E_BOLD, pro->carry);
 	ft_printf("\t%sAlive%s: %d\n", S_BOLD, E_BOLD, pro->alive);
-	ft_printf("\t%sPlayer%s: %d\n", S_BOLD, E_BOLD, pro->player);
+	ft_printf("\t%sPlayer%s: %d, %s\n", S_BOLD, E_BOLD, pro->player, e.players[pro->player - 1].header.prog_name);
 	ft_printf("\t%sColor%s: %d\n", S_BOLD, E_BOLD, pro->color);
 	ft_printf("\t%sPID%s: %d\n", S_BOLD, E_BOLD, pro->pid);
 	ft_printf("\t%sPrev%s: %p\n", S_BOLD, E_BOLD, pro->prev);
@@ -35,7 +35,7 @@ void			d_display_full_process(t_env env)
 	while (tmp != NULL)
 	{
 		ft_printf("{m}---------------------------{R}\n");
-		d_display_process(tmp);
+		d_display_process(env, tmp);
 		ft_printf("{m}---------------------------{R}\n");
 		tmp = tmp->next;
 	}

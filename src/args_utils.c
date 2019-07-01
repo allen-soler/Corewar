@@ -98,6 +98,17 @@ int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes)
  **	encoding byte and those who don't.
  */
 
+
+void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
+{
+	if (args[i].type == T_REG)
+		ft_printf(" r%d", args[i].value);
+	else if (args[i].type == T_IND)
+		ft_printf(" %d", args[i].value);
+	else if (args[i].type == T_DIR)
+		ft_printf(" %d", cursor->args[i].value);
+}
+
 void	read_args(t_env *e, t_process *cursor, t_op op)
 {
 	int				i;
@@ -105,6 +116,7 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 	int				arg_len;
 	int				offset;
 
+	VERB(VERB_OP, ft_printf("P%5d | %s", cursor->pid, op.name));
 	offset = 1 + op.encoding_byte;
 	e->arena[cursor->pc].player = 2;
 	reset_args(cursor);
@@ -157,6 +169,7 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
 		}
 		cursor->args[i].value = mix_bytes(e, cursor, offset, arg_len);
+		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));
 		offset += arg_len;
 		i += 1;
 	}

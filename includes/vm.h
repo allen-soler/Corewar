@@ -227,7 +227,7 @@ int			ft_atoi_pimp(char *line, t_env *env);
 */
 
 void			d_display_env(t_env env);
-void			d_display_process(t_process *pro);
+void			d_display_process(t_env e, t_process *pro);
 void			d_display_full_process(t_env env);
 void			d_display_argument(t_process *cursor, t_op op);
 

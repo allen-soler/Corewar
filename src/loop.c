@@ -16,6 +16,7 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 	{
 		DEBUG(ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", op_tab[op_code - 1].name, op_code))
 		g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
+		VERB(VERB_OP, ft_printf("\n"));
 	}
 }
 
@@ -34,34 +35,6 @@ static void		init_loop(t_loop *loop, int player_nb)
 **			-op w/cycle > 0:				cycle--
 **			-op w/cycle == 0:				exec cmd
 */
-
-static void		exec_process(t_env *env)
-{
-	t_process	*curr;
-
-	curr = env->cursors;
-	while (curr != NULL)
-	{
-		if (curr->cycle == 0)
-		{
-			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data < 17)
-			{
-				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
-				DEBUG(ft_printf("{g}Adding %d cycles to procces %s{R}\n", curr->cycle, env->players[curr->player - 1].header.prog_name))
-			}
-			else
-				curr->pc = (curr->pc + 1) % MEM_SIZE;
-		}
-		if (curr->cycle > 0)
-			curr->cycle--;
-		if (curr->cycle == 0)
-		{
-			exec_cmd(env, curr);
-		}
-		curr = curr->next;
-	}
-}
-
 static int		check_live(t_env *e)
 {
 	int			alive;
@@ -137,12 +110,38 @@ static void		print_winner(t_env *env)
 	exit_vm(env, EXIT_SUCCESS);
 }
 
+static void		exec_process(t_env *env)
+{
+	t_process	*curr;
+
+	curr = env->cursors;
+	while (curr != NULL)
+	{
+		if (curr->cycle <= 0)
+		{
+			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data <= REG_NUMBER)
+			{
+				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
+				DEBUG(ft_printf("{g}Adding %d cycles to procces %s{R}\n", curr->cycle, env->players[curr->player - 1].header.prog_name))
+			}
+			else
+				curr->pc = (curr->pc + 1) % MEM_SIZE;
+		}
+		if (curr->cycle > 0)
+			curr->cycle--;
+		if (curr->cycle == 0)
+			exec_cmd(env, curr);
+		curr = curr->next;
+	}
+}
+
+
 int				run_cycle(t_env *e, t_loop *l)
 {
 	l->i_cycle = 0;
 	while (l->i_cycle < l->cycle_to_die)
 	{
-		VERB(VERB_SHOW_CYCLES, ft_printf("Cycle %d\n", l->current_cycle));
+		VERB(VERB_SHOW_CYCLES, ft_printf("It is now cycle %lu\n", l->current_cycle));
 		exec_process(e);
 		if ((e->flag & FLAG_DUMP) && (l->current_cycle == e->dump))
 		{
@@ -168,6 +167,7 @@ void			game_loop(t_env *e)
 	{
 		if (!run_cycle(e, &l))
 			break ;
+		DEBUG(d_display_full_process(*e))
 		l.nb_process_alive = check_live(e);
 		if (e->cursors == NULL)
 			print_winner(e);
