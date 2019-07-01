@@ -6,14 +6,25 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 16:33:02 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 13:56:04 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //PROBLEM WIIITHHHH HASHTAG AT END
 #include "asm.h"
 #include "op.h"
 
-int		check_register(char *arg, t_par **list)
+static int	handle_number(char *arg, int stock, int neg)
+{
+	if (neg == 1 && ft_isdigit(*arg))
+		stock = (stock * 10) - (*arg - 48);
+	else if (neg == 0 && ft_isdigit(*arg))
+		stock = (stock * 10) + (*arg - 48);
+	else
+		error_custom("Invalid argument format\n", NULL);
+	return (stock);
+}
+
+int			check_register(char *arg, t_par **list)
 {
 	size_t	stock;
 	char	*stk;
@@ -42,24 +53,28 @@ int		check_register(char *arg, t_par **list)
 	return (0);
 }
 
-int		check_direct(char *arg, t_par **list)
+int			check_direct(char *arg, t_par **list)
 {
 	size_t	stock;
 	char	*stk;
+	int		neg;
 
 	stock = 0;
 	stk = NULL;
+	neg = 0;
 	if (*arg == '%')
 	{
 		if (*(arg + 1) == ':')
 			return (direct_label(list, (arg + 2), 5));
+		else if (*(arg + 1) == '-')
+		{
+			neg = 1;
+			arg = arg + 1;
+		}
 		while (ft_isdigit(*(arg + 1)) && (*(arg + 1)) != '\0')
 		{
 			arg = arg + 1;
-			if (stock == 0)
-				stock = *arg - 48;
-			else
-				stock = (stock * 10) + (*arg - 48);
+			stock = handle_number(arg, stock, neg);
 		}
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			return (1);
@@ -71,23 +86,27 @@ int		check_direct(char *arg, t_par **list)
 	return (0);
 }
 
-int		check_indirect(char *arg, t_par **list)
+int			check_indirect(char *arg, t_par **list)
 {
 	size_t	stock;
 	char	*stk;
+	int		neg;
 
 	stock = 0;
 	stk = NULL;
-	if (ft_isdigit(*arg) || *arg == ':')
+	neg =  0;
+	if (*arg == '-' || ft_isdigit(*arg) || *arg == ':')
 	{
 		if (*arg == ':')
 			return (direct_label(list, (arg + 1), 9));
+		else if (*arg == '-')
+		{
+			neg = 1;
+			arg = arg + 1;
+		}
 		while (ft_isdigit(*arg) && *arg != '\0')
 		{
-			if (stock == 0)
-				stock = *arg - 48;
-			else
-				stock = (stock * 10) + (*arg - 48);
+			stock = handle_number(arg, stock, neg);
 			arg = arg + 1;
 		}
 		if (*arg != '\0' && *arg != ',')
@@ -100,7 +119,7 @@ int		check_indirect(char *arg, t_par **list)
 	return (0);
 }
 
-void	check_args(char **line, t_par **list)
+void		check_args(char **line, t_par **list)
 {
 	char 	**args;
 	size_t	i;
