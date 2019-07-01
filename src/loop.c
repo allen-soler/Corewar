@@ -49,7 +49,7 @@ static int		check_live(t_env *e)
 		{
 			tmp = index;
 			VERB(VERB_PROCESS_CREATION_DEATH, ft_printf("\tProcess %d of player %d died\n",\
-						index->pid,
+						index->pid - 1,
 						index->player)); // should we add this to delete process?
 			index = index->next;
 			delete_process(&e->cursors, tmp);
