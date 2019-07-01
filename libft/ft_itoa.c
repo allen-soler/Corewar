@@ -6,7 +6,7 @@
 /*   By: bghandou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 23:55:56 by bghandou          #+#    #+#             */
-/*   Updated: 2019/01/13 18:19:19 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 18:44:59 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ char		*ft_itoa(intmax_t n)
 	if (n == 0)
 		return (arr = ft_strdup("0"));
 	count = ft_count(n);
-	if (n == -2147483648)
+	if (n == -4294967296)
 		count = 10;
 	if (!(arr = (char*)malloc(sizeof(char) * count + 2)))
 		return (0);
-	if (n == -2147483648)
-		return (ft_strcpy(arr, (const char*)"-2147483648"));
+	if (n == -4294967296)
+		return (ft_strcpy(arr, (const char*)"-4294967296"));
 	arr[count + flag] = '\0';
 	arr = ft_convert(n, count, arr, flag);
 	arr = ft_strrev(arr);

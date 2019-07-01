@@ -6,25 +6,28 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 13:56:04 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 19:10:40 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //PROBLEM WIIITHHHH HASHTAG AT END
 #include "asm.h"
 #include "op.h"
 
-static int	handle_number(char *arg, int stock, int neg)
+static intmax_t	handle_number(char *arg, intmax_t stock, int neg)
 {
+	dprintf(1, "PASS!__val:%zu\n", stock);
 	if (neg == 1 && ft_isdigit(*arg))
 		stock = (stock * 10) - (*arg - 48);
 	else if (neg == 0 && ft_isdigit(*arg))
 		stock = (stock * 10) + (*arg - 48);
 	else
 		error_custom("Invalid argument format\n", NULL);
+	if (stock > 4294967295 || stock < -4294967296)
+		error_custom("Out of bounds argument value. Needs to be > -4294967297 or < 4294967296.\n", NULL);
 	return (stock);
 }
 
-int			check_register(char *arg, t_par **list)
+int				check_register(char *arg, t_par **list)
 {
 	size_t	stock;
 	char	*stk;
@@ -53,11 +56,11 @@ int			check_register(char *arg, t_par **list)
 	return (0);
 }
 
-int			check_direct(char *arg, t_par **list)
+int				check_direct(char *arg, t_par **list)
 {
-	size_t	stock;
-	char	*stk;
-	int		neg;
+	intmax_t	stock;
+	char		*stk;
+	int			neg;
 
 	stock = 0;
 	stk = NULL;
@@ -86,11 +89,11 @@ int			check_direct(char *arg, t_par **list)
 	return (0);
 }
 
-int			check_indirect(char *arg, t_par **list)
+int				check_indirect(char *arg, t_par **list)
 {
-	size_t	stock;
-	char	*stk;
-	int		neg;
+	intmax_t	stock;
+	char		*stk;
+	int			neg;
 
 	stock = 0;
 	stk = NULL;
@@ -119,7 +122,7 @@ int			check_indirect(char *arg, t_par **list)
 	return (0);
 }
 
-void		check_args(char **line, t_par **list)
+void			check_args(char **line, t_par **list)
 {
 	char 	**args;
 	size_t	i;
@@ -132,11 +135,6 @@ void		check_args(char **line, t_par **list)
 	err += check_comma(*line, list);
 	while (args[++i] != '\0')
 	{
-/*		if (args[i][0] == '#')
-		{
-			line = NULL;
-			break;
-		}*/
 		err += check_register(args[i], list);
 		err += check_direct(args[i], list);
 		err += check_indirect(args[i], list);
