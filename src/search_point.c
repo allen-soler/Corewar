@@ -6,11 +6,25 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:07:22 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 15:52:48 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/01 13:26:07 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
+
+char	*ignore_hash_comment(char *line)
+{
+	size_t	i;
+
+	i = 0;
+	while (line && line[i] != '\0')
+	{
+		if (line[i] == '#')
+			ft_bzero(&line[i], ft_strlen(line));
+		i++;
+	}
+	return (line);
+}
 
 char	*skip_space(char *line)
 {

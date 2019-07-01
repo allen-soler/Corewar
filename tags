@@ -72,7 +72,7 @@ Entre	resources/vm_champs/champs/championships/2017/gnebie/ultima.s	/^Entre mes 
 Etrange	resources/champs/championships/2017/gnebie/ultima.s	/^Etrange héritage sortira$/;"	l
 Etrange	resources/vm_champs/champs/championships/2017/gnebie/ultima.s	/^Etrange héritage sortira$/;"	l
 F	libft/src/printf/includes/ft_printf.h	/^	NON, S, P, C, D, O, U, X, BIGX, B, F, N$/;"	e	enum:e_conversion
-FLAGS	Makefile	/^FLAGS = -Wall  -g$/;"	m
+FLAGS	Makefile	/^FLAGS = -Wall -fsanitize=address  -g$/;"	m
 FT_PRINTF_H	libft/src/printf/includes/ft_printf.h	/^# define FT_PRINTF_H$/;"	d
 GNL_H	libft/includes/gnl.h	/^# define GNL_H$/;"	d
 GREEN	libft/src/printf/includes/ft_printf.h	/^# define GREEN /;"	d
@@ -500,7 +500,15 @@ check_register	src/check_args.c	/^int		check_register(char *arg, t_par **list)$/
 check_syntax	src/syntax_checker.c	/^void	check_syntax(t_par *list)$/;"	f
 choochoo	resources/champs/examples/helltrain.s	/^choochoo:$/;"	l
 choochoo	resources/vm_champs/champs/examples/helltrain.s	/^choochoo:$/;"	l
+class_1	src/first_half.c	/^t_par	*class_1(t_par *tmp, t_par *head)$/;"	f
+class_2	src/first_half.c	/^t_par	*class_2(t_par *tmp, t_par *head)$/;"	f
+class_3	src/first_half.c	/^t_par	*class_3(t_par *tmp, t_par *head)$/;"	f
+class_4	src/first_half.c	/^t_par	*class_4(t_par *tmp, t_par *head)$/;"	f
+class_5	src/second_half.c	/^t_par	*class_5(t_par *tmp, t_par *head)$/;"	f
+class_6	src/second_half.c	/^t_par	*class_6(t_par *tmp, t_par *head)$/;"	f
 class_7	src/second_half.c	/^t_par	*class_7(t_par *tmp, t_par *head)$/;"	f
+class_8	src/second_half.c	/^t_par	*class_8(t_par *tmp, t_par *head)$/;"	f
+class_9	src/second_half.c	/^t_par	*class_9(t_par *tmp, t_par *head)$/;"	f
 clear	resources/champs/championships/2014/hmoutaou/Misaka_Mikoto.s	/^clear:$/;"	l
 clear	resources/vm_champs/champs/championships/2014/hmoutaou/Misaka_Mikoto.s	/^clear:$/;"	l
 code	resources/champs/Gagnant.s	/^code:		live %42			# 5$/;"	l
@@ -509,7 +517,7 @@ code	resources/vm_champs/champs/Gagnant.s	/^code:		live %42			# 5$/;"	l
 code	resources/vm_champs/champs/toto.s	/^code:		live %42			# 5$/;"	l
 colors	libft/src/printf/srcs/bonus.c	/^int				colors(t_printf *p)$/;"	f
 comment	includes/op.h	/^	char			comment[COMMENT_LENGTH + 1];$/;"	m	struct:header_s
-comment	src/create_file.c	/^void	comment(int fd, char *comment, char *src)$/;"	f
+comment	src/create_file.c	/^void	comment(int fd, header_t *h, char *src)$/;"	f
 complicate	resources/champs/championships/2014/kelickel/Varimathras.s	/^complicate:$/;"	l
 complicate	resources/vm_champs/champs/championships/2014/kelickel/Varimathras.s	/^complicate:$/;"	l
 cont	resources/champs/42.s	/^cont:	add	r6,r6,r6$/;"	l
@@ -542,6 +550,7 @@ corruption_second	resources/vm_champs/champs/championships/2017/jaustry/mise_a_j
 corruption_second2	resources/champs/championships/2017/gnebie/ultima.s	/^corruption_second2:$/;"	l
 corruption_second2	resources/vm_champs/champs/championships/2017/gnebie/ultima.s	/^corruption_second2:$/;"	l
 count_length	libft/src/libft/ft_itoa.c	/^static int	count_length(int nb)$/;"	f	file:
+count_words	libft/src/libft/ft_split.c	/^static size_t	count_words(char const *str, char *split)$/;"	f	file:
 cp	resources/champs/tdc4.s	/^cp:	$/;"	l
 cp	resources/vm_champs/champs/tdc4.s	/^cp:	$/;"	l
 create_queue	libft/src/data_structures/queue/queue.c	/^t_queue		create_queue(size_t capacity)$/;"	f
@@ -617,7 +626,7 @@ defm	resources/champs/maxidef.s	/^defm:	st r3,-510$/;"	l
 defm	resources/vm_champs/champs/maxidef.s	/^defm:	st r3,-510$/;"	l
 defplus	resources/champs/championships/2014/gbir/_.s	/^defplus:$/;"	l
 defplus	resources/vm_champs/champs/championships/2014/gbir/_.s	/^defplus:$/;"	l
-direct_label	src/handle_labels.c	/^int			direct_label(t_par **list, char *arg)$/;"	f
+direct_label	src/handle_labels.c	/^int			direct_label(t_par **list, char *arg, int type)$/;"	f
 dtoa_string	libft/src/printf/srcs/floats.c	/^void			dtoa_string(long double n, t_param *a, long value, t_printf *p)$/;"	f
 e_conversion	libft/src/printf/includes/ft_printf.h	/^typedef enum		e_conversion$/;"	g
 e_modifiers	libft/src/printf/includes/ft_printf.h	/^typedef enum		e_modifiers$/;"	g
@@ -732,7 +741,7 @@ f8	resources/vm_champs/champs/Death.s	/^f8:	fork	%:f9$/;"	l
 f9	resources/champs/Death.s	/^f9:	fork	%:f10$/;"	l
 f9	resources/vm_champs/champs/Death.s	/^f9:	fork	%:f10$/;"	l
 fd	libft/src/printf/includes/ft_printf.h	/^	int				fd;$/;"	m	struct:s_printf
-fetch_function	src/syntax_checker.c	/^void	fetch_function(t_par *tmp, int class, t_par *head)$/;"	f
+fetch_function	src/syntax_checker.c	/^t_par	*fetch_function(t_par *tmp, int class, t_par *head)$/;"	f
 feuille	resources/champs/championships/2014/ekocevar/mandragore.s	/^feuille:$/;"	l
 feuille	resources/vm_champs/champs/championships/2014/ekocevar/mandragore.s	/^feuille:$/;"	l
 ff1	resources/champs/championships/2017/tbillard/Douceur_power.s	/^ff1:$/;"	l
@@ -934,6 +943,7 @@ ft_putnbr_fd	libft/src/libft/ft_putnbr_fd.c	/^void	ft_putnbr_fd(int nbr, int fd)
 ft_putstr	libft/src/libft/ft_putstr.c	/^void	ft_putstr(char *str)$/;"	f
 ft_putstr_fd	libft/src/libft/ft_putstr_fd.c	/^void	ft_putstr_fd(char *str, int fd)$/;"	f
 ft_realloc	libft/src/libft/ft_realloc.c	/^void	*ft_realloc(void *ptr, size_t new_size, size_t original_size)$/;"	f
+ft_split	libft/src/libft/ft_split.c	/^char			**ft_split(char const *str, char *split)$/;"	f
 ft_splitwhite	libft/src/libft/ft_splitwhite.c	/^char			**ft_splitwhite(char const *s)$/;"	f
 ft_strcat	libft/src/libft/ft_strcat.c	/^char	*ft_strcat(char *s1, const char *s2)$/;"	f
 ft_strchr	libft/src/libft/ft_strchr.c	/^char	*ft_strchr(const char *s, int c)$/;"	f
@@ -971,6 +981,7 @@ ft_tab_len	libft/src/libft/ft_tab_len.c	/^size_t	ft_tab_len(char **tab)$/;"	f
 ft_tolower	libft/src/libft/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f
 ft_toupper	libft/src/libft/ft_toupper.c	/^int		ft_toupper(int c)$/;"	f
 ft_vef_line	libft/src/io/get_next_line.c	/^char			*ft_vef_line(char *tmp, char **line)$/;"	f
+ft_wl	libft/src/libft/ft_split.c	/^static size_t	ft_wl(char const *str, char *split)$/;"	f	file:
 fuite	resources/champs/lde.s	/^fuite:	live %1$/;"	l
 fuite	resources/champs/leeloo.s	/^fuite:	live %1$/;"	l
 fuite	resources/champs/new.s	/^fuite:	live %1$/;"	l
@@ -1053,6 +1064,7 @@ hop	resources/vm_champs/champs/lde.s	/^hop:	live %1$/;"	l
 hop	resources/vm_champs/champs/leeloo.s	/^hop:	live %1$/;"	l
 hop	resources/vm_champs/champs/new.s	/^hop:	live %1$/;"	l
 i	libft/src/printf/includes/ft_printf.h	/^	int					i;$/;"	m	union:u_data
+ignore_hash_comment	src/search_point.c	/^char	*ignore_hash_comment(char *line)$/;"	f
 imax	libft/src/printf/includes/ft_printf.h	/^	intmax_t			imax;$/;"	m	union:u_data
 in_labelchar	src/handle_labels.c	/^static int	in_labelchar(char car)$/;"	f	file:
 ind	libft/src/printf/includes/ft_printf.h	/^	short			ind;$/;"	m	struct:s_param
@@ -1089,6 +1101,7 @@ inside	resources/champs/championships/2017/adenis/Explosive_Kitty.s	/^inside:$/;
 inside	resources/vm_champs/champs/championships/2017/adenis/Explosive_Kitty.s	/^inside:$/;"	l
 instructions_array	src/instruct_tokens.c	/^char	**instructions_array(void)$/;"	f
 int_indentation	libft/src/printf/srcs/hand_di.c	/^static char		*int_indentation(char *res, int neg, t_param *n)$/;"	f	file:
+is_blank	libft/src/libft/ft_split.c	/^static int		is_blank(char c, char *split)$/;"	f	file:
 is_negative	libft/src/printf/srcs/hand_di.c	/^static int		is_negative(t_param *n)$/;"	f	file:
 j1	resources/champs/Survivor.s	/^j1:	$/;"	l
 j1	resources/vm_champs/champs/Survivor.s	/^j1:	$/;"	l
@@ -1175,7 +1188,7 @@ l2	resources/vm_champs/champs/Death.s	/^l2:	live	%1$/;"	l
 l2	resources/vm_champs/champs/ex.s	/^l2:	sti	r1,%:live,%0$/;"	l
 l2	resources/vm_champs/champs/examples/zork.s	/^l2:		sti r1, %:live, %1$/;"	l
 l2	resources/zork.s	/^l2:		sti r1, %:live, %1$/;"	l
-l2	zork.s	/^l2:		sti r1,%:live,%1$/;"	l
+l2	zork.s	/^l2:		sti r1, 	 %:live, %1$/;"	l
 l3	resources/champs/42.s	/^l3:	live	%1$/;"	l
 l3	resources/champs/Backward.s	/^l3:	ldi	%:l2, r2, r4$/;"	l
 l3	resources/champs/Death.s	/^l3:	live	%1$/;"	l
@@ -1872,7 +1885,6 @@ live5	resources/vm_champs/champs/championships/2014/rabid-on/jinx.s	/^live5:$/;"
 live5	resources/vm_champs/champs/championships/2017/jaustry/mise_a_jour_windows95.s	/^live5:$/;"	l
 live6	resources/champs/championships/2014/rabid-on/jinx.s	/^live6:$/;"	l
 live6	resources/vm_champs/champs/championships/2014/rabid-on/jinx.s	/^live6:$/;"	l
-live_function	src/first_half.c	/^t_par	*live_function(t_par *tmp, t_par *head)$/;"	f
 live_live	resources/champs/barriere.s	/^live_live:	live	%42	$/;"	l
 live_live	resources/vm_champs/champs/barriere.s	/^live_live:	live	%42	$/;"	l
 livel	resources/champs/jumper.s	/^livel:	live %66$/;"	l
@@ -1934,6 +1946,7 @@ malloc_safe	libft/src/printf/srcs/useful_functions_2.c	/^void	*malloc_safe(size_
 master	resources/champs/mortel.s	/^master:	live %66$/;"	l
 master	resources/vm_champs/champs/mortel.s	/^master:	live %66$/;"	l
 match_instruction	src/syntax_checker.c	/^void	match_instruction(t_par *tmp, char **instructions, t_par *head)$/;"	f
+match_labels	src/match_labels.c	/^void	match_labels(t_par *tmp, t_par *head)$/;"	f
 mei	resources/champs/championships/2017/pzarmehr/overwatch.s	/^mei:$/;"	l
 mei	resources/vm_champs/champs/championships/2017/pzarmehr/overwatch.s	/^mei:$/;"	l
 mem_len	libft/includes/libft.h	/^	size_t			mem_len;$/;"	m	struct:s_garbage
@@ -1967,7 +1980,7 @@ move5	resources/champs/championships/2014/cdivry/youforkmytralala.s	/^move5:$/;"
 move5	resources/vm_champs/champs/championships/2014/cdivry/youforkmytralala.s	/^move5:$/;"	l
 move_forward	resources/champs/championships/2014/gudepard/Kappa.s	/^move_forward:$/;"	l
 move_forward	resources/vm_champs/champs/championships/2014/gudepard/Kappa.s	/^move_forward:$/;"	l
-name	src/create_file.c	/^void	name(int fd, uint32_t x, char *name, char *src)$/;"	f
+name	src/create_file.c	/^void	name(int fd, uint32_t x, header_t *h, char *src)$/;"	f
 name_token	src/token_automata.c	/^int		name_token(char **line, int state, t_par **list)$/;"	f
 nbr_is_negative	libft/src/libft/ft_itoa.c	/^static void	nbr_is_negative(int *n, int *bl)$/;"	f	file:
 new_avl_node	libft/src/data_structures/avl/avl.c	/^t_avl_node	*new_avl_node(unsigned long key, int index)$/;"	f
@@ -1995,7 +2008,6 @@ numero2	resources/champs/mortel.s	/^numero2: live %66$/;"	l
 numero2	resources/vm_champs/champs/mortel.s	/^numero2: live %66$/;"	l
 ok	resources/champs/tdc3.s	/^ok:$/;"	l
 ok	resources/vm_champs/champs/tdc3.s	/^ok:$/;"	l
-open_file	src/create_file.c	/^int	open_file(char	*src, int fd)$/;"	f
 ouais	resources/champs/championships/2017/iburel/gateau.s	/^ouais:$/;"	l
 ouais	resources/vm_champs/champs/championships/2017/iburel/gateau.s	/^ouais:$/;"	l
 p1	resources/champs/42.s	/^p1:	zjmp	%:infi$/;"	l
@@ -2156,6 +2168,7 @@ reinhardt	resources/champs/championships/2017/pzarmehr/overwatch.s	/^reinhardt:$
 reinhardt	resources/vm_champs/champs/championships/2017/pzarmehr/overwatch.s	/^reinhardt:$/;"	l
 relive	resources/champs/championships/2014/gpetrov/MarineKing.s	/^relive:$/;"	l
 relive	resources/vm_champs/champs/championships/2014/gpetrov/MarineKing.s	/^relive:$/;"	l
+remaining_tokens	src/instruction_utils.c	/^int		remaining_tokens(t_par *tmp)$/;"	f
 replic1	resources/champs/championships/2014/rabid-on/jinx.s	/^replic1:$/;"	l
 replic1	resources/vm_champs/champs/championships/2014/rabid-on/jinx.s	/^replic1:$/;"	l
 replic2	resources/champs/championships/2014/rabid-on/jinx.s	/^replic2:$/;"	l
@@ -2218,6 +2231,7 @@ sc	libft/src/printf/includes/ft_printf.h	/^	signed char			sc;$/;"	m	union:u_data
 search_arg	libft/src/printf/srcs/parse_arguments.c	/^void			search_arg(t_param *new, va_list al)$/;"	f
 search_arg2	libft/src/printf/srcs/parse_arguments.c	/^static void		search_arg2(t_param *new, va_list al)$/;"	f	file:
 search_color	libft/src/printf/srcs/bonus.c	/^static char		*search_color(char cl)$/;"	f	file:
+search_label	src/match_labels.c	/^int		search_label(char *param, t_par *tmp)$/;"	f
 search_valid_inst	src/instruct_tokens.c	/^int		search_valid_inst(char **line, t_par **list)$/;"	f
 search_width_precision	libft/src/printf/srcs/parse_arguments.c	/^void			search_width_precision(t_printf *p)$/;"	f
 second	resources/champs/championships/2014/sbuono/Asombra.s	/^second:$/;"	l
@@ -2658,6 +2672,7 @@ tampon	resources/champs/mortel.s	/^tampon:	sti r6,r3,r5$/;"	l
 tampon	resources/vm_champs/champs/mortel.s	/^tampon:	sti r6,r3,r5$/;"	l
 tart	resources/champs/42.s	/^tart:	sti	r1,%:p64li,%1$/;"	l
 tart	resources/vm_champs/champs/42.s	/^tart:	sti	r1,%:p64li,%1$/;"	l
+test	src/main.c	/^void	test(char *line)$/;"	f
 test_print	src/para_list.c	/^void	test_print(t_par *list)\/\/delete when done!!$/;"	f
 tige	resources/champs/championships/2014/ekocevar/mandragore.s	/^tige:$/;"	l
 tige	resources/vm_champs/champs/championships/2014/ekocevar/mandragore.s	/^tige:$/;"	l
@@ -2679,7 +2694,7 @@ tirvd2	resources/champs/42.s	/^tirvd2:	zjmp	%:tirdow$/;"	l
 tirvd2	resources/vm_champs/champs/42.s	/^tirvd2:	zjmp	%:tirdow$/;"	l
 tmp	resources/champs/championships/2014/esusseli/gedeon.s	/^tmp:$/;"	l
 tmp	resources/vm_champs/champs/championships/2014/esusseli/gedeon.s	/^tmp:$/;"	l
-to_binary	src/create_file.c	/^void	to_binary(char *src)$/;"	f
+to_binary	src/create_file.c	/^void	to_binary(char *src, header_t *h)$/;"	f
 to_unsigned	libft/src/printf/srcs/hand_di.c	/^static void		to_unsigned(t_param *n, int neg)$/;"	f	file:
 token_automata	src/null_state.c	/^void	token_automata(char *line, t_par **list)$/;"	f
 top	resources/champs/42.s	/^top:	live	%42$/;"	l

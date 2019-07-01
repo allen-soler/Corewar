@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 15:43:01 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/27 15:51:55 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/01 13:54:59 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	open_file(char	*src, int fd)
 	return (fd);
 }
 
-void	name(int fd, uint32_t x, char *name, char *src)
+void	name(int fd, uint32_t x, header_t *h, char *src)
 {
 	int				i;
 	char			**tab;
@@ -34,52 +34,49 @@ void	name(int fd, uint32_t x, char *name, char *src)
 
 	i = 0;
 	tab = ft_strsplit(src, '"');
-	name[PROG_NAME_LENGTH + 1] = '\0';
 	while (i < 4 + ft_strlen(tab[1]))
 	{
 		if (i < 4)
 		{
 			byte = x >> ((3 - i) * 8) & 0xff;
-			name[i] = byte;
+			h->prog_name[i] = byte;
 		}
 		else
-			name[i] = tab[1][i - 4];
+			h->prog_name[i] = tab[1][i - 4];
 		i++;
 	}
-	write(fd, name, 128);
+	write(fd, h->prog_name, 128);
 	ft_free_tab(tab);
 }
 
-void	comment(int fd, char *comment, char *src)
+void	comment(int fd, header_t *h, char *src)
 {
 	char	**tab;
 	int		i;
 
 	i = 0;
 	tab = ft_strsplit(src, '"');
-	comment[COMMENT_LENGTH + 1] = '\0';
 	while (i < ft_strlen(tab[1]))
 	{
-		comment[i + 12] = tab[1][i];
+		h->comment[i + 12] = tab[1][i];
 		i++;
 	}
-	write(fd, comment, 2048);
+	write(fd, h->comment, 2048);
 	ft_free_tab(tab);
 }
 
-void	to_binary(char *src)
+void	to_binary(char *src, header_t *h)
 {
 	char		**tab;
 	int			fd;
-	header_t	header;
 
 	fd = 0;
 	tab = ft_strsplit(src, '\n');
 	fd = open_file(&tab[0][5], fd);
-	ft_bzero(header.prog_name, PROG_NAME_LENGTH + 1); 
-	ft_bzero(header.comment, COMMENT_LENGTH + 1); 
-	name(fd, COREWAR_EXEC_MAGIC, header.prog_name, &tab[0][5]);
-	comment(fd, header.comment, &tab[1][8]);
+	ft_bzero(h->prog_name, PROG_NAME_LENGTH + 1); 
+	ft_bzero(h->comment, COMMENT_LENGTH + 1); 
+	name(fd, COREWAR_EXEC_MAGIC, h, &tab[0][5]);
+	comment(fd, h, &tab[1][8]);
 	ft_free_tab(tab);
 	close(fd);
 }

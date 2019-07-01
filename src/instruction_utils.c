@@ -6,19 +6,25 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:46:44 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 16:07:36 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/01 13:25:00 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
 
+int		remaining_tokens(t_par *tmp)
+{
+	if (tmp && (tmp->next == NULL || tmp->next->type == 6))
+		return (1);
+	return (0);
+}
+
 t_par	*convert_size_direct(t_par *list)
 {
 	if (list->type == 3)
-	{
 		list->type = 2;
-		return (list);
-	}
+	else if (list->type == 5)
+		list->type = 15;
 	return (list);
 }
 

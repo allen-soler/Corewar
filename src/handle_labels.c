@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:12:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 15:59:48 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/01 13:22:54 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int			set_label(char **line, t_par **list)
 		stock = ft_strncpy(stock, *line, i);
 		stock[i] = '\0';
 		*list = add_parameter(*list, stock, 7);
+		ft_strdel(&stock);
 		i++;
 		*line = skip_space(*line + i);
 		return (i);
@@ -50,7 +51,7 @@ int			set_label(char **line, t_par **list)
 	return (0);
 }
 
-int			direct_label(t_par **list, char *arg)
+int			direct_label(t_par **list, char *arg, int type)
 {
 	int		i;
 	int		len;
@@ -71,7 +72,7 @@ int			direct_label(t_par **list, char *arg)
 		return (1);
 	}
 	else
-		add_parameter(*list, stock, 5); 
+		add_parameter(*list, stock, type); 
 	ft_strdel(&stock);
 	return (0);
 }

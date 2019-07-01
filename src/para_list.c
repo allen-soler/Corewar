@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:10:03 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 15:52:33 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/01 13:25:49 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,38 @@
 
 void	test_print(t_par *list)//delete when done!!
 {
+	char *str;
+
+	dprintf(1, "________________\n");
 	while (list)
 	{
-		dprintf(1, "param : %s type : %d |||||||||| \n", list->param, list->type);
+		if (list->type == 1)
+			str = "REG";
+		else if (list->type == 2)
+			str = "DIR_2Bytes";
+		else if (list->type == 3)
+			str = "DIR_4Bytes";
+		else if (list->type == 4)
+			str = "INDIRECT";
+		else if (list->type == 5)
+			str = "DIR_LABEL4Bytes";
+		else if (list->type == 6)
+			str = "INSTRUCT";
+		else if (list->type ==7)
+			str = "LABEL";
+		else if (list->type == 8)
+			str = "COMMENT!";
+		else if (list->type == 9)
+			str = "IND_LABEL";
+		else if (list->type == 15)
+			str = "DIR_LABEL2Bytes";
+		else
+			str = "UNDEF";
+		dprintf(1, " param : '%s'		type : %s\n", list->param, str);
 		list = list->next;
 	}
+	dprintf(1, "______________\n");
+	dprintf(1, "\n");
 }
 
 t_par	*add_parameter(t_par *list, char *inst, int type)

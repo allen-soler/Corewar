@@ -31,6 +31,7 @@ SRC += 	$(SRC_DIR)$(LIBFT)ft_memset.c		\
 		$(SRC_DIR)$(LIBFT)ft_strcpy.c		\
 		$(SRC_DIR)$(LIBFT)ft_strncpy.c		\
 		$(SRC_DIR)$(LIBFT)ft_strcat.c		\
+		$(SRC_DIR)$(LIBFT)ft_split.c		\
 		$(SRC_DIR)$(LIBFT)ft_strncat.c		\
 		$(SRC_DIR)$(LIBFT)ft_strlcat.c		\
 		$(SRC_DIR)$(LIBFT)ft_strchr.c		\

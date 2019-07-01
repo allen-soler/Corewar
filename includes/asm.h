@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/29 17:27:29 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/01 16:34:22 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,17 @@
 # include "../libft/includes/libft.h"
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
-
+# define RRR 0b01010100
+# define RIR 0b01110100
+# define RDR 0b01100100
+# define IRR 0b11010100
+# define IIR 0b11110100
+# define IDR 0b11100100
+# define DRR 0b10010100
+# define DIR 0b10110100
+# define DDR 0b10100100
+# define IR 0b11010000
+# define DR 0b10010000
 
 typedef struct		s_par
 {
@@ -33,23 +43,24 @@ typedef struct		s_par
 }					t_par;
 
 void	readfile(int fd, char **line);
-void	to_binary(char *src);
-
+void	to_binary(char *src, header_t *h);
+void	ingest_file(t_par **list, char *file);
 
 /**
- *		Error handling
+*		Error handling
 **/
 
 void	error_function(char *string, t_par **list);
 void	error_custom(char *message, t_par *list);
-int		check_comma(char *line, t_par **list);
 
 /**
  *		Handle labels
 **/
 
-int		direct_label(t_par **list, char *arg);
+int		direct_label(t_par **list, char *arg, int type);
 int		set_label(char **line, t_par **list);
+int		search_label(char *param, t_par *tmp);
+void	match_labels(t_par *tmp, t_par *head);
 
 /**
  *		Structure handling
@@ -57,6 +68,7 @@ int		set_label(char **line, t_par **list);
 
 t_par	*add_parameter(t_par *list, char *inst, int type);
 t_par	*next_inst(t_par *list);
+int		remaining_tokens(t_par *tmp);
 void	test_print(t_par *list);//will have to delete when done
 
 /**
@@ -64,9 +76,11 @@ void	test_print(t_par *list);//will have to delete when done
 **/
 
 char	*skip_space(char *line);
+int		check_comma(char *line, t_par **list);
 size_t	str_repoint(char *haystack, char *needle);
 void	travel_states(char **line, int state);
 void	free_2d(char **arrray);
+char	*ignore_hash_comment(char *line);
 
 /**
  *		Tokens
@@ -89,10 +103,16 @@ int		check_indirect(char *arg, t_par **list);
 void	check_syntax(t_par *list);
 int		check_class(int	cur);
 void	match_instruction(t_par *tmp, char **instructions, t_par *head);
-void	fetch_function(t_par *tmp, int class, t_par *head);
+t_par	*fetch_function(t_par *tmp, int class, t_par *head);
 t_par	*convert_size_direct(t_par *list);
-t_par	*live_function(t_par *tmp, t_par *head);
+t_par	*class_1(t_par *tmp, t_par *head);
+t_par	*class_2(t_par *tmp, t_par *head);
+t_par	*class_3(t_par *tmp, t_par *head);
+t_par	*class_4(t_par *tmp, t_par *head);
+t_par	*class_5(t_par *tmp, t_par *head);
+t_par	*class_6(t_par *tmp, t_par *head);
 t_par	*class_7(t_par *tmp, t_par *head);
-void	ingest_file(char *line, t_par **list);
+t_par	*class_8(t_par *tmp, t_par *head);
+t_par	*class_9(t_par *tmp, t_par *head);
 
 #endif

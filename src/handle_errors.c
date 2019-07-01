@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 17:13:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/29 15:53:02 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/01 13:22:38 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ void	error_function(char *string, t_par **list)
 		free(tmp);
 		tmp = NULL;
 	}
-	ft_putstr("File syntax/structure ERROR\n");
+	ft_putstr("File structure ERROR\n");
 	exit(EXIT_FAILURE);
 }

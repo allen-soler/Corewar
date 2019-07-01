@@ -6,7 +6,7 @@
 #    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/06/29 17:20:53 by jallen           ###   ########.fr        #
+#    Updated: 2019/07/01 16:10:10 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -fsanitize=address  -g
+FLAGS = -Wal -g
 
 # program name
 
@@ -42,21 +42,22 @@ DIR_H = includes
 # source files for the project
 
 SOURCES =	check_args.c			\
+			create_file.c			\
 			free_systems.c			\
-			instruct_tokens.c		\
+			handle_labels.c			\
+			instruction_utils.c		\
+			match_labels.c			\
 			para_list.c				\
+			second_half.c			\
 			token_automata.c		\
 			check_comma.c			\
-			handle_errors.c			\
-			search_point.c			\
-			create_file.c			\
-			handle_labels.c			\
-			null_state.c			\
 			first_half.c			\
-			instruction_utils.c		\
-			second_half.c			\
+			handle_errors.c			\
+			instruct_tokens.c		\
+			main.c					\
+			null_state.c			\
+			search_point.c			\
 			syntax_checker.c		\
-			main.c
 
 # header files
 
