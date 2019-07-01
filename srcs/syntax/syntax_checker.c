@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 17:43:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 19:12:24 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 12:19:09 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	check_syntax(t_par *list)
 	tmp = NULL;
 	match_labels(tmp, list);
 	tmp = next_inst(list);
-	test_print(list);
 	if (tmp && tmp->type != 6)
 		error_custom("Instruction(s) needed.\n", list);
 	else
@@ -65,5 +64,4 @@ void	check_syntax(t_par *list)
 		instruct = instructions_array();
 		match_instruction(tmp, instruct, list);
 	}
-	test_print(tmp);
 }

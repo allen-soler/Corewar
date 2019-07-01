@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 12:05:06 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 12:19:26 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,5 @@ int		main(int ac, char **av)
 	(void)ac;
 	list = ingest_file(av[1]);
 	check_syntax(list);
+	test_print(list);
 }

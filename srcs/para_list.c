@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:10:03 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 12:16:19 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 12:25:47 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	test_print(t_par *list)//delete when done!!
 {
 	char *str;
 
+	dprintf(1, "________________\n");
 	while (list)
 	{
 		if (list->type == 1)
@@ -28,7 +29,7 @@ void	test_print(t_par *list)//delete when done!!
 		else if (list->type == 4)
 			str = "INDIRECT";
 		else if (list->type == 5)
-			str = "DIR_LABEL";
+			str = "DIR_LABEL4Bytes";
 		else if (list->type == 6)
 			str = "INSTRUCT";
 		else if (list->type ==7)
@@ -37,11 +38,14 @@ void	test_print(t_par *list)//delete when done!!
 			str = "COMMENT!";
 		else if (list->type == 9)
 			str = "IND_LABEL";
+		else if (list->type == 15)
+			str = "DIR_LABEL2Bytes
 		else
 			str = "UNDEF";
 		dprintf(1, " param : '%s'		type : %s\n", list->param, str);
 		list = list->next;
 	}
+	dprintf(1, "______________\n");
 	dprintf(1, "\n");
 }
 
@@ -52,7 +56,7 @@ t_par	*add_parameter(t_par *list, char *inst, int type)
 
 	head = list;
 	tmp = NULL;
-//	dprintf(1, "=======ADDED : %s, type:%d\n", inst, type);
+	dprintf(1, "=======ADDED : %s, type:%d\n", inst, type);
 	if (!list)
 	{
 		if (!(list = malloc(sizeof(t_par))))
