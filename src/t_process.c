@@ -1,8 +1,5 @@
 #include "vm.h"
 
-/*
-**	TODO: with which value do we set process->cycle ?
-*/
 t_process		*new_process(int player, int alive, int pid)
 {
 	t_process	*new;
@@ -48,7 +45,21 @@ void			append_process(t_process **head, t_process *new)
 	}
 }
 
-// There is a segfault in here
+void			push_process_front(t_process **head, t_process *new)
+{
+	t_process *tmp;
+
+	if (*head == NULL)
+		*head = new;
+	else
+	{
+		tmp = *head;
+		new->next = tmp;
+		new->prev = NULL;
+		*head = new;
+	}
+}
+
 void			delete_process(t_process **head, t_process *ptr)
 {
 	t_process 	*tmp;

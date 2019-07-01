@@ -121,7 +121,7 @@ static void		init_processes(t_env *env)
 		if (!tmp)
 			exit_failure("Error: malloc failed in init_processes", env);
 		tmp->pc = i * (MEM_SIZE / env->players_nb);
-		append_process(&env->cursors, tmp);
+		push_process_front(&env->cursors, tmp);
 		i++;
 	}
 }

@@ -196,7 +196,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	child = new_process(cursor->player, cursor->alive, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value)); 
-	append_process(&e->cursors, child);
+	push_process_front(&e->cursors, child);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 

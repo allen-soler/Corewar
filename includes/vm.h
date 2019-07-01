@@ -157,6 +157,7 @@ t_process	*new_process(int player, int alive, int pid);
 void		duplicate_process(t_process *dst, t_process *src);
 void		append_process(t_process **head, t_process *new_p);
 void		delete_process(t_process **head, t_process *ptr);
+void		push_process_front(t_process **head, t_process *new);
 
 /*
 ** ARGUMENT UTILS
