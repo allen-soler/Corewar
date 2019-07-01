@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:10:03 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 12:11:37 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 12:16:19 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	test_print(t_par *list)//delete when done!!
 			str = "IND_LABEL";
 		else
 			str = "UNDEF";
-		dprintf(1, " param : '%s' ||| type : %s ****=====>", list->param, str);
+		dprintf(1, " param : '%s'		type : %s\n", list->param, str);
 		list = list->next;
 	}
 	dprintf(1, "\n");
