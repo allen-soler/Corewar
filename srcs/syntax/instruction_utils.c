@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:46:44 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 16:41:21 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 14:10:07 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 int		remaining_tokens(t_par *tmp)
 {
+	while (tmp && (tmp->next && tmp->next->type == 7))
+		tmp = tmp->next;
 	if (tmp && (tmp->next == NULL || tmp->next->type == 6))
 		return (1);
 	return (0);

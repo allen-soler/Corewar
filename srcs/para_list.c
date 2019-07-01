@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:10:03 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 12:26:35 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 16:12:29 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	test_print(t_par *list)//delete when done!!
 			str = "DIR_LABEL2Bytes";
 		else
 			str = "UNDEF";
-		dprintf(1, " param : '%s'		type : %s\n", list->param, str);
+		dprintf(1, " param : '%s'		type : %s", list->param, str);
+		if (list->type == 15 || list->type == 5 || list-> type == 9)
+			dprintf(1, " ---> Pointing to :%s_type:%d", list->lbl_ptr->param, list->lbl_ptr->type);
+		dprintf(1, "\n");
 		list = list->next;
 	}
 	dprintf(1, "______________\n");

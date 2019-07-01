@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:53:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 19:10:50 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 14:06:08 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ t_par	*class_2(t_par *tmp, t_par *head)
 		tmp = convert_size_direct(tmp);
 		return (tmp->next);
 	}
-	error_custom("Invalid argument(s) for 'zjmp' | 'fork' | 'lfork' \
-match.\n", head);
+	error_custom("Invalid argument(s) for 'zjmp' | 'fork' | 'lfork'.\n", head);
 	return (tmp);
 }
 

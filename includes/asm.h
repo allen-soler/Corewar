@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/30 18:49:27 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/01 17:05:43 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 typedef struct		s_par
 {
 	char			*param;
-	int				type; //1: REG_CODE, 2: DIR_2Bytes, 3: DIR_4Bytes, 4: IND 5: DIR_LAB 6: inst 7: LABEL 8: comment 9: IND_LAB
+	int				type; //1: REG_CODE, 2: DIR_2Bytes, 3: DIR_4Bytes, 4: IND 5: DIR_LAB4_bytes 6: inst 7: LABEL 8: comment 9: IND_LAB 15: DIR_LAB2Bytes
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
 }					t_par;
@@ -45,7 +45,7 @@ void	error_custom(char *message, t_par *list);
 
 int		direct_label(t_par **list, char *arg, int type);
 int		set_label(char **line, t_par **list);
-int		search_label(char *param, t_par *tmp);
+t_par	*search_label(char *param, t_par *tmp, int *count);
 void	match_labels(t_par *tmp, t_par *head);
 
 /**
