@@ -211,8 +211,9 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
+	set_reg_values(cursor, op, 2);
 	read_args(e, cursor, op);
-	res = cursor->regs[cursor->args[0].value - 1] - cursor->regs[cursor->args[1].value - 1];
+	res = cursor->args[0].value - cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
