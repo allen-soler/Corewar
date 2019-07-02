@@ -15,6 +15,7 @@ void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 	while (size--)
 	{
 		e->arena[POSMOD(addr + size - 1)].data = ZMASK((value >> i));
+		e->arena[POSMOD(addr + size - 1)].player = 3;
 		i += 8;
 	}
 }
@@ -52,7 +53,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	set_reg_values(cursor, op , -1);
-	//DEBUG(d_display_argument(cursor, op))
+	DEBUG(d_display_argument(cursor, op))
 	i = -1;
 	while (++i < op.param_nb)
 	{
@@ -61,7 +62,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 		cursor->args[i].value += cursor->pc;
 	}
 	addr = MODX(cursor->args[1].value + cursor->args[2].value);
-	write_byte(e, cursor->pc + addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE); // Adding the pc here makes it work but should we?
+	write_byte(e, cursor->pc + addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
@@ -115,6 +116,7 @@ void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 	}
 	else
 	{
+		cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);
 		VERB(VERB_OP, ft_printf(" FAILED"));
 	}
 
