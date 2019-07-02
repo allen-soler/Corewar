@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:12:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 16:26:47 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/02 18:20:21 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,10 @@ int			set_label(char **line, t_par **list)
 	i = 0;
 	while (*(*line + i) != '\0' &&  *(*line + i) != ':'
 		&& in_labelchar(*(*line + i)) == 1)
-	{
 		i++;
-	}
-	*line = skip_space(*line);
 	if (*(*line + i) == ':')
 	{
-		stock = ft_memalloc(i + 1);
-		stock = ft_strncpy(stock, *line, i);
+		stock = ft_strndup(*line, i);
 		stock[i] = '\0';
 		*list = add_parameter(*list, stock, 7);
 		ft_strdel(&stock);

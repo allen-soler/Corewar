@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:07:22 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 16:23:23 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/02 18:15:51 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,7 @@ void	travel_states(char **line, int state)
 		if (**line == SPACE)
 			*line = skip_space(*line);
 		else
-		{
-		dprintf(1, "state : %d, line :%s\n", state, *line);
-			dprintf(1, "EERRRRor!\n");
 			exit(EXIT_FAILURE);
-		}
 	}
 	else if (state == 2 || state == 6)
 	{
