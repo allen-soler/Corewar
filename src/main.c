@@ -32,7 +32,11 @@ void	encoding(t_par *lst)
 	int	i;
 
 	i = 0;
-	while 
+	while (op_tab[i])
+	{
+		ft_printf("%s\n", op_tab[i]);
+		i++;
+	}
 }
 
 int		main(int ac, char **av)
