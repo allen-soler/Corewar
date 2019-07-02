@@ -18,6 +18,7 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 		g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
 		VERB(VERB_OP, ft_printf("\n"));
 	}
+	cursor->op_code = -1;
 }
 
 
@@ -125,7 +126,7 @@ static void		exec_process(t_env *env)
 		}
 		if (curr->cycle > 0)
 			curr->cycle--;
-		if (curr->cycle == 0)
+		if (curr->cycle == 0 && curr->op_code != -1)
 			exec_cmd(env, curr);
 		curr = curr->next;
 	}
