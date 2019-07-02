@@ -65,7 +65,7 @@ void	comment(int fd, header_t *h, char *src)
 	ft_free_tab(tab);
 }
 
-void	to_binary(char *src, header_t *h)
+void	to_binary(t_par *lst, char *src, header_t *h)
 {
 	char		**tab;
 	int			fd;

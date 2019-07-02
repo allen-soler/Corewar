@@ -21,7 +21,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wal -g
+FLAGS = -Wall -g
 
 # program name
 

@@ -43,7 +43,7 @@ typedef struct		s_par
 }					t_par;
 
 void	readfile(int fd, char **line);
-void	to_binary(char *src, header_t *h);
+void	to_binary(t_par *lst, char *src, header_t *h);
 void	ingest_file(t_par **list, char *file);
 
 /**
