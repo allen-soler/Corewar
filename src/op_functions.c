@@ -38,7 +38,7 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 
 	i = 0;
 	read_args(e, cursor, op);
-	DEBUG(d_display_argument(cursor, op))
+	//DEBUG(d_display_argument(cursor, op))
 	cursor->alive += 1;
 	while (i < e->players_nb)
 	{
@@ -65,7 +65,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	set_reg_values(cursor, op , -1);
-	DEBUG(d_display_argument(cursor, op))
+	//DEBUG(d_display_argument(cursor, op))
 	i = -1;
 	while (++i < op.param_nb)
 	{
@@ -81,23 +81,23 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 /*
 ** @function: ft_st
 **
-** @args: T_REG, T_IND | T_REG 
+** @args: T_REG, T_IND | T_REG
 **
 ** This instruction saves the first parameter to a memory address or a
 ** register, depending of the second parameter
 **
 ** Example: st r1 42, will save the value in r1 to (PC + (42 % IDX_MOD)
-*/ 
+*/
 
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
 	set_reg_values(cursor, op, 1);
-	DEBUG(d_display_argument(cursor, op))
+	//DEBUG(d_display_argument(cursor, op))
 	if (cursor->args[1].type == T_IND)
 	{
 		int addr = cursor->pc + MODX(cursor->args[1].value);
-		DEBUG(PRINT_D(addr))
+		//DEBUG(PRINT_D(addr))
 		write_byte(e, addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE);
 
 	}
@@ -120,7 +120,7 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	DEBUG(d_display_argument(cursor, op))
+	//DEBUG(d_display_argument(cursor, op))
 	if (cursor->carry)
 	{
 		cursor->pc = POSMOD(cursor->pc + (cursor->args[0].value % IDX_MOD));
@@ -130,12 +130,12 @@ void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 	{
 		VERB(VERB_OP, ft_printf(" FAILED"));
 	}
-	
+
 }
 
 /*
 ** @function: ft_and
-** 
+**
 ** @args: Takes 3 registers as parameter where the value
 ** contained in the first 2 registers are added and
 ** stored in the 3 parameter.
@@ -144,14 +144,14 @@ void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 ** If after the operation the register in question has the
 ** value 0, then the carry will be set to 1, 0 otherwise.
 **
-*/ 
+*/
 
 void	ft_and(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
 	read_args(e, cursor, op);
-	DEBUG(d_display_argument(cursor, op))
+	//DEBUG(d_display_argument(cursor, op))
 	set_reg_values(cursor, op, 3);
 	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = res;
@@ -165,16 +165,16 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 ** @args: T_IND | T_DIR, T_REG
 **
 ** Load the value of the first argument into the registry
-** 
+**
 ** MODIFIES CARRY
 **
-*/ 
+*/
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
 	set_reg_values(cursor, op, 1);
-	DEBUG(d_display_argument(cursor, op))
+	//DEBUG(d_display_argument(cursor, op))
 	if (cursor->args[0].type == T_IND)
 		cursor->args[0].value = e->arena[POSMOD(cursor->pc + MODX(cursor->args[0].value))].data;
 	cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
@@ -191,10 +191,10 @@ void	ft_ld(t_env *e, t_process *cursor, t_op op)
 ** @args: T_DIR
 **
 ** Takes an address as a parameter, it will copy the process except
-** the number of lives and the pc, that will be set to the 
+** the number of lives and the pc, that will be set to the
 ** specified values.
 **
-*/ 
+*/
 
 void	ft_fork(t_env *e, t_process *cursor, t_op op)
 {
@@ -203,7 +203,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	read_args(e, cursor, op);
 	child = new_process(cursor->player, cursor->alive, e->last_pid++);
 	duplicate_process(child, cursor);
-	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value)); 
+	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value));
 	push_process_front(&e->cursors, child);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 	VERB(VERB_OP, ft_printf(" (%d)", child->pc));

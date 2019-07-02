@@ -20,14 +20,6 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 	}
 }
 
-static void		init_loop(t_loop *loop, int player_nb)
-{
-	loop->nb_process_alive = player_nb;
-	loop->current_cycle = 1;
-	loop->i_cycle = 0;
-	loop->i_check = 1;
-	loop->cycle_to_die = CYCLE_TO_DIE;
-}
 
 /*
 **	3 cases:
@@ -101,7 +93,7 @@ static void		init_processes(t_env *env)
 
 static void		print_winner(t_env *env)
 {
-	
+
 	if (env->last_live != -1)
 		ft_printf("Player %d (%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
 	else
@@ -122,7 +114,7 @@ static void		exec_process(t_env *env)
 			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data <= REG_NUMBER)
 			{
 				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
-				DEBUG(ft_printf("{g}Adding %d cycles to procces %s{R}\n", curr->cycle, env->players[curr->player - 1].header.prog_name))
+				DEBUG(ft_printf("{g}Adding %d cycles to procces %s pid(%d), for op %s{R}\n", curr->cycle, env->players[curr->player - 1].header.prog_name, curr->pid, op_tab[env->arena[curr->pc].data - 1].name))
 			}
 			else
 				curr->pc = (curr->pc + 1) % MEM_SIZE;
@@ -135,6 +127,14 @@ static void		exec_process(t_env *env)
 	}
 }
 
+static void		init_loop(t_loop *loop, int player_nb)
+{
+	loop->nb_process_alive = player_nb;
+	loop->current_cycle = 1;
+	loop->i_cycle = 0;
+	loop->i_check = 1;
+	loop->cycle_to_die = CYCLE_TO_DIE;
+}
 
 int				run_cycle(t_env *e, t_loop *l)
 {
@@ -145,13 +145,13 @@ int				run_cycle(t_env *e, t_loop *l)
 		exec_process(e);
 		if ((e->flag & FLAG_DUMP) && (l->current_cycle == e->dump))
 		{
+			DEBUG(d_display_full_process(*e))
 			print_arena(e);
 			return (0);
 		}
-		l->i_cycle++;
-		l->current_cycle++;
+		++l->i_cycle;
+		++l->current_cycle;
 	}
-	VERB(VERB_SHOW_CYCLES, ft_printf("Cycle %d\n", l->current_cycle)); // this might not be right
 	return (1);
 }
 
@@ -167,7 +167,6 @@ void			game_loop(t_env *e)
 	{
 		if (!run_cycle(e, &l))
 			break ;
-		DEBUG(d_display_full_process(*e))
 		l.nb_process_alive = check_live(e);
 		if (e->cursors == NULL)
 			print_winner(e);
@@ -175,9 +174,9 @@ void			game_loop(t_env *e)
 		{
 			l.i_check = 1;
 			l.cycle_to_die -= CYCLE_DELTA;
+			VERB(VERB_SHOW_CYCLES, ft_printf("Cycle to die is now %d\n", l.cycle_to_die));
 		}
 		else
 			l.i_check++;
-		VERB(VERB_SHOW_CYCLES, ft_printf("Cycle to die is now %d\n", l.cycle_to_die)); 
 	}
 }

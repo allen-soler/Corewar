@@ -37,7 +37,6 @@ foreach ($argv as $arg)
 {
 	echo $arg . PHP_EOL;
 	if (endsWith($arg, '.cor')) {
-		array_push($players, $arg);
 		$players .= $arg . " ";
 	} else if (endsWith($arg, '.s')) {
 		exec($_ENV['PATH_TO_ASM'] . " " . " $arg");

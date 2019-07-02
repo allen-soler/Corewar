@@ -60,10 +60,17 @@ void			push_process_front(t_process **head, t_process *new)
 	}
 }
 
+int			count_processes(t_process *head)
+{
+	if (!head) return 0;
+	return 1 + count_processes(head->next);
+}
+
 void			delete_process(t_process **head, t_process *ptr)
 {
 	t_process 	*tmp;
 
+	//DEBUG(ft_printf("There're %d processes still.\n", count_processes(*head)))
 	tmp = *head;
 	if (tmp)
 	{
