@@ -31,6 +31,7 @@
 # define DRR 0b10010100
 # define DIR 0b10110100
 # define DDR 0b10100100
+# define RDD 0b01101000
 # define IR 0b11010000
 # define DR 0b10010000
 
@@ -41,6 +42,8 @@ typedef struct		s_par
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
 }					t_par;
+
+t_op				op_tab[17];
 
 void	readfile(int fd, char **line);
 void	to_binary(t_par *lst, char *src, header_t *h);
@@ -114,5 +117,10 @@ t_par	*class_6(t_par *tmp, t_par *head);
 t_par	*class_7(t_par *tmp, t_par *head);
 t_par	*class_8(t_par *tmp, t_par *head);
 t_par	*class_9(t_par *tmp, t_par *head);
+
+
+int		to_bin(char	*bin);
+void	nb_inst(t_par **lst);
+void	encoding(t_par *lst, int fd);
 
 #endif

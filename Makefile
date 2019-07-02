@@ -58,8 +58,8 @@ SOURCES =	check_args.c			\
 			null_state.c			\
 			search_point.c			\
 			syntax_checker.c		\
-			op.c					
-
+			op.c					\
+			encoding.c
 # header files
 
 HEADER_FILES =	includes/asm.h \

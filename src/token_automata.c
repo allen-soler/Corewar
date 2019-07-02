@@ -22,9 +22,9 @@ int		init_comm_token(char **line, int state, t_par **list)
 			state += 1;
 			*line = *line + 1;
 		}
-		if (state == 7 && **line == END_LINE)
+		if (state == 7 && **line == '\n')
 		{
-			if (**line == END_LINE)
+			if (**line == '\n')
 			{
 				*list = add_parameter(*list, COMMENT_CMD_STRING, 0);
 				break ;
@@ -44,9 +44,9 @@ int		name_token(char **line, int state, t_par **list)
 			state += 1;
 			*line = *line + 1;
 		}
-		if (state == 3 && **line == END_LINE)
+		if (state == 3 && **line == '\n')
 		{
-			if (**line == END_LINE)
+			if (**line == '\n')
 			{
 				*list = add_parameter(*list, NAME_CMD_STRING, 0);
 				break ;

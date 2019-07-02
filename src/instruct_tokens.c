@@ -35,7 +35,7 @@ int		search_valid_inst(char **line, t_par **list)
 
 		if ((len = str_repoint(*line, inst[i])))
 		{
-			if (*(*line + len) == SPACE || *(*line + len) == '\t')
+			if (*(*line + len) == ' ' || *(*line + len) == '\t')
 			{
 				*list = add_parameter(*list, inst[i++], 6);
 				ft_strdel(inst);

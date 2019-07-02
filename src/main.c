@@ -12,31 +12,17 @@
 
 #include "../includes/asm.h"
 
-int		to_bin(char	*bin)
+void	test(t_par *lst)
 {
-	char	*start = &bin[0];
-	int		res;
+	t_par *tmp;
 
-	res = 0;
-	while (*start)
+	tmp = lst;
+	while (tmp)
 	{
-		res = res << 1;
-		if (*start++ == '1') 
-			res = res ^ 1;
+	ft_printf("%s %i\n", tmp->param, tmp->type);
+		tmp = tmp->next;
 	}
-	return (res);
-}
-
-void	encoding(t_par *lst)
-{
-	int	i;
-
-	i = 0;
-	while (op_tab[i])
-	{
-		ft_printf("%s\n", op_tab[i]);
-		i++;
-	}
+	ft_printf("-----------------------------------------------------\n");
 }
 
 int		main(int ac, char **av)
@@ -54,7 +40,7 @@ int		main(int ac, char **av)
 	close(fd);
 	ingest_file(&list, line);
 	//check_syntax(list);
-	encoding(list);
+	test(list);
 	to_binary(list, line, &header);
 	free(line);
 	return (0);

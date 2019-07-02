@@ -60,7 +60,7 @@ void	travel_states(char **line, int state)
 {
 	if (state == 1 || state == 3 || state == 5 || state == 7)
 	{
-		if (**line == SPACE)
+		if (**line == ' ')
 			*line = skip_space(*line);
 		else
 		{

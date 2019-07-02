@@ -77,6 +77,7 @@ void	to_binary(t_par *lst, char *src, header_t *h)
 	ft_bzero(h->comment, COMMENT_LENGTH + 1); 
 	name(fd, COREWAR_EXEC_MAGIC, h, &tab[0][5]);
 	comment(fd, h, &tab[1][8]);
+	encoding(lst, fd);
 	ft_free_tab(tab);
 	close(fd);
 }
