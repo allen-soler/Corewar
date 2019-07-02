@@ -61,6 +61,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 		cursor->args[i].value += cursor->pc;
 	}
 	addr = MODX(cursor->args[1].value + cursor->args[2].value);
+	ft_printf("{m}---{R}\n{y}sti,\np->args[0] === %d\naddr === %d{R}\n", cursor->args[0].value, cursor->pc + addr + OP_CODE_LEN);
 	write_byte(e, cursor->pc + addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE); // Adding the pc here makes it work but should we?
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }

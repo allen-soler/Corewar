@@ -11,7 +11,7 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 {
 	char op_code;
 
-	op_code = e->arena[cursor->pc].data;
+	op_code = cursor->op_code;
 	if (op_code <= REG_NUMBER && op_code > 0)
 	{
 		DEBUG(ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", op_tab[op_code - 1].name, op_code))
@@ -116,6 +116,7 @@ static void		exec_process(t_env *env)
 		{
 			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data <= REG_NUMBER)
 			{
+				curr->op_code = env->arena[curr->pc].data;
 				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
 				DEBUG(ft_printf("{g}Adding %d cycles to procces %s pid(%d), for op %s{R}\n", curr->cycle, env->players[curr->player - 1].header.prog_name, curr->pid, op_tab[env->arena[curr->pc].data - 1].name))
 			}

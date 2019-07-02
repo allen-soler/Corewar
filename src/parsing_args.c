@@ -206,7 +206,7 @@ void	display_help(t_env *env)
 	ft_printf("options:\n");
 	ft_printf("\t--help (-h)\t: Show this message\n");
 	ft_printf("\t--dump N (-d N)\t: Dump memory after N cycles then exits\n");
-	ft_printf("\t--visual (-v)\t: Ncurses (or whatever) output mode\n");
+	ft_printf("\t--verbose (-v)\t: Verbose mode (TODO: EXPLAIN ALL THE DIFFERENT MODE NESTORINO)");
 	exit_vm(env, (env->flag & FLAG_ERROR) ? EXIT_FAILURE : EXIT_SUCCESS);
 }
 
