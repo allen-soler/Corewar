@@ -16,7 +16,7 @@ void		nb_inst(t_par **lst)
 	}
 }
 
-void	get_binary(t_par *lst, t_inst *inst, int nb)
+void	get_binary(t_par *lst, t_inst *inst, int nb, int size)
 {
 	t_par	*tmp;
 	int		i;
@@ -28,16 +28,16 @@ void	get_binary(t_par *lst, t_inst *inst, int nb)
 	while (i < nb)
 	{
 		if (tmp->type == 1)
-			inst->tab[1] = 0b01 << bin | inst->tab[1];
+			inst->tab[size] = 0b01 << bin | inst->tab[size];
 		else if (tmp->type == 2 || tmp->type == 3 || tmp->type == 5)
-			inst->tab[1] = 0b10 << bin | inst->tab[1];
+			inst->tab[size] = 0b10 << bin | inst->tab[size];
 		else if (tmp->type == 4 || tmp->type == 15)
-			inst->tab[1] = 0b11 << bin | inst->tab[1];
+			inst->tab[size] = 0b11 << bin | inst->tab[size];
 		tmp = tmp->next;
 		bin -= 2;
 		i++;
 	}
-	inst->size = 2;
+	inst->size += 1;
 }
 
 void	encoding(t_par *lst, int fd)
@@ -45,16 +45,24 @@ void	encoding(t_par *lst, int fd)
 	int		i;
 	t_inst	inst;
 
-	i = 0;
+	inst.size = 0;
 	ft_bzero(inst.tab, CHAMP_MAX_SIZE + 1);
-	nb_inst(&lst);
-	while (op_tab[i].name)
+	while (lst)
 	{
-		if (ft_strcmp(lst->param, op_tab[i].name) == 0)
-			break ;
-		i++;
+		if (lst->type == 6)
+		{
+			i = 0;
+			while (op_tab[i].name)
+			{
+				if (ft_strcmp(lst->param, op_tab[i].name) == 0)
+					break ;
+				i++;
+			}
+			inst.tab[inst.size++] = i + 1;
+			if (op_tab[i].encoding_byte > 0)
+				get_binary(lst->next, &inst, op_tab[i].param_nb, inst.size);
+		}
+		lst = lst->next;
 	}
-	inst.tab[0] = i + 1;
-	get_binary(lst->next, &inst, op_tab[i].param_nb);
 	write(fd, inst.tab, inst.size);
 }
