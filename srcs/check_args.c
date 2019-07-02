@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 19:10:40 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/02 18:22:27 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //PROBLEM WIIITHHHH HASHTAG AT END
@@ -15,7 +15,6 @@
 
 static intmax_t	handle_number(char *arg, intmax_t stock, int neg)
 {
-	dprintf(1, "PASS!__val:%zu\n", stock);
 	if (neg == 1 && ft_isdigit(*arg))
 		stock = (stock * 10) - (*arg - 48);
 	else if (neg == 0 && ft_isdigit(*arg))
