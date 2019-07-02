@@ -19,19 +19,6 @@ void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 	}
 }
 
-void	int_to_bytecode(t_env *e, int addr, int value, int size)
-{
-	int8_t i;
-
-	i = 0;
-	while (size)
-	{
-		e->arena[POSMOD(addr + size - 1)].data = (uint8_t)((value >> i) & 0xFF);
-		i += 8;
-		size--;
-	}
-}
-
 void	ft_live(t_env *e, t_process *cursor, t_op op)
 {
 	int i;
@@ -152,7 +139,7 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	//DEBUG(d_display_argument(cursor, op))
-	set_reg_values(cursor, op, 3);
+	set_reg_values(cursor, op, 2);
 	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
@@ -211,21 +198,49 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 
 void	ft_add(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	int		res;
+
+	read_args(e, cursor, op);
+	res = cursor->regs[cursor->args[0] - 1] + cursor->regs[cursor->args[1] - 1];
+	cursor->regs[cursor->args[2] - 1] = res;
+	cursor->carry = !res;
+	cursor->pc = POSMOD(cursor->pc + get_argslen(cursor, op) + OP_CODE_LEN);
 }
 
 void	ft_sub(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	int		res;
+
+	read_args(e, cursor, op);
+	res = cursor->regs[cursor->args[0] - 1] - cursor->regs[cursor->args[1] - 1];
+	cursor->regs[cursor->args[2] - 1] = res;
+	cursor->carry = !res;
+	cursor->pc = POSMOD(cursor->pc + get_argslen(cursor, op) + OP_CODE_LEN);
 }
 void	ft_or(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	int		res;
+
+	read_args(e, cursor, op);
+	//DEBUG(d_display_argument(cursor, op))
+	set_reg_values(cursor, op, 2);
+	res = cursor->args[0].value | cursor->args[1].value;
+	cursor->regs[cursor->args[2].value - 1] = res;
+	cursor->carry = !res;
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
 void	ft_xor(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	int		res;
+
+	read_args(e, cursor, op);
+	//DEBUG(d_display_argument(cursor, op))
+	set_reg_values(cursor, op, 2);
+	res = cursor->args[0].value ^ cursor->args[1].value;
+	cursor->regs[cursor->args[2].value - 1] = res;
+	cursor->carry = !res;
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
@@ -250,5 +265,7 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	read_args(e, cursor, op);
+	ft_putchar(cursor->regs[cursor->arg[0] -1] % 256);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);
 }
