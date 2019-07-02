@@ -20,9 +20,9 @@ int		to_bin(char	*bin)
 	res = 0;
 	while (*start)
 	{
-		res *= 2;
-		if (*start++ == '1')
-			res += 1;
+		res = res << 1;
+		if (*start++ == '1') 
+			res = res ^ 1;
 	}
 	return (res);
 }
