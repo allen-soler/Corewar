@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:07:22 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/02 18:15:51 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/02 19:20:01 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ void	travel_states(char **line, int state)
 {
 	if (state == 1 || state == 3 || state == 5 || state == 7)
 	{
-		if (**line == SPACE)
+		if (**line == SPACE || **line == '\t')
 			*line = skip_space(*line);
 		else
-			exit(EXIT_FAILURE);
+			error_custom("Invalid header.\n", NULL);
 	}
 	else if (state == 2 || state == 6)
 	{
