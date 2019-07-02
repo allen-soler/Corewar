@@ -201,10 +201,10 @@ void	ft_add(t_env *e, t_process *cursor, t_op op)
 	int		res;
 
 	read_args(e, cursor, op);
-	res = cursor->regs[cursor->args[0] - 1] + cursor->regs[cursor->args[1] - 1];
-	cursor->regs[cursor->args[2] - 1] = res;
+	res = cursor->regs[cursor->args[0].value - 1] + cursor->regs[cursor->args[1].value - 1];
+	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
-	cursor->pc = POSMOD(cursor->pc + get_argslen(cursor, op) + OP_CODE_LEN);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 void	ft_sub(t_env *e, t_process *cursor, t_op op)
@@ -212,10 +212,10 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 	int		res;
 
 	read_args(e, cursor, op);
-	res = cursor->regs[cursor->args[0] - 1] - cursor->regs[cursor->args[1] - 1];
-	cursor->regs[cursor->args[2] - 1] = res;
+	res = cursor->regs[cursor->args[0].value - 1] - cursor->regs[cursor->args[1].value - 1];
+	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
-	cursor->pc = POSMOD(cursor->pc + get_argslen(cursor, op) + OP_CODE_LEN);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 void	ft_or(t_env *e, t_process *cursor, t_op op)
 {
@@ -266,6 +266,6 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	ft_putchar(cursor->regs[cursor->arg[0] -1] % 256);
+	ft_putchar(cursor->regs[cursor->args[0].value - 1] % 256);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);
 }
