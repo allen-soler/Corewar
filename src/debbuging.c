@@ -22,6 +22,7 @@ void			d_display_process(t_env e, t_process *pro)
 	ft_printf("\t%sAlive%s: %d\n", S_BOLD, E_BOLD, pro->alive);
 	ft_printf("\t%sPlayer%s: %d, %s\n", S_BOLD, E_BOLD, pro->player, e.players[pro->player - 1].header.prog_name);
 	ft_printf("\t%sColor%s: %d\n", S_BOLD, E_BOLD, pro->color);
+	ft_printf("\t%sOp_Code%s: %d\n", S_BOLD, E_BOLD, pro->op_code);
 	ft_printf("\t%sPID%s: %d\n", S_BOLD, E_BOLD, pro->pid);
 	ft_printf("\t%sPrev%s: %p\n", S_BOLD, E_BOLD, pro->prev);
 	ft_printf("\t%sNext%s: %p\n", S_BOLD, E_BOLD, pro->next);

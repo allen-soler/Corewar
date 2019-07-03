@@ -11,6 +11,7 @@ t_process		*new_process(int player, int alive, int pid)
 	new->alive = alive;
 	new->player = player;
 	new->regs[0] = player;
+	new->op_code = -1;
 	new->pid = pid + 1;
 	new->cycle = 0;
 	new->prev = NULL;
