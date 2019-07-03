@@ -6,3 +6,4 @@ asm
 .vscode/
 obj
 tags
+*.data
