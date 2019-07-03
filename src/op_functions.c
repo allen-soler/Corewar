@@ -161,13 +161,11 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 **
 */
 
-
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
 	set_reg_values(cursor, op, 1);
 	//DEBUG(d_display_argument(cursor, op))
-	//	cursor->args[0].value = e->arena[POSMOD(cursor->pc + MODX(cursor->args[0].value))].data;
 	if (cursor->args[0].type == T_IND)
 		cursor->args[0].value = mix_bytes(e, cursor, MODX(cursor->args[0].value), DIR_SIZE);
 	cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
@@ -261,17 +259,40 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	int		addr;
+
+	read_args(e, cursor, op);
+	shift_args(e, cursor, 2, FALSE);	
+	addr = MODX(cursor->args[0].value + cursor->args[1].value);
+	cursor->regs[cursor->args[2].value - 1] = mix_bytes(e, cursor, addr, 4);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
+// need to be checked
 void	ft_lld(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	read_args(e, cursor, op);
+	set_reg_values(cursor, op, 1);
+	//DEBUG(d_display_argument(cursor, op))
+	if (cursor->args[0].type == T_IND)
+		cursor->args[0].value = mix_bytes(e, cursor, cursor->args[0].value, DIR_SIZE);
+	cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
+	if (cursor->args[0].value == 0)
+		cursor->carry = 1;
+	else
+		cursor->carry = 0;
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
 void	ft_lldi(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	int		addr;
+
+	read_args(e, cursor, op);
+	shift_args(e, cursor, 2, FALSE);	
+	addr = cursor->args[0].value + cursor->args[1].value;
+	cursor->regs[cursor->args[2].value - 1] = mix_bytes(e, cursor, addr, 4);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 
 void	ft_lfork(t_env *e, t_process *cursor, t_op op)

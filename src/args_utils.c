@@ -42,9 +42,9 @@ void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod)
 		else if (cursor->args[i].type & T_DIR)
 			;
 		else if ((cursor->args[i].type & T_IND) && ind_mod == TRUE)
-			cursor->args[i].value = env->arena[posmod((cursor->pc + (cursor->args[i].value % IDX_MOD)), MEM_SIZE)].data;
+			cursor->args[i].value = mix_bytes(env, cursor, MODX(cursor->args[i].value), DIR_SIZE);
 		else if ((cursor->args[i].type & T_IND) && ind_mod == FALSE)
-			cursor->args[i].value = env->arena[posmod(cursor->pc + cursor->args[i].value, MEM_SIZE)].data;
+			cursor->args[i].value = mix_bytes(env, cursor, cursor->args[i].value, DIR_SIZE);
 		else
 			ft_printf("{r}There is a problem in shift_args ; REMOVE THIS LINE{R}\n");
 		i++;
