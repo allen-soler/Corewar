@@ -109,7 +109,7 @@ void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
 		ft_printf(" %d", cursor->args[i].value);
 }
 
-void	read_args(t_env *e, t_process *cursor, t_op op)
+int		read_args(t_env *e, t_process *cursor, t_op op)
 {
 	int				i;
 	int				type;
@@ -168,11 +168,17 @@ void	read_args(t_env *e, t_process *cursor, t_op op)
 			cursor->args[i].type = T_DIR;
 			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
 		}
+		if ((op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0)
+		{
+			DEBUG(ft_printf("INVALID OPERATION"))
+			return (0);
+		}
 		cursor->args[i].value = mix_bytes(e, cursor, offset, arg_len);
 		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));
 		offset += arg_len;
 		i += 1;
 	}
+	return (1);
 }
 
 /*

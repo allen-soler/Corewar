@@ -28,7 +28,6 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	int i;
 
 	i = 0;
-	read_args(e, cursor, op);
 	//DEBUG(d_display_argument(cursor, op))
 	cursor->alive += 1;
 	while (i < e->players_nb)
@@ -54,7 +53,6 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 	int	addr;
 	int	i;
 
-	read_args(e, cursor, op);
 	set_reg_values(cursor, op , -1);
 	DEBUG(d_display_argument(cursor, op))
 	i = -1;
@@ -82,7 +80,6 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
-	read_args(e, cursor, op);
 	DEBUG(d_display_argument(cursor, op))
 	if (cursor->args[1].type == T_IND)
 	{
@@ -109,7 +106,6 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 
 void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
-	read_args(e, cursor, op);
 	//DEBUG(d_display_argument(cursor, op))
 	if (cursor->carry)
 	{
@@ -141,7 +137,6 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
-	read_args(e, cursor, op);
 	//DEBUG(d_display_argument(cursor, op))
 	set_reg_values(cursor, op, 2);
 	res = cursor->args[0].value & cursor->args[1].value;
@@ -163,7 +158,6 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
-	read_args(e, cursor, op);
 	set_reg_values(cursor, op, 1);
 	//DEBUG(d_display_argument(cursor, op))
 	if (cursor->args[0].type == T_IND)
@@ -191,7 +185,6 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 {
 	t_process	*child;
 
-	read_args(e, cursor, op);
 	child = new_process(cursor->player, cursor->alive, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value));
@@ -213,7 +206,6 @@ void	ft_add(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
-	read_args(e, cursor, op);
 	res = cursor->regs[cursor->args[0].value - 1] + cursor->regs[cursor->args[1].value - 1];
 	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
@@ -225,7 +217,6 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 	int		res;
 
 	set_reg_values(cursor, op, 2);
-	read_args(e, cursor, op);
 	res = cursor->args[0].value - cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
@@ -235,7 +226,6 @@ void	ft_or(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
-	read_args(e, cursor, op);
 	//DEBUG(d_display_argument(cursor, op))
 	set_reg_values(cursor, op, 2);
 	res = cursor->args[0].value | cursor->args[1].value;
@@ -248,7 +238,6 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
-	read_args(e, cursor, op);
 	//DEBUG(d_display_argument(cursor, op))
 	set_reg_values(cursor, op, 2);
 	res = cursor->args[0].value ^ cursor->args[1].value;
@@ -261,7 +250,6 @@ void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 {
 	int		addr;
 
-	read_args(e, cursor, op);
 	shift_args(e, cursor, 2, FALSE);	
 	addr = MODX(cursor->args[0].value + cursor->args[1].value);
 	cursor->regs[cursor->args[2].value - 1] = mix_bytes(e, cursor, addr, 4);
@@ -271,7 +259,6 @@ void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 // need to be checked
 void	ft_lld(t_env *e, t_process *cursor, t_op op)
 {
-	read_args(e, cursor, op);
 	set_reg_values(cursor, op, 1);
 	//DEBUG(d_display_argument(cursor, op))
 	if (cursor->args[0].type == T_IND)
@@ -288,7 +275,6 @@ void	ft_lldi(t_env *e, t_process *cursor, t_op op)
 {
 	int		addr;
 
-	read_args(e, cursor, op);
 	shift_args(e, cursor, 2, FALSE);	
 	addr = cursor->args[0].value + cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = mix_bytes(e, cursor, addr, 4);
@@ -299,7 +285,6 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 {
 	t_process	*child;
 
-	read_args(e, cursor, op);
 	child = new_process(cursor->player, cursor->alive, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + cursor->args[0].value);
@@ -320,7 +305,6 @@ void	ft_aff(t_env *e, t_process *cursor, t_op op)
 {
 	char		c;
 
-	read_args(e, cursor, op);
 	c = cursor->regs[cursor->args[0].value - 1] % 256;
 	VERB(VERB_AFF, ft_printf("aff: %c\n", c));
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);

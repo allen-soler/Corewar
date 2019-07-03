@@ -168,7 +168,7 @@ void		push_process_front(t_process **head, t_process *new);
 int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes);
 int		get_args_len(t_process *cursor, t_op op);
 void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod);
-void	read_args(t_env *e, t_process *cursor, t_op op);
+int		read_args(t_env *e, t_process *cursor, t_op op);
 void	set_reg_values(t_process *cursor, t_op op , int skip_index);
 
 /*

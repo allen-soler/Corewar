@@ -25,8 +25,16 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 	if (op_code <= REG_NUMBER && op_code > 0)
 	{
 		DEBUG(ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", op_tab[op_code - 1].name, op_code))
-		g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
-		VERB(VERB_OP, ft_printf("\n"));
+		if (read_args(e, cursor, op_tab[cursor->op_code - 1]))
+		{
+			g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
+			VERB(VERB_OP, ft_printf("\n"));
+		}
+		else
+		{
+			cursor->pc = POSMOD(cursor->pc + 1);
+		}
+		
 	}
 	cursor->op_code = -1;
 }
