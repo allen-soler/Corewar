@@ -18,7 +18,7 @@ NAME =	corewar
 ASM  =	asm
 DISA =	disassembler
 
-CFLAGS	= -Wall -Wextra -Werror -fno-builtin
+CFLAGS	= -fno-builtin
 
 SRC_NAME_CORE =	main.c								\
 				dump_memory.c						\

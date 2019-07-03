@@ -23,12 +23,12 @@
 
 # define ERROR_MAX_VALUE 6
 
-# define ZMASK(x) (x & 0xff)
-# define POSMOD(x) (x % MEM_SIZE < 0 ? x % MEM_SIZE + MEM_SIZE : x % MEM_SIZE)
+# define ZMASK(x) ((x) & 0xff)
+# define POSMOD(x) (((x) % MEM_SIZE) < 0 ? ((x) % MEM_SIZE) + MEM_SIZE : (x) % MEM_SIZE)
 # define POSMOD_IDX(x) (MODX(x) % MEM_SIZE < 0 ? MODX(x) % MEM_SIZE + MEM_SIZE : MODX(x) % MEM_SIZE)
-# define MODMS(x) (x % MEM_SIZE)
-# define MODX(x) (x % IDX_MOD)
-# define ABS(value)  (value > 0 ? value : -value)
+# define MODMS(x) ((x) % MEM_SIZE)
+# define MODX(x) ((x) % IDX_MOD)
+# define ABS(value)  ((value) > 0 ? (value) : -(value))
 
 # define VERB(val, func) if (e->verb >= val) func
 # define SHIFT(x) (1 << x)

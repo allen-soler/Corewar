@@ -14,7 +14,7 @@ NAME	=	libft.a
 
 CC	=	gcc
 
-CFLAGS = -march=native -Wall -Wextra -Werror -Ofast -fno-builtin -ftree-vectorize -fstrict-aliasing
+CFLAGS = -march=native -Ofast -fno-builtin -ftree-vectorize -fstrict-aliasing
 
 SRCS_CHAR =	ft_isalnum.c		ft_isascii.c		ft_isprint.c		\
 			ft_isalpha.c		ft_isdigit.c		ft_tolower.c		\
@@ -25,7 +25,7 @@ SRCS_FD =	ft_putchar.c		ft_putendl_fd.c		ft_putstr.c			\
 			ft_putendl.c		ft_putnbr_fd.c		get_next_line.c
 
 SRCS_MEM =	ft_bzero.c			ft_memchr.c			ft_memdel.c			\
-			ft_memalloc.c		ft_memcmp.c			ft_memmove.c		\
+			ft_memalloc.c		ft_memcmp.c					\
 			ft_memccpy.c		ft_memcpy.c			ft_memset.c			\
 			ft_mempcpy.c		ft_memnset.c		ft_memfree.c		\
 			ft_printmem.c
