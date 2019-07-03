@@ -19,7 +19,7 @@ void			op_aff(t_vm *vm, int proc, int reg_num[3])
 
 	c = vm->procs.d[proc].reg[reg_num[0]] % 256;
 	if (vm->verbosity >= VE_AFF)
-		ft_printf("{grn}aff: %c{eoc}\n", c);
+		ft_printf("aff: %c\n", c);
 	else if (vm->verbosity == VE_VISU)
 	{
 		cursor = ft_strlen(vm->visu.aff);

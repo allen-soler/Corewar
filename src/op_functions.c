@@ -276,12 +276,31 @@ void	ft_lldi(t_env *e, t_process *cursor, t_op op)
 
 void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 {
-	return ;
+	t_process	*child;
+
+	read_args(e, cursor, op);
+	child = new_process(cursor->player, cursor->alive, e->last_pid++);
+	duplicate_process(child, cursor);
+	child->pc = POSMOD(cursor->pc + cursor->args[0].value);
+	/*  Might needed on the future
+	if (e->arena[child->pc].data > 0 && e->arena[child->pc].data <= REG_NUMBER)
+	{
+		child->op_code = e->arena[child->pc].data;
+	}
+	else
+		child->pc = (child->pc + 1) % MEM_SIZE;
+	*/
+	push_process_front(&e->cursors, child);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
+	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
 }
 
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
 {
+	char		c;
+
 	read_args(e, cursor, op);
-	ft_putchar(cursor->regs[cursor->args[0].value - 1] % 256);
+	c = cursor->regs[cursor->args[0].value - 1] % 256;
+	VERB(VERB_OP, ft_printf("aff: %c\n", c));
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);
 }
