@@ -322,6 +322,6 @@ void	ft_aff(t_env *e, t_process *cursor, t_op op)
 
 	read_args(e, cursor, op);
 	c = cursor->regs[cursor->args[0].value - 1] % 256;
-	VERB(VERB_OP, ft_printf("aff: %c\n", c));
+	VERB(VERB_AFF, ft_printf("aff: %c\n", c));
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);
 }
