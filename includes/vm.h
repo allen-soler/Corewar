@@ -116,6 +116,7 @@ typedef struct	s_loop
 	int			current_cycle;
 	int			i_cycle;
 	int			i_check;
+	int			cycle_last_check;
 	int			cycle_to_die;
 }				t_loop;
 

@@ -36,17 +36,11 @@ static int		check_live(t_env *e, t_loop *l)
 
 	alive = 0;
 	index = e->cursors;
-	++l->i_check;
 	while (index != NULL)
 	{
 		if (index->alive == 0)
 		{
 			tmp = index;
-			/* 
-			VERB(VERB_PROCESS_CREATION_DEATH, ft_printf("\tProcess %d of player %d died\n",\
-						index->pid - 1,
-						index->player)); // should we add this to delete process?
-						*/
 			VERB(VERB_PROCESS_CREATION_DEATH, ft_printf("\tProcess 0 died\n"));
 			index = index->next;
 			delete_process(&e->cursors, tmp);
@@ -64,13 +58,6 @@ static int		check_live(t_env *e, t_loop *l)
 
 		e->players[i].alive = 0;
 		i += 1;
-	}
-
-	if (l->nb_process_alive >= NBR_LIVE || l->i_check == MAX_CHECKS)
-	{
-		l->i_check = 0;
-		l->cycle_to_die -= CYCLE_DELTA;
-		VERB(VERB_SHOW_CYCLES, ft_printf("Cycle to die is now %d\n", l->cycle_to_die));
 	}
 	return (alive);
 }
@@ -139,26 +126,34 @@ static void		init_loop(t_loop *loop, int player_nb)
 	loop->nb_process_alive = player_nb;
 	loop->current_cycle = 1;
 	loop->i_cycle = 0;
+	loop->cycle_last_check = 0;
 	loop->i_check = 0;
 	loop->cycle_to_die = CYCLE_TO_DIE;
 }
 
 int				run_cycle(t_env *e, t_loop *l)
 {
-	l->i_cycle = 0;
-	while (l->i_cycle < l->cycle_to_die)
+	VERB(VERB_SHOW_CYCLES, ft_printf("It is now cycle %lu\n", l->current_cycle));
+	exec_process(e);
+	if (l->current_cycle - l->cycle_last_check >= l->cycle_to_die)
 	{
-		VERB(VERB_SHOW_CYCLES, ft_printf("It is now cycle %lu\n", l->current_cycle));
-		exec_process(e);
-		if ((e->flag & FLAG_DUMP) && (l->current_cycle == e->dump))
+		// set last_check to current cycle and augment the checks
+		l->cycle_last_check = l->current_cycle;
+		l->i_check += 1;
+
+		// check processes alive
+		l->nb_process_alive = check_live(e, l);
+
+		// check if we have to decrement cycle_to_die
+		if (l->nb_process_alive >= NBR_LIVE || l->i_check == MAX_CHECKS)
 		{
-			DEBUG(d_display_full_process(*e))
-			print_arena(e);
-			return (0);
+			l->i_check = 0;
+			l->cycle_to_die -= CYCLE_DELTA;
+			VERB(VERB_SHOW_CYCLES, ft_printf("Cycle to die is now %d\n", l->cycle_to_die));
 		}
-		++l->i_cycle;
-		++l->current_cycle;
 	}
+	if (e->cursors == NULL)
+		return (0);
 	return (1);
 }
 
@@ -170,13 +165,15 @@ void			game_loop(t_env *e)
 	init_processes(e);
 	init_loop(&l, e->players_nb);
 	DEBUG(d_display_full_process(*e))
-	while (e->cursors != NULL)
+	while (run_cycle(e, &l) == 1)
 	{
-		if (!run_cycle(e, &l))
+		++l.current_cycle;
+		if ((e->flag & FLAG_DUMP) && (l.current_cycle == e->dump))
+		{
+			print_arena(e);
 			break ;
-		l.nb_process_alive = check_live(e, &l);
-		if (e->cursors == NULL)
-			print_winner(e);
-	
+		}
 	}
+	if (e->cursors == NULL)
+		print_winner(e);
 }
