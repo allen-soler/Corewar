@@ -14,15 +14,10 @@ void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 	i = 0;
 	while (size--)
 	{
-<<<<<<< HEAD
 		uint8_t tmp = ZMASK((value >> i));
 		uint16_t ptr = POSMOD(addr + size - 1);
 		e->arena[ptr].data = tmp;
 		//e->arena[POSMOD(addr + size - 1)].player = 3;
-=======
-		e->arena[POSMOD(addr + size - 1)].data = ZMASK((value >> i));
-		e->arena[POSMOD(addr + size - 1)].player = 3;
->>>>>>> a03d0031244a0fec2528f7516fed6e26a0c6c2de
 		i += 8;
 	}
 }
