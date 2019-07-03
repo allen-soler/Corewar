@@ -7,6 +7,16 @@ static void (*g_func_ptr[17])(t_env *e, t_process *cursor, t_op op) =
 	ft_lfork, ft_aff
 };
 
+static void		init_loop(t_loop *loop, int player_nb)
+{
+	loop->nb_process_alive = player_nb;
+	loop->current_cycle = 0;
+	loop->i_cycle = 0;
+	loop->cycle_last_check = 0;
+	loop->i_check = 0;
+	loop->cycle_to_die = CYCLE_TO_DIE;
+}
+
 static void		exec_cmd(t_env *e, t_process *cursor)
 {
 	char op_code;
@@ -113,26 +123,16 @@ static void		exec_process(t_env *env)
 			else
 				curr->pc = (curr->pc + 1) % MEM_SIZE;
 		}
-		if (curr->cycle > 0)
-			curr->cycle--;
+		--curr->cycle;
 		if (curr->cycle == 0 && curr->op_code != -1)
 			exec_cmd(env, curr);
 		curr = curr->next;
 	}
 }
 
-static void		init_loop(t_loop *loop, int player_nb)
-{
-	loop->nb_process_alive = player_nb;
-	loop->current_cycle = 1;
-	loop->i_cycle = 0;
-	loop->cycle_last_check = 0;
-	loop->i_check = 0;
-	loop->cycle_to_die = CYCLE_TO_DIE;
-}
-
 int				run_cycle(t_env *e, t_loop *l)
 {
+	++l->current_cycle;
 	VERB(VERB_SHOW_CYCLES, ft_printf("It is now cycle %lu\n", l->current_cycle));
 	exec_process(e);
 	if (l->current_cycle - l->cycle_last_check >= l->cycle_to_die)
@@ -161,17 +161,19 @@ int				run_cycle(t_env *e, t_loop *l)
 void			game_loop(t_env *e)
 {
 	t_loop		l;
+	int			cycle;
 
 	init_processes(e);
 	init_loop(&l, e->players_nb);
 	DEBUG(d_display_full_process(*e))
+	cycle = 0;
 	while (run_cycle(e, &l) == 1)
 	{
-		++l.current_cycle;
-		if ((e->flag & FLAG_DUMP) && (l.current_cycle == e->dump))
+		cycle += 1;
+		if ((e->flag & FLAG_DUMP) && (cycle == e->dump))
 		{
 			print_arena(e);
-			break ;
+			return ;
 		}
 	}
 	if (e->cursors == NULL)
