@@ -14,7 +14,7 @@ void			d_display_process(t_env e, t_process *pro)
 	ft_printf("\t%sRegistries%s:\n", S_BOLD, E_BOLD);
 	while (i < REG_NUMBER)
 	{
-		ft_printf("\t\t%d: %s%d\n", i, (i < 10) ? " " : "", pro->regs[i]);
+		ft_printf("\t\t%d: %s%d\n", i + 1, (i < 10) ? " " : "", pro->regs[i]);
 		i++;
 	}
 	ft_printf("\t%sPC%s: %d\n", S_BOLD, E_BOLD, pro->pc);

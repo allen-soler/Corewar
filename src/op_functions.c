@@ -12,12 +12,13 @@ void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 	int8_t i;
 
 	i = 0;
+	DEBUG(ft_printf("writing value: %d, @ cursor->pc: %x\n", value, addr))
 	while (size--)
 	{
 		uint8_t tmp = ZMASK((value >> i));
 		uint16_t ptr = POSMOD(addr + size - 1);
 		e->arena[ptr].data = tmp;
-		//e->arena[POSMOD(addr + size - 1)].player = 3;
+		e->arena[ptr].player = 3;
 		i += 8;
 	}
 }
@@ -82,18 +83,17 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
-	set_reg_values(cursor, op, 1);
-	//DEBUG(d_display_argument(cursor, op))
+	DEBUG(d_display_argument(cursor, op))
 	if (cursor->args[1].type == T_IND)
 	{
 		int addr = cursor->pc + MODX(cursor->args[1].value);
 		//DEBUG(PRINT_D(addr))
-		write_byte(e, addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE);
+		write_byte(e, addr + OP_CODE_LEN, cursor->regs[cursor->args[0].value - 1], DIR_SIZE);
 
 	}
 	else if( cursor->args[1].type == T_REG)
 	{
-		cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
+		cursor->regs[cursor->args[1].value - 1] = cursor->regs[cursor->args[0].value - 1];
 	}
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
@@ -161,13 +161,15 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 **
 */
 
+
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
 {
 	read_args(e, cursor, op);
 	set_reg_values(cursor, op, 1);
 	//DEBUG(d_display_argument(cursor, op))
+	//	cursor->args[0].value = e->arena[POSMOD(cursor->pc + MODX(cursor->args[0].value))].data;
 	if (cursor->args[0].type == T_IND)
-		cursor->args[0].value = e->arena[POSMOD(cursor->pc + MODX(cursor->args[0].value))].data;
+		cursor->args[0].value = mix_bytes(e, cursor, MODX(cursor->args[0].value), DIR_SIZE);
 	cursor->regs[cursor->args[1].value - 1] = cursor->args[0].value;
 	if (cursor->args[0].value == 0)
 		cursor->carry = 1;
@@ -195,6 +197,15 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	child = new_process(cursor->player, cursor->alive, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value));
+	/*  Might needed on the future
+	if (e->arena[child->pc].data > 0 && e->arena[child->pc].data <= REG_NUMBER)
+	{
+		child->op_code = e->arena[child->pc].data;
+		child->cycle = op_tab[e->arena[child->pc].data - 1].nb_cycle;
+	}
+	else
+		child->pc = (child->pc + 1) % MEM_SIZE;
+	*/
 	push_process_front(&e->cursors, child);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
