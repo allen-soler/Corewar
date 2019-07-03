@@ -1,20 +1,5 @@
 #include "../includes/asm.h"
 
-void		nb_inst(t_par **lst)
-{
-	int		i;
-
-	i = 0;
-	while (*lst)
-	{
-		if (i == 0 && (*lst)->type == 6)
-			break ;
-		else if ((*lst)->type == 6 &&  i == 1)
-			break ;
-		i++;
-		*lst = (*lst)->next;
-	}
-}
 
 void	get_binary(t_par *lst, t_inst *inst, int nb, int size)
 {
@@ -40,6 +25,11 @@ void	get_binary(t_par *lst, t_inst *inst, int nb, int size)
 	inst->size += 1;
 }
 
+void	check_type(t_par *lst, t_inst *inst, t_op op)
+{
+	return ;
+}
+
 void	encoding(t_par *lst, int fd)
 {
 	int		i;
@@ -62,6 +52,8 @@ void	encoding(t_par *lst, int fd)
 			if (op_tab[i].encoding_byte > 0)
 				get_binary(lst->next, &inst, op_tab[i].param_nb, inst.size);
 		}
+		else
+			check_type(lst, &inst, op_tab[i]);
 		lst = lst->next;
 	}
 	write(fd, inst.tab, inst.size);
