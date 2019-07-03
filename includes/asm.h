@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/01 17:05:43 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/03 16:01:25 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ignore_hash_comment(char *line);
 **/
 
 char	**instructions_array(void);
-void	middlefunction(char **line, int state, t_par **list);
+int		middlefunction(char **line, int state, t_par **list);
 int		name_token(char **line, int state, t_par **list);
 int		init_comm_token(char **line, int state, t_par **list);
 int		search_valid_inst(char **line, t_par **list);
