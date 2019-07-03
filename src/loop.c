@@ -28,7 +28,7 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 **			-op w/cycle > 0:				cycle--
 **			-op w/cycle == 0:				exec cmd
 */
-static int		check_live(t_env *e)
+static int		check_live(t_env *e, t_loop *l)
 {
 	int			alive;
 	t_process	*index;
@@ -36,6 +36,7 @@ static int		check_live(t_env *e)
 
 	alive = 0;
 	index = e->cursors;
+	++l->i_check;
 	while (index != NULL)
 	{
 		if (index->alive == 0)
@@ -60,15 +61,16 @@ static int		check_live(t_env *e)
 	int i = 0;
 	while (i < e->players_nb)
 	{
-		if (e->players[i].alive == 0 && e->players[i].death != 1)
-		{
-			e->players[i].death = 1;
-		}
-		else
-		{
-			e->players[i].alive = 0;
-		}
+
+		e->players[i].alive = 0;
 		i += 1;
+	}
+
+	if (l->nb_process_alive >= NBR_LIVE || l->i_check == MAX_CHECKS)
+	{
+		l->i_check = 0;
+		l->cycle_to_die -= CYCLE_DELTA;
+		VERB(VERB_SHOW_CYCLES, ft_printf("Cycle to die is now %d\n", l->cycle_to_die));
 	}
 	return (alive);
 }
@@ -137,7 +139,7 @@ static void		init_loop(t_loop *loop, int player_nb)
 	loop->nb_process_alive = player_nb;
 	loop->current_cycle = 1;
 	loop->i_cycle = 0;
-	loop->i_check = 1;
+	loop->i_check = 0;
 	loop->cycle_to_die = CYCLE_TO_DIE;
 }
 
@@ -172,16 +174,9 @@ void			game_loop(t_env *e)
 	{
 		if (!run_cycle(e, &l))
 			break ;
-		l.nb_process_alive = check_live(e);
+		l.nb_process_alive = check_live(e, &l);
 		if (e->cursors == NULL)
 			print_winner(e);
-		else if (l.nb_process_alive >= NBR_LIVE || l.i_check == MAX_CHECKS)
-		{
-			l.i_check = 1;
-			l.cycle_to_die -= CYCLE_DELTA;
-			VERB(VERB_SHOW_CYCLES, ft_printf("Cycle to die is now %d\n", l.cycle_to_die));
-		}
-		else
-			l.i_check++;
+	
 	}
 }
