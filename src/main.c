@@ -25,6 +25,15 @@ void	test(t_par *lst)
 	ft_printf("-----------------------------------------------------\n");
 }
 
+void	free_list(t_par *list)
+{
+	if (list->next)
+		free_list(list->next);
+	if (list->param)
+		free(list->param);
+	free(list);
+}
+
 int		main(int ac, char **av)
 {
 	char		*line;
@@ -39,9 +48,10 @@ int		main(int ac, char **av)
 	readfile(fd, &line);
 	close(fd);
 	ingest_file(&list, line);
-	//check_syntax(list);
+	check_syntax(list);
 	test(list);
 	to_binary(list, line, &header);
+	free_list(list);
 	free(line);
 	return (0);
 }

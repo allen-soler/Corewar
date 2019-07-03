@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 13:39:18 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/02 19:33:32 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ int		null_state(char **line, int state, t_par **list) //need array of functions
 	{
 		state = 20;
 		repoint = search_valid_inst(line, list);
-	/*	if (**line != '#' && repoint == 0)
-		{
-			dprintf(1, "BRO!\n");
-			error_function(NULL, list);
-		}*/
 	}
 	else if ((repoint = search_valid_inst(line, list)))
 		state = 20;	
@@ -49,7 +44,7 @@ void	middlefunction(char **line, int state, t_par **list)
 //	dprintf(1, "__________\n");
 	*line = skip_space(*line);
 	*line = ignore_hash_comment(*line);
-		//dprintf(1, "line before state : %s\n", *line);
+		dprintf(1, "line before state : %s\n", *line);
 	if (state == 0)
 	{
 		state = null_state(line, state, list);
@@ -66,7 +61,6 @@ void	middlefunction(char **line, int state, t_par **list)
 
 void	token_automata(char *line, t_par **list)
 {
-	// Also type of instructions for memory space!! -> stock tokens raw?
 	static int	state;
 	size_t		i;
 	char 		**instructions;//can maybe have this as enum
@@ -81,7 +75,7 @@ lld lldi lfork fork aff", ' ');
 		free(instructions[i++]);
 }
 
-void	ingest_file(t_par **list, char *file)
+void	ingest_file(t_par **list, char *file) 
 {
 	int		i;
 	char	**tab;

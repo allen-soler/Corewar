@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 13:23:07 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/30 14:52:43 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		search_valid_inst(char **line, t_par **list)
 
 		if ((len = str_repoint(*line, inst[i])))
 		{
-			if (*(*line + len) == ' ' || *(*line + len) == '\t')
+			if (*(*line + len) == SPACE || *(*line + len) == '\t')
 			{
 				*list = add_parameter(*list, inst[i++], 6);
 				ft_strdel(inst);

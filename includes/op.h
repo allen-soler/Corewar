@@ -1,6 +1,23 @@
 #ifndef OP_H
 # define OP_H
 
+/* Testing out typedefs
+**
+*/
+
+# define END_LINE '\0'
+# define NEWLINE '\n'
+# define SPACE ' '
+# define QUOTE '"'
+//# define inst "TEST" //not final
+# define REG "r"
+# define DIG "0123456789"
+
+/*
+** Toutes les tailles sont en octets.
+** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
+*/
+
 # define IND_SIZE 2
 # define REG_SIZE 4
 # define DIR_SIZE REG_SIZE
@@ -45,7 +62,7 @@ typedef char t_arg_type;
 
 typedef struct		s_inst
 {
-	char			tab[CHAMP_MAX_SIZE + 1];
+	unsigned char	tab[CHAMP_MAX_SIZE + 1];
 	int				size;
 }					t_inst;
 

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/01 16:34:22 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/01 17:05:43 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,39 +19,18 @@
 # include <unistd.h>
 # include <limits.h>
 # include "op.h"
-# include "../libft/includes/libft.h"
+# include "../libft/libft.h"
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
-# define RRR 0b01010100
-# define RIR 0b01110100
-# define RDR 0b01100100
-# define IRR 0b11010100
-# define IIR 0b11110100
-# define IDR 0b11100100
-# define DRR 0b10010100
-# define DIR 0b10110100
-# define DDR 0b10100100
-# define RDD 0b01101000
-# define IR 0b11010000
-# define DR 0b10010000
+
 
 typedef struct		s_par
 {
 	char			*param;
-	int				type; 
+	int				type; //1: REG_CODE, 2: DIR_2Bytes, 3: DIR_4Bytes, 4: IND 5: DIR_LAB4_bytes 6: inst 7: LABEL 8: comment 9: IND_LAB 15: DIR_LAB2Bytes
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
 }					t_par;
-
-t_op				op_tab[17];
-
-//1: REG_CODE, 2: DIR_2Bytes, 3: DIR_4Bytes
-//4: IND 5: DIR_LAB4_bytes 6: inst 7: LABEL 8: comment 9: IND_LAB 15: DIR_LAB2Bytes
-
-void	readfile(int fd, char **line);
-void	to_binary(t_par *lst, char *src, header_t *h);
-void	ingest_file(t_par **list, char *file);
-void	encoding(t_par *lst, int fd);
 
 /**
  *		Error handling
