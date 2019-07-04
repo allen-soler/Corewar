@@ -49,14 +49,15 @@ void	get_binary(t_par *lst, t_inst *inst, int nb, int size)
 	inst->size += 1;
 }
 
-int		counting_label(t_par *lst, int nb)
+int		counting_label(t_par *lst, int nb, t_inst *inst)
 {
 	int		i;
 	t_par	*tmp;
 
 	i = 0;
+	inst->param_steps = 0;
 	tmp = lst;
-	while (tmp)
+	while (tmp && inst->param_steps < op_tab[nb].param_nb)
 	{
 		if (tmp->type == 6)
 			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
@@ -72,22 +73,25 @@ int		counting_label(t_par *lst, int nb)
 		}
 		else if (tmp->type == 4 || tmp->type == 9)
 			i += 2;
+		inst->param_steps += 1;
 		tmp = tmp->next;
 	}
 	return (i);
 }
 
-int		label_start(t_par *lst, t_par *tmp, int nb)
+int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 {
 	int i;
 
 	i = 0;
+	if (tmp > lst)
+		ft_printf("should be here\n");
+	else
+		ft_printf("should be neg\n");
 	while (tmp)
 	{
 		if (lst == tmp)
-		{
 			break ;
-		}
 		if (tmp->type == 6)
 			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
@@ -104,10 +108,8 @@ int		label_start(t_par *lst, t_par *tmp, int nb)
 			i += 2;
 		tmp = tmp->next;
 	}
-	nb = counting_label(lst, nb);
-	ft_printf("%i\n", i);
-	i = i < nb ? i = -(nb - i) : i;
-	return (i);
+	nb = counting_label(lst, nb, inst);
+	return (i < nb ? i = -(nb - i) : i);
 }
 
 
@@ -116,17 +118,17 @@ void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
 	int	n;
 
-	ft_printf("%s\n", lst->lbl_ptr->param);
-	n = label_start(lst->lbl_ptr, tmp, nb);
+	n = label_start(lst->lbl_ptr, tmp, nb, inst);
 	if (lst->type == 5)
 	{
 		if (n > 0)
 			inst->tab[inst->size += 3] = n;
 		else
 		{
-			inst->tab[inst->size] = 0xff;
-			inst->tab[inst->size += 2] = 0xff;
-			inst->tab[inst->size += 3] = n;
+			inst->tab[inst->size] = 0;
+			inst->tab[inst->size += 1] = 0;
+			inst->tab[inst->size += 2] = 0;
+			inst->tab[inst->size += 3] = 15;
 		}
 	}	
 	else if (lst->type == 15)
@@ -176,7 +178,6 @@ void	encoding(t_par *lst, int fd, t_inst *inst)
 		{
 			tmp = lst;
 			i = nb_op(lst->param);
-			inst->l_size = inst->size;
 			inst->tab[inst->size++] = i + 1;
 			if (op_tab[i].encoding_byte > 0)
 				get_binary(lst->next, inst, op_tab[i].param_nb, inst->size);
