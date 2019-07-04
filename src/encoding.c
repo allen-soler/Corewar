@@ -126,6 +126,7 @@ void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 			return ;
 		else if (lst->type == 15)
 		{
+			ft_printf("second start %i\n", inst->l_size);
 			nb = testing(lst->lbl_ptr, tmp, nb);
 			if (nb > 0)
 				inst->tab[inst->size += 1] = nb;
@@ -153,6 +154,7 @@ void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 void	encoding(t_par *lst, int fd)
 {
 	int		i;
+	int		j;
 	t_par	*tmp;
 	t_inst	inst;
 
@@ -164,7 +166,9 @@ void	encoding(t_par *lst, int fd)
 		{
 			tmp = lst;
 			i = nb_op(lst->param);
+			inst.l_size = inst.size;
 			inst.tab[inst.size++] = i + 1;
+			ft_printf("start %i\n", inst.l_size);
 			if (op_tab[i].encoding_byte > 0)
 				get_binary(lst->next, &inst, op_tab[i].param_nb, inst.size);
 		}

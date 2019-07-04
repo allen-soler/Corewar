@@ -64,6 +64,7 @@ typedef struct		s_inst
 {
 	unsigned char	tab[CHAMP_MAX_SIZE + 1];
 	int				size;
+	int				l_size;
 }					t_inst;
 
 typedef struct		header_s
