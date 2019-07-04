@@ -1,7 +1,7 @@
-.name "some name"
+.name "t1"
 .comment "some comments"
 and %6, %:test, r7
-and %6, %1, r7
 and %6, %:test, r7
 and %6, %:test, r7
-test: and %3, %test, r1
+and %6, %:test, r7
+test: and %3, %7, r1

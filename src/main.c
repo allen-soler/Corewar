@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/01 15:55:47 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/04 14:30:41 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	test(t_par *lst)
 	tmp = lst;
 	while (tmp)
 	{
-	ft_printf("%s %i\n", tmp->param, tmp->type);
+		ft_printf("%s %i\n", tmp->param, tmp->type);
+		if (lst->lbl_ptr)
+			ft_printf("%s\n", lst->lbl_ptr->param);
 		tmp = tmp->next;
 	}
 	ft_printf("-----------------------------------------------------\n");
@@ -49,7 +51,7 @@ int		main(int ac, char **av)
 	close(fd);
 	ingest_file(&list, line);
 	check_syntax(list);
-	test(list);
+	//test(list);
 	to_binary(list, line, &header);
 	free_list(list);
 	free(line);

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/04 11:39:03 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/04 13:53:44 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,17 @@ t_op				op_tab[17];
 void	readfile(int fd, char **line);
 void	to_binary(t_par *lst, char *src, header_t *h);
 void	ingest_file(t_par **list, char *file);
-void	encoding(t_par *lst, int fd);
+void	encoding(t_par *lst, int fd, t_inst *inst);
 
 /**
- *		Error handling
+*		Error handling
 **/
 
 void	error_function(char *string, t_par **list);
 void	error_custom(char *message, t_par *list);
 
 /**
- *		Handle labels
+*		Handle labels
 **/
 
 int		direct_label(t_par **list, char *arg, int type);

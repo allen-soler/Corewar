@@ -77,19 +77,17 @@ int		counting_label(t_par *lst, int nb)
 	return (i);
 }
 
-int		testing(t_par *lst, t_par *n, int nb)
+int		label_start(t_par *lst, t_par *tmp, int nb)
 {
-	t_par *tmp;
 	int i;
-	int	j;
-	tmp = n;
 
 	i = 0;
-	j = counting_label(lst, nb);
 	while (tmp)
 	{
 		if (lst == tmp)
+		{
 			break ;
+		}
 		if (tmp->type == 6)
 			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
@@ -106,38 +104,41 @@ int		testing(t_par *lst, t_par *n, int nb)
 			i += 2;
 		tmp = tmp->next;
 	}
-	if (i < j)
-		i = -(j - i);
+	nb = counting_label(lst, nb);
+	ft_printf("%i\n", i);
+	i = i < nb ? i = -(nb - i) : i;
 	return (i);
 }
 
+
+
 void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
-	if (lst->type == 2 || lst->type == 3)
+	int	n;
+
+	ft_printf("%s\n", lst->lbl_ptr->param);
+	n = label_start(lst->lbl_ptr, tmp, nb);
+	if (lst->type == 5)
 	{
-		if (lst->type == 2)
-			inst->tab[inst->size += 1] = ft_atoi(lst->param);
-		else if (lst->type == 3)
-			inst->tab[inst->size += 3] = ft_atoi(lst->param);
-	}
-	if (lst->type == 5 || lst->type == 15)
-	{
-		if (lst->type == 5)
-			return ;
-		else if (lst->type == 15)
+		if (n > 0)
+			inst->tab[inst->size += 3] = n;
+		else
 		{
-			ft_printf("second start %i\n", inst->l_size);
-			nb = testing(lst->lbl_ptr, tmp, nb);
-			if (nb > 0)
-				inst->tab[inst->size += 1] = nb;
-			else
-			{
-				inst->tab[inst->size] = 0xff;
-				inst->tab[inst->size += 1] = nb;
-			}
+			inst->tab[inst->size] = 0xff;
+			inst->tab[inst->size += 2] = 0xff;
+			inst->tab[inst->size += 3] = n;
+		}
+	}	
+	else if (lst->type == 15)
+	{
+		if (n > 0)
+			inst->tab[inst->size += 1] = n;
+		else
+		{
+			inst->tab[inst->size] = 0xff;
+			inst->tab[inst->size += 1] = n;
 		}
 	}
-	inst->size += 1;
 }
 
 void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)
@@ -146,35 +147,42 @@ void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 		inst->tab[inst->size++] = ft_atoi(lst->param);
 	else if (lst->type == 2 || lst->type == 3 || lst->type == 5
 			|| lst->type == 15)
-		direct_lab(lst, inst, tmp, nb);
+	{
+		if (lst->type == 2 || lst->type == 3)
+		{
+			if (lst->type == 2)
+				inst->tab[inst->size += 1] = ft_atoi(lst->param);
+			else if (lst->type == 3)
+				inst->tab[inst->size += 3] = ft_atoi(lst->param);
+		}
+		else
+			direct_lab(lst, inst, tmp, nb);
+		inst->size += 1;
+	}
 	else if (lst->type == 4 || lst->type == 9)
 		return ;
 }
 
-void	encoding(t_par *lst, int fd)
+void	encoding(t_par *lst, int fd, t_inst *inst)
 {
 	int		i;
-	int		j;
 	t_par	*tmp;
-	t_inst	inst;
 
-	inst.size = 0;
-	ft_bzero(inst.tab, CHAMP_MAX_SIZE + 1);
+	inst->size = 0;
+	ft_bzero(inst->tab, CHAMP_MAX_SIZE + 1);
 	while (lst)
 	{
 		if (lst->type == 6)
 		{
 			tmp = lst;
 			i = nb_op(lst->param);
-			inst.l_size = inst.size;
-			inst.tab[inst.size++] = i + 1;
-			ft_printf("start %i\n", inst.l_size);
+			inst->l_size = inst->size;
+			inst->tab[inst->size++] = i + 1;
 			if (op_tab[i].encoding_byte > 0)
-				get_binary(lst->next, &inst, op_tab[i].param_nb, inst.size);
+				get_binary(lst->next, inst, op_tab[i].param_nb, inst->size);
 		}
 		else
-			check_type(lst, &inst, tmp, i);
+			check_type(lst, inst, tmp, i);
 		lst = lst->next;
 	}
-	write(fd, inst.tab, inst.size);
 }
