@@ -1,18 +1,27 @@
 #include "../includes/asm.h"
 
-int		to_bin(char	*bin)
+static size_t djb_hash(const char* cp)
 {
-	char	*start = &bin[0];
-	int		res;
+	size_t	hash;
 
-	res = 0;
-	while (*start)
+	hash = 5381;
+	while (*cp)
+		hash = 33 * hash ^ (unsigned char)*cp++;
+	return (hash);
+}
+
+int		nb_op(char *src)
+{
+	int	i;
+
+	i = 0;
+	while (op_tab[i].name)
 	{
-		res = res << 1;
-		if (*start++ == '1') 
-			res = res ^ 1;
+		if (djb_hash(src) == djb_hash(op_tab[i].name))
+			break ;
+		i++;
 	}
-	return (res);
+	return (i);
 }
 
 void	get_binary(t_par *lst, t_inst *inst, int nb, int size)
@@ -40,17 +49,17 @@ void	get_binary(t_par *lst, t_inst *inst, int nb, int size)
 	inst->size += 1;
 }
 
-int		testing(t_par *lst, int size)
+int		counting_label(t_par *lst, int nb)
 {
-	t_par *tmp;
-	int i = 0;
+	int		i;
+	t_par	*tmp;
 
+	i = 0;
 	tmp = lst;
-	ft_printf("----------------\n");
 	while (tmp)
 	{
 		if (tmp->type == 6)
-			i += 2 + size;
+			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
 			i += 1;
 		else if (tmp->type == 2 || tmp->type == 3 || tmp->type == 5
@@ -65,12 +74,44 @@ int		testing(t_par *lst, int size)
 			i += 2;
 		tmp = tmp->next;
 	}
-	ft_printf("%i %i %i\n", i, i + size, size);
-	ft_printf("----------------\n");
-	return (i + size);
+	return (i);
 }
 
-void	direct_lab(t_par *lst, t_inst *inst)
+int		testing(t_par *lst, t_par *n, int nb)
+{
+	t_par *tmp;
+	int i;
+	int	j;
+	tmp = n;
+
+	i = 0;
+	j = counting_label(lst, nb);
+	while (tmp)
+	{
+		if (lst == tmp)
+			break ;
+		if (tmp->type == 6)
+			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
+		else if (tmp->type == 1)
+			i += 1;
+		else if (tmp->type == 2 || tmp->type == 3 || tmp->type == 5
+				|| tmp->type == 15)
+		{
+			if (tmp->type == 2 || tmp->type == 15)
+				i += 2;
+			else if (tmp->type == 3 || tmp->type == 5)
+				i += 4;
+		}
+		else if (tmp->type == 4 || tmp->type == 9)
+			i += 2;
+		tmp = tmp->next;
+	}
+	if (i < j)
+		i = -(j - i);
+	return (i);
+}
+
+void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
 	if (lst->type == 2 || lst->type == 3)
 	{
@@ -85,28 +126,34 @@ void	direct_lab(t_par *lst, t_inst *inst)
 			return ;
 		else if (lst->type == 15)
 		{
-			inst->tab[inst->size += 1] = testing(lst->lbl_ptr, inst->size + 2);
+			nb = testing(lst->lbl_ptr, tmp, nb);
+			if (nb > 0)
+				inst->tab[inst->size += 1] = nb;
+			else
+			{
+				inst->tab[inst->size] = 0xff;
+				inst->tab[inst->size += 1] = nb;
+			}
 		}
 	}
 	inst->size += 1;
 }
 
-void	check_type(t_par *lst, t_inst *inst)
+void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
 	if (lst->type == 1)
 		inst->tab[inst->size++] = ft_atoi(lst->param);
 	else if (lst->type == 2 || lst->type == 3 || lst->type == 5
 			|| lst->type == 15)
-		direct_lab(lst, inst);
+		direct_lab(lst, inst, tmp, nb);
 	else if (lst->type == 4 || lst->type == 9)
 		return ;
 }
 
-int		size_inst(t_par *lst
 void	encoding(t_par *lst, int fd)
 {
 	int		i;
-	int		j;
+	t_par	*tmp;
 	t_inst	inst;
 
 	inst.size = 0;
@@ -115,19 +162,14 @@ void	encoding(t_par *lst, int fd)
 	{
 		if (lst->type == 6)
 		{
-			i = 0;
-			while (op_tab[i].name)
-			{
-				if (ft_strcmp(lst->param, op_tab[i].name) == 0)
-					break ;
-				i++;
-			}
+			tmp = lst;
+			i = nb_op(lst->param);
 			inst.tab[inst.size++] = i + 1;
 			if (op_tab[i].encoding_byte > 0)
 				get_binary(lst->next, &inst, op_tab[i].param_nb, inst.size);
 		}
 		else
-			check_type(lst, &inst);
+			check_type(lst, &inst, tmp, i);
 		lst = lst->next;
 	}
 	write(fd, inst.tab, inst.size);
