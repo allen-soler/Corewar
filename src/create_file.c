@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 15:43:01 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/05 12:16:54 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/05 14:09:07 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 
 int	open_file(char	*src, int fd)
 {
-	char	**tab;
+	int		i;
 	char	*name;
-
-	tab = ft_strsplit(src, '"');
-	name = ft_strjoin(tab[1], ".cor");
-	ft_free_tab(tab);
+	
+	i = 0;
+	while (src[i] && src[i] != '.')
+		i++;
+	src[i] = '\0';
+	name = ft_strjoin(src, ".cor");
 	fd = open(name, O_WRONLY | O_CREAT, 0644);
+	ft_printf("Writing output program to %s\n", name);
 	free(name);
 	return (fd);
 }
@@ -63,7 +66,7 @@ void	comment(int fd, header_t *h, char *src)
 	ft_free_tab(tab);
 }
 
-void	to_binary(t_par *lst, char *src, header_t *h)
+void	to_binary(t_par *lst, char *src, header_t *h, char *n_file)
 {
 	char		**tab;
 	int			fd;
@@ -71,7 +74,7 @@ void	to_binary(t_par *lst, char *src, header_t *h)
 
 	fd = 0;
 	tab = ft_strsplit(src, '\n');
-	fd = open_file(&tab[0][5], fd);
+	fd = open_file(n_file, fd);
 	ft_bzero(h->prog_name, PROG_NAME_LENGTH + 1); 
 	ft_bzero(h->comment, COMMENT_LENGTH + 1); 
 	name(fd, COREWAR_EXEC_MAGIC, h, &tab[0][5]);

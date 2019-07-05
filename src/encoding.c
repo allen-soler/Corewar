@@ -74,8 +74,10 @@ int		counting_label(t_par *lst, int nb, t_inst *inst)
 			i += 2;
 		inst->param_steps += 1;
 		tmp = tmp->next;
-		if (tmp->type == 6 || tmp->type == 7)
-			break ;
+		if (tmp)
+			if (tmp->type == 6 || tmp->type == 7)
+				break ;
+
 	}
 	return (i);
 }
@@ -155,7 +157,7 @@ void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 			inst->tab[inst->size += 3] = nb;
 		}
 	}	
-	else if (lst->type == 15)
+	else if (lst->type == 15 || lst->type == 9)
 	{
 		if (nb > 0)
 			inst->tab[inst->size += 1] = nb;
@@ -186,7 +188,13 @@ void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 		inst->size += 1;
 	}
 	else if (lst->type == 4 || lst->type == 9)
-		return ;
+	{
+		if (lst->type == 4)
+			inst->tab[inst->size += 1] = ft_atoi(lst->param);
+		else if (lst->type == 9)
+			direct_lab(lst, inst, tmp, nb);
+		inst->size += 1;
+	}
 }
 
 void	encoding(t_par *lst, int fd, t_inst *inst)

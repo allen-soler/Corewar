@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/04 15:12:56 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/05 14:33:38 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ t_op				op_tab[17];
 //4: IND 5: DIR_LAB4_bytes 6: inst 7: LABEL 8: comment 9: IND_LAB 15: DIR_LAB2Bytes
 
 void	readfile(int fd, char **line);
-void	to_binary(t_par *lst, char *src, header_t *h);
 void	ingest_file(t_par **list, char *file);
 void	encoding(t_par *lst, int fd, t_inst *inst);
+void	to_binary(t_par *lst, char *src, header_t *h, char *name);
 
 /**
 *		Error handling
