@@ -168,7 +168,8 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 			cursor->args[i].type = T_DIR;
 			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
 		}
-		if ((op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0)
+		if ((op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
+		(cursor->args[i].type == T_REG && (cursor->args[i].value > 0 && cursor->args[i].value <= REG_NUMBER)))
 		{
 			DEBUG(ft_printf("INVALID OPERATION"))
 			return (0);
