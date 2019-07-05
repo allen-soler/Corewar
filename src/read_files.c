@@ -64,7 +64,7 @@ void print_arena(t_env *e)
 		else
 			ft_printf("%02hhx ", e->arena[i++].data);
 		if (i % 32 == 0)
-			ft_putendl(0);
+			ft_putchar('\n');
 	}
 }
 

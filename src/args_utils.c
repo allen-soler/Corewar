@@ -98,15 +98,16 @@ int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes)
  **	encoding byte and those who don't.
  */
 
+char	*verb_string;
 
 void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
 {
 	if (args[i].type == T_REG)
-		ft_printf(" r%d", args[i].value);
+		verb_string = ft_strjoin(verb_string, ft_cprintf(" r%d", args[i].value));
 	else if (args[i].type == T_IND)
-		ft_printf(" %d", args[i].value);
+		verb_string = ft_strjoin(verb_string, ft_cprintf(" %d", args[i].value));
 	else if (args[i].type == T_DIR)
-		ft_printf(" %d", cursor->args[i].value);
+		verb_string = ft_strjoin(verb_string, ft_cprintf(" %d", args[i].value));
 }
 
 int		read_args(t_env *e, t_process *cursor, t_op op)
@@ -116,7 +117,7 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 	int				arg_len;
 	int				offset;
 
-	VERB(VERB_OP, ft_printf("P%5d | %s", cursor->pid, op.name));
+	VERB(VERB_OP, verb_string = ft_cprintf("P%5d | %s", cursor->pid, op.name));
 	offset = 1 + op.encoding_byte;
 	e->arena[cursor->pc].player = 2;
 	reset_args(cursor);
@@ -169,9 +170,10 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
 		}
 		if ((op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
-		(cursor->args[i].type == T_REG && (cursor->args[i].value > 0 && cursor->args[i].value <= REG_NUMBER)))
+		(cursor->args[i].type == T_REG && (cursor->args[i].value < 0 || cursor->args[i].value > REG_NUMBER)))
 		{
-			DEBUG(ft_printf("INVALID OPERATION"))
+			ft_printf("FAILED type: %b in types: 
+			");
 			return (0);
 		}
 		cursor->args[i].value = mix_bytes(e, cursor, offset, arg_len);
@@ -179,6 +181,7 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 		offset += arg_len;
 		i += 1;
 	}
+	ft_printf("%s", verb_string);
 	return (1);
 }
 
