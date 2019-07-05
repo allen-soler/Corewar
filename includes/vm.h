@@ -9,8 +9,9 @@
 # include <inttypes.h>
 
 # include "op.h"
-# include "../libft/includes/libft.h"
+# include "../libft/libft.h"
 
+// TODO: REMOVE THIS 
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 
@@ -224,6 +225,7 @@ void		parsing_args(char **av, int ac, t_env *env);
 
 int			posmod(int n, int mod);
 int			ft_atoi_pimp(char *line, t_env *env);
+int			ft_endswith(const char *str, const char *suffix);
 
 /*
 **	DEBBUGING

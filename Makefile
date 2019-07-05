@@ -57,7 +57,7 @@ OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 all: $(NAME)
 
 $(NAME): $(DIR_H) $(OBJS) lib
-	@gcc -o $(NAME) $(FLAGS) -I $(DIR_H) $(OBJS) $(LIBFT)/libft.a
+	@gcc -o $(NAME) $(FLAGS) -I $(DIR_H) -I./libft $(OBJS) $(LIBFT)/libft.a
 	@echo "corewar compiled"
 
 $(DIR_O)/%.o: $(DIR_S)/%.c
