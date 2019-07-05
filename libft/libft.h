@@ -13,6 +13,7 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <string.h>
+# include <inttypes.h>
 # include "intrisics.h"
 
 /*
@@ -84,7 +85,7 @@ double			ft_atof_mv(char **nptr);
 int				ft_atoi_mv(char **nptr);
 int				ft_maxint(int a, int b);
 long			ft_maxlong(long a, long b);
-uint			ft_maxuint(uint a, uint b);
+unsigned int	ft_maxuint(unsigned int a, unsigned int b);
 
 /*
 **	#################### LIBCHAR ###################
