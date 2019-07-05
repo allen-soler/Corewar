@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 14:52:43 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/05 18:57:54 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 char	**instructions_array(void)
 {
-	char 		**instructions;//can maybe have this as enum
+	char 		**instructions;
 
 	instructions = ft_strsplit("ldi sti st live add sub and or xor zjmp ld \
  lldi lld lfork fork aff", ' ');

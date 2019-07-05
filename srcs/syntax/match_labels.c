@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:10:25 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 16:07:41 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/05 19:00:27 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	match_labels(t_par *tmp, t_par *head)
 	while (tmp)
 	{
 		if (tmp->type == 5 || tmp->type == 9)
-			tmp->lbl_ptr = search_label(tmp->param, head, &count); //if find then do whats necessary to point ot it!
+			tmp->lbl_ptr = search_label(tmp->param, head, &count);
 		tmp = tmp->next;
 	}
 	tmp = head;

@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/02 19:41:10 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/05 19:10:31 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //PROBLEM WIIITHHHH HASHTAG AT END
@@ -22,17 +22,16 @@ static intmax_t	handle_number(char *arg, intmax_t stock, int neg)
 	else
 		error_custom("Invalid argument format\n", NULL);
 	if (stock > 4294967295 || stock < -4294967296)
-		error_custom("Out of bounds argument value. Needs to be > -4294967297 or < 4294967296.\n", NULL);
+		error_custom("Out of bounds argument value. Needs to be \
+> -4294967297 or < 4294967296.\n", NULL);
 	return (stock);
 }
 
 int				check_register(char *arg, t_par **list)
 {
 	size_t	stock;
-	char	*stk;
 
 	stock = 0;
-	stk = NULL;
 	if (*arg == 'r' && (ft_isdigit(*(arg + 1))))
 	{
 		while (ft_isdigit(*(arg + 1)) && (*(arg + 1)) != '\0')
@@ -48,9 +47,7 @@ int				check_register(char *arg, t_par **list)
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			return (1);
 		arg = arg + 1;
-		stk = ft_itoa(stock);
-		*list  = add_parameter(*list, stk, 1);
-		free(stk);
+		*list  = add_parameter(*list, ft_itoa(stock), 1);
 	}
 	return (0);
 }
@@ -58,11 +55,9 @@ int				check_register(char *arg, t_par **list)
 int				check_direct(char *arg, t_par **list)
 {
 	intmax_t	stock;
-	char		*stk;
 	int			neg;
 
 	stock = 0;
-	stk = NULL;
 	neg = 0;
 	if (*arg == '%')
 	{
@@ -81,9 +76,7 @@ int				check_direct(char *arg, t_par **list)
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			return (1);
 		arg = arg + 1;
-		stk = ft_itoa(stock);
-		*list  = add_parameter(*list, stk, 3);
-		free(stk);
+		*list  = add_parameter(*list, ft_itoa(stock), 3);
 	}
 	return (0);
 }
@@ -91,11 +84,9 @@ int				check_direct(char *arg, t_par **list)
 int				check_indirect(char *arg, t_par **list)
 {
 	intmax_t	stock;
-	char		*stk;
 	int			neg;
 
 	stock = 0;
-	stk = NULL;
 	neg =  0;
 	if (*arg == '-' || ft_isdigit(*arg) || *arg == ':')
 	{
@@ -114,9 +105,7 @@ int				check_indirect(char *arg, t_par **list)
 		if (*arg != '\0' && *arg != ',')
 			return (1);
 		arg = arg + 1;
-		stk = ft_itoa(stock);
-		*list  = add_parameter(*list, stk, 4);
-		free(stk);
+		*list  = add_parameter(*list, ft_itoa(stock), 4);
 	}
 	return (0);
 }

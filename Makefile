@@ -6,7 +6,7 @@
 #    By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/24 19:25:12 by bghandou          #+#    #+#              #
-#    Updated: 2019/06/30 12:31:30 by bghandou         ###   ########.fr        #
+#    Updated: 2019/07/05 19:24:26 by bghandou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = gcc
 
 INCLUDE = includes
 
-CFLAGS = -g3 -Wall -Wextra -Werror -I $(INCLUDE) -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE)
 
 SRC = srcs/null_state.c \
 	  srcs/token_automata.c \

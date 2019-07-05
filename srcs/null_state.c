@@ -6,14 +6,14 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/03 16:27:04 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/05 19:23:36 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 #include "asm.h"
 
-int		null_state(char **line, int state, t_par **list) //need array of functions
+int		null_state(char **line, int state, t_par **list)
 {
 	size_t repoint;
 
@@ -41,14 +41,10 @@ int		null_state(char **line, int state, t_par **list) //need array of functions
 }
 
 int		middlefunction(char **line, int state, t_par **list)
-{ //can put array of functions here
-//	dprintf(1, "__________\n");
-//	test_print(*list);
-//	dprintf(1, "__________\n");
+{
 	*line = skip_space(*line);
 	if (!((state > 1 && state < 3) || (state > 5 && state < 7)))
 		*line = ignore_hash_comment(*line);
-	dprintf(1, "line before state : %s\n", *line);
 	if (state == 0)
 		state = null_state(line, state, list);
 	if (state >= 1 && state <= 3)
@@ -69,11 +65,9 @@ int		middlefunction(char **line, int state, t_par **list)
 int		token_automata(char *line, t_par **list, int state)
 {
 	size_t		i;
-//	static int	state;
-	char 		**instructions;//can maybe have this as enum
+	char 		**instructions;
 
 	i = 0;
-//	state = 0;
 	instructions = ft_strsplit("ld st live add sub and or xor zjmp ldi sti \
 lld lldi lfork fork aff", ' ');
 
@@ -88,7 +82,7 @@ t_par	*ingest_file(char *file)
 	int		fd;
 	char	*line;
 	t_par	*list;
-	static int	state; //added this after
+	static int	state;
 
 	fd = open(file, O_RDONLY);
 	line = NULL;
@@ -106,8 +100,11 @@ int		main(int ac, char **av)
 {
 	t_par	*list;
 
-	(void)ac;
-	list = ingest_file(av[1]);
+	list = NULL;
+	if (ac == 2)//add ft_endswith(av[1], ".s")
+		list = ingest_file(av[1]);
+	else
+		error_custom("Choose one valid '.s' file to compile.\n", NULL);
 	check_syntax(list);
 	test_print(list);
 }
