@@ -55,9 +55,8 @@ int		counting_label(t_par *lst, int nb, t_inst *inst)
 	t_par	*tmp;
 
 	i = 0;
-	inst->param_steps = 0;
 	tmp = lst;
-	while (tmp && inst->param_steps < op_tab[nb].param_nb)
+	while (tmp)
 	{
 		if (tmp->type == 6)
 			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
@@ -75,8 +74,38 @@ int		counting_label(t_par *lst, int nb, t_inst *inst)
 			i += 2;
 		inst->param_steps += 1;
 		tmp = tmp->next;
+		if (tmp->type == 6 || tmp->type == 7)
+			break ;
 	}
 	return (i);
+}
+
+int		label_aff(t_par *lst, t_par *tmp, int nb, t_inst *inst)
+{
+	int i;
+
+	i = 0;
+	while (tmp)
+	{
+		if (tmp->pos == lst->pos)
+			break ;
+		if (tmp->type == 6)
+			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
+		else if (tmp->type == 1)
+			i += 1;
+		else if (tmp->type == 2 || tmp->type == 3 || tmp->type == 5
+				|| tmp->type == 15)
+		{
+			if (tmp->type == 2 || tmp->type == 15)
+				i += 2;
+			else if (tmp->type == 3 || tmp->type == 5)
+				i += 4;
+		}
+		else if (tmp->type == 4 || tmp->type == 9)
+			i += 2;
+		tmp = tmp->next;
+	}
+	return (-i);
 }
 
 int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
@@ -84,11 +113,6 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 	int i;
 
 	i = 0;
-	ft_printf("%i %i\n", lst->pos, tmp->pos);
-	if (lst->pos > tmp->pos)
-		ft_printf("should be here\n");
-	else
-		ft_printf("should be neg\n");
 	while (tmp)
 	{
 		if (lst == tmp)
@@ -109,7 +133,7 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 			i += 2;
 		tmp = tmp->next;
 	}
-	nb = counting_label(lst, nb, inst);
+	nb = counting_label(lst->next, nb, inst);
 	return (i < nb ? i = -(nb - i) : i);
 }
 
@@ -117,29 +141,28 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 
 void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
-	int	n;
-
-	n = label_start(lst->lbl_ptr, tmp, nb, inst);
+	nb = lst->lbl_ptr->pos < tmp->pos ? label_aff(tmp, lst->lbl_ptr, nb, inst)\
+		: label_start(lst->lbl_ptr, tmp, nb, inst);
 	if (lst->type == 5)
 	{
-		if (n > 0)
-			inst->tab[inst->size += 3] = n;
+		if (nb > 0)
+			inst->tab[inst->size += 3] = nb;
 		else
 		{
-			inst->tab[inst->size] = 0;
-			inst->tab[inst->size += 1] = 0;
-			inst->tab[inst->size += 2] = 0;
-			inst->tab[inst->size += 3] = n;
+			inst->tab[inst->size] = -1;
+			inst->tab[inst->size + 1] = -1;
+			inst->tab[inst->size + 2] = -1;
+			inst->tab[inst->size += 3] = nb;
 		}
 	}	
 	else if (lst->type == 15)
 	{
-		if (n > 0)
-			inst->tab[inst->size += 1] = n;
+		if (nb > 0)
+			inst->tab[inst->size += 1] = nb;
 		else
 		{
 			inst->tab[inst->size] = 0xff;
-			inst->tab[inst->size += 1] = n;
+			inst->tab[inst->size += 1] = nb;
 		}
 	}
 }

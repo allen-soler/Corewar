@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 15:43:01 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/04 15:12:54 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/05 12:16:54 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	to_binary(t_par *lst, char *src, header_t *h)
 	ft_free_tab(tab);
 	write(fd, h->prog_name, 128);
 	write(fd, h->comment, 2048);
-	ft_printf("%i\n", inst.size);
 	write(fd, inst.tab, inst.size);
 	close(fd);
 }

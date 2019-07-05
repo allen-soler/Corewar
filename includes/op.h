@@ -62,7 +62,7 @@ typedef char t_arg_type;
 
 typedef struct		s_inst
 {
-	unsigned char	tab[CHAMP_MAX_SIZE + 1];
+	char			tab[CHAMP_MAX_SIZE + 1];
 	int				size;
 	int				param_steps;
 }					t_inst;
