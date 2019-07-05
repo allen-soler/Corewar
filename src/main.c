@@ -12,17 +12,21 @@
 
 #include "../includes/asm.h"
 
-void	test(t_par *lst)
+void	test(t_par **lst)
 {
-	t_par *tmp;
+	int		i = 0;
+	t_par	*tmp;
 
-	tmp = lst;
+	tmp = *lst;
+	i = 0;
 	while (tmp)
 	{
+		tmp->pos = i;
 		ft_printf("%s %i\n", tmp->param, tmp->type);
-		if (lst->lbl_ptr)
-			ft_printf("%s\n", lst->lbl_ptr->param);
+		if (tmp->lbl_ptr)
+			ft_printf("%s\n", tmp->lbl_ptr->param);
 		tmp = tmp->next;
+		i++;
 	}
 	ft_printf("-----------------------------------------------------\n");
 }
@@ -51,7 +55,7 @@ int		main(int ac, char **av)
 	close(fd);
 	ingest_file(&list, line);
 	check_syntax(list);
-	//test(list);
+	test(&list);
 	to_binary(list, line, &header);
 	free_list(list);
 	free(line);

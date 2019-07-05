@@ -84,7 +84,8 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 	int i;
 
 	i = 0;
-	if (tmp > lst)
+	ft_printf("%i %i\n", lst->pos, tmp->pos);
+	if (lst->pos > tmp->pos)
 		ft_printf("should be here\n");
 	else
 		ft_printf("should be neg\n");
@@ -128,7 +129,7 @@ void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 			inst->tab[inst->size] = 0;
 			inst->tab[inst->size += 1] = 0;
 			inst->tab[inst->size += 2] = 0;
-			inst->tab[inst->size += 3] = 15;
+			inst->tab[inst->size += 3] = n;
 		}
 	}	
 	else if (lst->type == 15)

@@ -38,7 +38,8 @@
 typedef struct		s_par
 {
 	char			*param;
-	int				type; 
+	int				type;
+	int				pos;
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
 }					t_par;
