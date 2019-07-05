@@ -62,7 +62,7 @@ typedef char t_arg_type;
 
 typedef struct		s_inst
 {
-	char			tab[CHAMP_MAX_SIZE + 1];
+	unsigned char	tab[CHAMP_MAX_SIZE + 1];
 	int				size;
 	int				param_steps;
 }					t_inst;
@@ -72,7 +72,7 @@ typedef struct		header_s
 	unsigned int 	magic;
 	char 			prog_name[PROG_NAME_LENGTH + 1];
 	unsigned int 	prog_size;
-	char 			comment[COMMENT_LENGTH + 1];
+	char 			comment[COMMENT_LENGTH + 17];
 }					header_t;
 
 typedef struct	s_op

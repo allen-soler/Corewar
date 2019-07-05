@@ -76,14 +76,14 @@ void	to_binary(t_par *lst, char *src, header_t *h, char *n_file)
 	tab = ft_strsplit(src, '\n');
 	fd = open_file(n_file, fd);
 	ft_bzero(h->prog_name, PROG_NAME_LENGTH + 1); 
-	ft_bzero(h->comment, COMMENT_LENGTH + 1); 
+	ft_bzero(h->comment, COMMENT_LENGTH + 17); 
 	name(fd, COREWAR_EXEC_MAGIC, h, &tab[0][5]);
 	comment(fd, h, &tab[1][8]);
 	encoding(lst, fd, &inst);
 	h->comment[11] = inst.size;
 	ft_free_tab(tab);
 	write(fd, h->prog_name, 128);
-	write(fd, h->comment, 2048);
+	write(fd, h->comment, 2048 + 16);
 	write(fd, inst.tab, inst.size);
 	close(fd);
 }
