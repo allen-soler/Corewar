@@ -54,9 +54,9 @@ int		main(int ac, char **av)
 		check_syntax(list);
 		ft_printf("HERE\n");
 		order_list(&list);
-		//to_binary(list, line, &header, av[1]);
-		//free_list(list);
-		//free(line);
+		to_binary(list, line, &header, av[1]);
+		free_list(list);
+		free(line);
 	}
 	return (0);
 }
