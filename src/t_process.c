@@ -8,7 +8,7 @@ t_process		*new_process(int player, int alive, int pid)
 		return (NULL);
 	ft_bzero(new, sizeof(t_process));
 	ft_bzero(new->regs, sizeof(int) * REG_NUMBER);
-	new->alive = alive;
+	new->alive = 0; // this is wrong
 	new->player = player;
 	new->regs[0] = player;
 	new->op_code = -1;

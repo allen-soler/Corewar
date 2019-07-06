@@ -9,7 +9,7 @@ static void (*g_func_ptr[17])(t_env *e, t_process *cursor, t_op op) =
 
 static void		init_loop(t_loop *loop, int player_nb)
 {
-	loop->nb_process_alive = player_nb;
+	loop->nb_process_alive = 0;
 	loop->current_cycle = 0;
 	loop->i_cycle = 0;
 	loop->cycle_last_check = 0;
@@ -112,6 +112,7 @@ static int		check_live(t_env *e, t_loop *l)
 			index = index->next;
 		}
 	}
+	/*  not necessary i think
 	int i = 0;
 	while (i < e->players_nb)
 	{
@@ -119,6 +120,7 @@ static int		check_live(t_env *e, t_loop *l)
 		e->players[i].alive = 0;
 		i += 1;
 	}
+	*/
 	return (alive);
 }
 
@@ -132,9 +134,10 @@ static void		exec_process(t_env *env)
 	{
 		if (curr->cycle <= 0)
 			read_instruction(env, curr);
-		if (curr->cycle == 1 && curr->op_code != -1)
+		if (curr->cycle > 0)
+			--curr->cycle;
+		if (curr->cycle == 0 && curr->op_code != -1)
 			exec_cmd(env, curr);
-		--curr->cycle;
 		curr = curr->next;
 	}
 }
@@ -143,7 +146,7 @@ int				run_cycle(t_env *e, t_loop *l)
 {
 	int nbr_live;
 
-	++l->current_cycle;
+	l->current_cycle += 1;
 	VERB(VERB_SHOW_CYCLES, ft_printf("It is now cycle %lu\n", l->current_cycle));
 	exec_process(e);
 	if (l->current_cycle - l->cycle_last_check >= l->cycle_to_die)
@@ -151,6 +154,7 @@ int				run_cycle(t_env *e, t_loop *l)
 		l->cycle_last_check = l->current_cycle;
 		l->i_check += 1;
 		nbr_live = check_live(e, l);
+		ft_printf("nbr_live: %d\n", nbr_live);
 		if (nbr_live >= NBR_LIVE || l->i_check == MAX_CHECKS)
 		{
 			l->cycle_to_die -= CYCLE_DELTA;

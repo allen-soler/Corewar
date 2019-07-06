@@ -30,13 +30,10 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	int i;
 
 	i = 0;
-	//DEBUG(d_display_argument(cursor, op))
-	cursor->alive += 1;
 	while (i < e->players_nb)
 	{
 		if (e->players[i].number == cursor->args[0].value)
 		{
-			e->players[i].alive += 1;
 			VERB(VERB_OP, ft_printf("\n"));
 			VERB(VERB_LIVE,\
 					ft_printf("A process shows that player %d (%s) is alive%s",\
@@ -47,6 +44,7 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 		}
 		++i;
 	}
+	cursor->alive++;
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);
 }
 
