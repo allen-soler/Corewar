@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 20:03:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/05 18:59:30 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/06 19:37:07 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_par	*class_7(t_par *tmp, t_par *head)
 	{
 		tmp = convert_size_direct(tmp);
 		tmp = tmp->next;
-		if (tmp && (tmp->type == 1 || tmp->type == 3 || tmp->type == 5)) 
+		if (tmp && (tmp->type == 1 || tmp->type == 3 || tmp->type == 5))
 		{
 			tmp = convert_size_direct(tmp);
 			tmp = tmp->next;

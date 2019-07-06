@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/05 18:57:54 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/06 19:30:25 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 char	**instructions_array(void)
 {
-	char 		**instructions;
+	char	**instructions;
 
 	instructions = ft_strsplit("ldi sti st live add sub and or xor zjmp ld \
- lldi lld lfork fork aff", ' ');
+lldi lld lfork fork aff", ' ');
 	return (instructions);
 }
 
@@ -33,7 +33,6 @@ int		search_valid_inst(char **line, t_par **list)
 	inst = instructions_array();
 	while (inst[i] != '\0')
 	{
-
 		if ((len = str_repoint(*line, inst[i])))
 		{
 			if (*(*line + len) == SPACE || *(*line + len) == '\t')
@@ -46,8 +45,8 @@ int		search_valid_inst(char **line, t_par **list)
 			return (len);
 		}
 		else
-		 i++;
+			i++;
 	}
-	free_2d(inst);
+	ft_strdel(inst);
 	return (0);
 }

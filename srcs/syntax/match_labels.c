@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:10:25 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/05 19:00:27 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/06 19:35:03 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_par	*search_label(char *param, t_par *tmp, int *count)
 	{
 		if (search_lab->type == 7)
 		{
-			if (ft_strcmp(search_lab->param , param) == 0)
+			if (ft_strcmp(search_lab->param, param) == 0)
 			{
 				*count = *count + 1;
 				return (search_lab);

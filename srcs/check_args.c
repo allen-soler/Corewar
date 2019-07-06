@@ -6,10 +6,10 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/05 19:10:31 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/06 19:29:41 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-//PROBLEM WIIITHHHH HASHTAG AT END
+
 #include "asm.h"
 #include "op.h"
 
@@ -47,7 +47,7 @@ int				check_register(char *arg, t_par **list)
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			return (1);
 		arg = arg + 1;
-		*list  = add_parameter(*list, ft_itoa(stock), 1);
+		*list = add_parameter(*list, ft_itoa(stock), 1);
 	}
 	return (0);
 }
@@ -76,7 +76,7 @@ int				check_direct(char *arg, t_par **list)
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			return (1);
 		arg = arg + 1;
-		*list  = add_parameter(*list, ft_itoa(stock), 3);
+		*list = add_parameter(*list, ft_itoa(stock), 3);
 	}
 	return (0);
 }
@@ -87,7 +87,7 @@ int				check_indirect(char *arg, t_par **list)
 	int			neg;
 
 	stock = 0;
-	neg =  0;
+	neg = 0;
 	if (*arg == '-' || ft_isdigit(*arg) || *arg == ':')
 	{
 		if (*arg == ':')
@@ -105,17 +105,16 @@ int				check_indirect(char *arg, t_par **list)
 		if (*arg != '\0' && *arg != ',')
 			return (1);
 		arg = arg + 1;
-		*list  = add_parameter(*list, ft_itoa(stock), 4);
+		*list = add_parameter(*list, ft_itoa(stock), 4);
 	}
 	return (0);
 }
 
 void			check_args(char **line, t_par **list)
 {
-	char 	**args;
+	char	**args;
 	size_t	i;
 	int		err;
-
 
 	i = -1;
 	args = ft_split(*line, " 	,");

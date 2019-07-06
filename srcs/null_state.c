@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/05 19:23:36 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/06 19:33:43 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		null_state(char **line, int state, t_par **list)
 		repoint = search_valid_inst(line, list);
 	}
 	else if ((repoint = search_valid_inst(line, list)))
-		state = 20;	
+		state = 20;
 	else if (ft_strlen(*line) == 0)
 		return (0);
 	else
@@ -59,18 +59,17 @@ int		middlefunction(char **line, int state, t_par **list)
 		return (state);
 	else
 		state = 0;
-	return(state);
+	return (state);
 }
 
 int		token_automata(char *line, t_par **list, int state)
 {
 	size_t		i;
-	char 		**instructions;
+	char		**instructions;
 
 	i = 0;
 	instructions = ft_strsplit("ld st live add sub and or xor zjmp ldi sti \
 lld lldi lfork fork aff", ' ');
-
 	state = middlefunction(&line, state, list);
 	while (instructions[i] != '\0')
 		free(instructions[i++]);
@@ -79,9 +78,9 @@ lld lldi lfork fork aff", ' ');
 
 t_par	*ingest_file(char *file)
 {
-	int		fd;
-	char	*line;
-	t_par	*list;
+	int			fd;
+	char		*line;
+	t_par		*list;
 	static int	state;
 
 	fd = open(file, O_RDONLY);

@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:40:00 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 13:56:13 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/06 19:34:39 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int	check_end_comma(char *line)
 		len--;
 	}
 	return (0);
-
 }
 
 static int	space_comma(char *line, size_t i, t_par **list)
@@ -52,7 +51,7 @@ static int	space_comma(char *line, size_t i, t_par **list)
 	return (j);
 }
 
-int		check_comma(char *line, t_par **list)
+int			check_comma(char *line, t_par **list)
 {
 	size_t	i;
 	size_t	count;

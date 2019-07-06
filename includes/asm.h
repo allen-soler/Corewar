@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/03 16:01:25 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/06 19:37:36 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*skip_space(char *line);
 int		check_comma(char *line, t_par **list);
 size_t	str_repoint(char *haystack, char *needle);
 void	travel_states(char **line, int state);
-void	free_2d(char **arrray);
+//void	free_2d(char **arrray);
 char	*ignore_hash_comment(char *line);
 
 /**

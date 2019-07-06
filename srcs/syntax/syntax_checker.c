@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 17:43:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/02 19:40:04 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/06 19:36:45 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ t_par	*fetch_function(t_par *tmp, int class, t_par *head)
 	if (class > 0)
 		tmp = class_arr[class - 1](tmp, head);
 	else if (tmp->type == 7)
-		tmp = tmp->next ;
-	return (tmp);	
+		tmp = tmp->next;
+	return (tmp);
 }
 
 void	match_instruction(t_par *tmp, char **instructions, t_par *head)
