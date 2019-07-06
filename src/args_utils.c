@@ -116,9 +116,11 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 	int				type;
 	int				arg_len;
 	int				offset;
+	int				current_pc_extra_in_case_of_fail;
 
 	VERB(VERB_OP, verb_string = ft_cprintf("P%5d | %s", cursor->pid, op.name));
 	offset = 1 + op.encoding_byte;
+	current_pc_extra_in_case_of_fail = 1 + op.encoding_byte;
 	e->arena[cursor->pc].player = 2;
 	reset_args(cursor);
 	i = 0;
@@ -174,10 +176,13 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 		(cursor->args[i].type == T_REG && (cursor->args[i].value < 0 || cursor->args[i].value > REG_NUMBER)))
 		{
 			DEBUG(ft_printf("FAILED type: %02x, with value: %d, is not in the ld types: %02x\n", cursor->args[i].type, cursor->args[i].value, op_tab[op.op_code - 1].param_possible[i]))
+			current_pc_extra_in_case_of_fail += arg_len;
+			cursor->pc += current_pc_extra_in_case_of_fail - 1;
 			return (0);
 		}
 		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));
 		offset += arg_len;
+		current_pc_extra_in_case_of_fail += arg_len;
 		i += 1;
 	}
 	VERB(VERB_OP, ft_printf("%s", verb_string));

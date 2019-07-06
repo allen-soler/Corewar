@@ -53,8 +53,8 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 	int	addr;
 	int	i;
 
-	set_reg_values(cursor, op , -1);
 	DEBUG(d_display_argument(cursor, op))
+	set_reg_values(cursor, op , -1);
 	i = -1;
 	while (++i < op.param_nb)
 	{
@@ -62,8 +62,8 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 			continue;
 		cursor->args[i].value += cursor->pc;
 	}
-	addr = MODX(cursor->args[1].value + cursor->args[2].value);
-	write_byte(e, cursor->pc + addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE);
+	addr = cursor->pc + MODX(cursor->args[1].value + cursor->args[2].value);
+	write_byte(e, addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
 }
 

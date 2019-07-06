@@ -51,8 +51,8 @@ void print_arena(t_env *e)
 			ft_printf("0x%04x : ", line);
 			line += 32;
 		}
-		if (g_debug == 0)
-			ft_printf("%02hhx ", e->arena[i++].data);
+		ft_printf("%02hhx ", e->arena[i++].data);
+			/* 
 		else if (e->arena[i].player == 0)
 			ft_printf("{r}%02hhx{R} ", e->arena[i++].data);
 		else if (e->arena[i].player == 1)
@@ -63,6 +63,7 @@ void print_arena(t_env *e)
 			ft_printf("{y}%02hhx{R} ", e->arena[i++].data);
 		else
 			ft_printf("%02hhx ", e->arena[i++].data);
+			*/
 		if (i % 32 == 0)
 			ft_putchar('\n');
 	}
