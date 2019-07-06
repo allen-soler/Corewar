@@ -7,6 +7,8 @@
 #define PRINT_D(x) ft_printf("%s: %d\n",#x, x);
 #define OP_CODE_LEN 1
 
+void			read_instruction(t_env *e, t_process *cursor);
+
 void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 {
 	int8_t i;
@@ -114,7 +116,7 @@ void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 	}
 	else
 	{
-		cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);
+		cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 		VERB(VERB_OP, ft_printf(" FAILED"));
 	}
 
@@ -142,7 +144,7 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 	res = cursor->args[0].value & cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
-	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 /*
@@ -167,7 +169,7 @@ void	ft_ld(t_env *e, t_process *cursor, t_op op)
 		cursor->carry = 1;
 	else
 		cursor->carry = 0;
-	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 /*
@@ -197,6 +199,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	else
 		child->pc = (child->pc + 1) % MEM_SIZE;
 	*/
+	read_instruction(e, child);
 	push_process_front(&e->cursors, child);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
@@ -231,7 +234,7 @@ void	ft_or(t_env *e, t_process *cursor, t_op op)
 	res = cursor->args[0].value | cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
-	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 void	ft_xor(t_env *e, t_process *cursor, t_op op)
@@ -243,7 +246,7 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 	res = cursor->args[0].value ^ cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = res;
 	cursor->carry = !res;
-	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 void	ft_ldi(t_env *e, t_process *cursor, t_op op)
@@ -253,7 +256,7 @@ void	ft_ldi(t_env *e, t_process *cursor, t_op op)
 	shift_args(e, cursor, 2, FALSE);	
 	addr = MODX(cursor->args[0].value + cursor->args[1].value);
 	cursor->regs[cursor->args[2].value - 1] = mix_bytes(e, cursor, addr, 4);
-	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 // need to be checked
@@ -268,7 +271,7 @@ void	ft_lld(t_env *e, t_process *cursor, t_op op)
 		cursor->carry = 1;
 	else
 		cursor->carry = 0;
-	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 void	ft_lldi(t_env *e, t_process *cursor, t_op op)
@@ -278,7 +281,7 @@ void	ft_lldi(t_env *e, t_process *cursor, t_op op)
 	shift_args(e, cursor, 2, FALSE);	
 	addr = cursor->args[0].value + cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = mix_bytes(e, cursor, addr, 4);
-	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor,op) + 1);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
 
 void	ft_lfork(t_env *e, t_process *cursor, t_op op)
@@ -288,17 +291,9 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 	child = new_process(cursor->player, cursor->alive, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + cursor->args[0].value);
-	/*  Might needed on the future
-	if (e->arena[child->pc].data > 0 && e->arena[child->pc].data <= REG_NUMBER)
-	{
-		child->op_code = e->arena[child->pc].data;
-	}
-	else
-		child->pc = (child->pc + 1) % MEM_SIZE;
-	*/
+//	read_instruction(e, child);
 	push_process_front(&e->cursors, child);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
-	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
 }
 
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
@@ -307,5 +302,5 @@ void	ft_aff(t_env *e, t_process *cursor, t_op op)
 
 	c = cursor->regs[cursor->args[0].value - 1] % 256;
 	VERB(VERB_AFF, ft_printf("aff: %c\n", c));
-	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + 1);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }

@@ -172,7 +172,8 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
 		}
 		cursor->args[i].value = mix_bytes(e, cursor, offset, arg_len);
-		if ((op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
+		if (!(cursor->args[i].type == T_DIR || cursor->args[i].type == T_IND || cursor->args[i].type == T_REG) ||
+		(op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
 		(cursor->args[i].type == T_REG && (cursor->args[i].value < 0 || cursor->args[i].value > REG_NUMBER)))
 		{
 			DEBUG(ft_printf("FAILED type: %02x, with value: %d, is not in the ld types: %02x\n", cursor->args[i].type, cursor->args[i].value, op_tab[op.op_code - 1].param_possible[i]))

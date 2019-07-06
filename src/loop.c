@@ -42,40 +42,6 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 **			-op w/cycle > 0:				cycle--
 **			-op w/cycle == 0:				exec cmd
 */
-static int		check_live(t_env *e, t_loop *l)
-{
-	int			alive;
-	t_process	*index;
-	t_process	*tmp;
-
-	alive = 0;
-	index = e->cursors;
-	while (index != NULL)
-	{
-		if (index->alive == 0)
-		{
-			tmp = index;
-			VERB(VERB_PROCESS_CREATION_DEATH, ft_printf("\tProcess 0 died\n"));
-			index = index->next;
-			delete_process(&e->cursors, tmp);
-		}
-		else
-		{
-			alive += index->alive;
-			index->alive = 0;
-			index = index->next;
-		}
-	}
-	int i = 0;
-	while (i < e->players_nb)
-	{
-
-		e->players[i].alive = 0;
-		i += 1;
-	}
-	return (alive);
-}
-
 /*
 **	Maybe fill the list from last player to first
 */
@@ -109,6 +75,54 @@ static void		print_winner(t_env *env)
 	exit_vm(env, EXIT_SUCCESS);
 }
 
+void			read_instruction(t_env *e, t_process *cursor)
+{
+	if (e->arena[cursor->pc].data > 0 && e->arena[cursor->pc].data <= REG_NUMBER)
+	{
+		DEBUG(ft_printf("Reading op %d, for pid %d\n", e->arena[cursor->pc].data, cursor->pid))
+		cursor->op_code = e->arena[cursor->pc].data;
+		cursor->cycle = op_tab[e->arena[cursor->pc].data - 1].nb_cycle;
+	}
+	else
+		cursor->pc = (cursor->pc + 1) % MEM_SIZE;
+}
+
+
+static int		check_live(t_env *e, t_loop *l)
+{
+	int			alive;
+	t_process	*index;
+	t_process	*tmp;
+
+	alive = 0;
+	index = e->cursors;
+	while (index != NULL)
+	{
+		if (index->alive == 0)
+		{
+			VERB(VERB_PROCESS_CREATION_DEATH, ft_printf("\tProcess 0 died\n"));
+			tmp = index;
+			index = index->next;
+			delete_process(&e->cursors, tmp);
+		}
+		else
+		{
+			alive += index->alive;
+			index->alive = 0;
+			index = index->next;
+		}
+	}
+	int i = 0;
+	while (i < e->players_nb)
+	{
+
+		e->players[i].alive = 0;
+		i += 1;
+	}
+	return (alive);
+}
+
+
 static void		exec_process(t_env *env)
 {
 	t_process	*curr;
@@ -116,26 +130,19 @@ static void		exec_process(t_env *env)
 	curr = env->cursors;
 	while (curr != NULL)
 	{
-		if (curr && curr->cycle <= 0)
-		{
-			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data <= REG_NUMBER)
-			{
-				DEBUG(ft_printf("Reading op %d, for pid %d\n", env->arena[curr->pc].data, curr->pid))
-				curr->op_code = env->arena[curr->pc].data;
-				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
-			}
-			else
-				curr->pc = (curr->pc + 1) % MEM_SIZE;
-		}
-		--curr->cycle;
-		if (curr->cycle == 0 && curr->op_code != -1)
+		if (curr->cycle <= 0)
+			read_instruction(env, curr);
+		if (curr->cycle == 1 && curr->op_code != -1)
 			exec_cmd(env, curr);
+		--curr->cycle;
 		curr = curr->next;
 	}
 }
 
 int				run_cycle(t_env *e, t_loop *l)
 {
+	int nbr_live;
+
 	++l->current_cycle;
 	VERB(VERB_SHOW_CYCLES, ft_printf("It is now cycle %lu\n", l->current_cycle));
 	exec_process(e);
@@ -143,11 +150,11 @@ int				run_cycle(t_env *e, t_loop *l)
 	{
 		l->cycle_last_check = l->current_cycle;
 		l->i_check += 1;
-		l->nb_process_alive = check_live(e, l);
-		if (l->nb_process_alive >= NBR_LIVE || l->i_check == MAX_CHECKS)
+		nbr_live = check_live(e, l);
+		if (nbr_live >= NBR_LIVE || l->i_check == MAX_CHECKS)
 		{
-			l->i_check = 0;
 			l->cycle_to_die -= CYCLE_DELTA;
+			l->i_check = 0;
 			VERB(VERB_SHOW_CYCLES, ft_printf("Cycle to die is now %d\n", l->cycle_to_die));
 		}
 	}

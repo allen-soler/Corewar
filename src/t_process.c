@@ -14,7 +14,6 @@ t_process		*new_process(int player, int alive, int pid)
 	new->op_code = -1;
 	new->pid = pid + 1;
 	new->cycle = 0;
-	new->prev = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -42,7 +41,6 @@ void			append_process(t_process **head, t_process *new)
 			tmp = tmp->next;
 		}
 		tmp->next = new;
-		new->prev = tmp;
 	}
 }
 
@@ -56,7 +54,6 @@ void			push_process_front(t_process **head, t_process *new)
 	{
 		tmp = *head;
 		new->next = tmp;
-		new->prev = NULL;
 		*head = new;
 	}
 }
@@ -71,7 +68,6 @@ void			delete_process(t_process **head, t_process *ptr)
 {
 	t_process 	*tmp;
 
-	//DEBUG(ft_printf("There're %d processes still.\n", count_processes(*head)))
 	tmp = *head;
 	if (tmp)
 	{
@@ -79,9 +75,6 @@ void			delete_process(t_process **head, t_process *ptr)
 		{
 			*head = (*head)->next;
 			free(tmp);
-			if (*head)
-				(*head)->prev = NULL;
-			return ;
 		}
 		while (tmp && tmp->next)
 		{
@@ -90,7 +83,6 @@ void			delete_process(t_process **head, t_process *ptr)
 				if (ptr->next)
 				{
 					tmp->next = ptr->next;
-					ptr->next->prev = tmp;
 				}
 				else
 				{
