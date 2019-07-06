@@ -2,6 +2,7 @@
 import sys
 import subprocess
 from typing import List
+import uuid
 
 """
 
@@ -37,23 +38,39 @@ def get_all_files(extension= ".s", directory=".") -> List:
 
 def execute_asm(files, asm1 = "./asm", asm2="./cw/asm"):
 	for champion in files:
+		unique_id = str(uuid.uuid4)
+		cor_champ = champion.replace('.s', '.cor')
 		a1 = subprocess.CompletedProcess.__class__
 		a2 = subprocess.CompletedProcess.__class__
 		try:
 			a1 = subprocess.run(
 				"{0} {1}".format(asm1, champion),
 				shell=True,
-				check=True
+			)
+			cor1 = "/tmp/{1}{2}".format(cor_champ, "asm1" + cor_champ.split('/')[-1], unique_id)
+			subprocess.run(
+				"cp {0} {1}".format(cor_champ, cor1),
+				shell= True
 			)
 			a2 = subprocess.run(
 				"{0} {1}".format(asm2, champion),
 				shell=True,
-				check=True
 			)
+			cor2 = "/tmp/{1}{2}".format(cor_champ, "asm2" + cor_champ.split('/')[-1], unique_id)
+			subprocess.run(
+				"cp {0} {1}".format(cor_champ, cor2),
+				shell= True
+			)
+			if not a1.returncode == a2.returncode:
+				raise subprocess.CalledProcessError
+			if a1.returncode == 0 && a2.returncode == 0:
+				completed = 
+				pass
+			
 		except subprocess.CalledProcessError:
 			print("Asembler {0} or {1}, exited with error code != 0, with file {2}".format(asm1, asm2, champion))
 		else:
-			print("Champion {1} is ok.".format(champion))
+			print("Champion {0} is ok.".format(champion))
 
 		print(a1, a2)
 		

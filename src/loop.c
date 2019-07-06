@@ -30,11 +30,7 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 			g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
 			VERB(VERB_OP, ft_printf("\n"));
 		}
-		else
-		{
-			cursor->pc = POSMOD(cursor->pc + 1);
-		}
-		
+		// i took out the increment from here because it's taken care off in read_args
 	}
 	cursor->op_code = -1;
 }
@@ -120,13 +116,13 @@ static void		exec_process(t_env *env)
 	curr = env->cursors;
 	while (curr != NULL)
 	{
-		if (curr->cycle <= 0)
+		if (curr && curr->cycle <= 0)
 		{
 			if (env->arena[curr->pc].data > 0 && env->arena[curr->pc].data <= REG_NUMBER)
 			{
+				DEBUG(ft_printf("Reading op %d, for pid %d\n", env->arena[curr->pc].data, curr->pid))
 				curr->op_code = env->arena[curr->pc].data;
 				curr->cycle = op_tab[env->arena[curr->pc].data - 1].nb_cycle;
-				DEBUG(ft_printf("{g}Adding %d cycles to procces %s pid(%d), for op %s{R}\n", curr->cycle, env->players[curr->player - 1].header.prog_name, curr->pid, op_tab[env->arena[curr->pc].data - 1].name))
 			}
 			else
 				curr->pc = (curr->pc + 1) % MEM_SIZE;
@@ -145,14 +141,9 @@ int				run_cycle(t_env *e, t_loop *l)
 	exec_process(e);
 	if (l->current_cycle - l->cycle_last_check >= l->cycle_to_die)
 	{
-		// set last_check to current cycle and augment the checks
 		l->cycle_last_check = l->current_cycle;
 		l->i_check += 1;
-
-		// check processes alive
 		l->nb_process_alive = check_live(e, l);
-
-		// check if we have to decrement cycle_to_die
 		if (l->nb_process_alive >= NBR_LIVE || l->i_check == MAX_CHECKS)
 		{
 			l->i_check = 0;

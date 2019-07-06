@@ -177,7 +177,7 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 		{
 			DEBUG(ft_printf("FAILED type: %02x, with value: %d, is not in the ld types: %02x\n", cursor->args[i].type, cursor->args[i].value, op_tab[op.op_code - 1].param_possible[i]))
 			current_pc_extra_in_case_of_fail += arg_len;
-			cursor->pc += current_pc_extra_in_case_of_fail - 1;
+			cursor->pc = POSMOD(cursor->pc + current_pc_extra_in_case_of_fail);
 			return (0);
 		}
 		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));
