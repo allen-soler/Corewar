@@ -23,7 +23,7 @@
 # define FLAG_DBUG (1 << 4)
 # define FLAG_DVAL (1 << 5)
 
-# define ERROR_MAX_VALUE 6
+# define ERROR_MAX_VALUE 8
 
 # define ZMASK(x) ((x) & 0xff)
 # define POSMOD(x) (((x) % MEM_SIZE) < 0 ? ((x) % MEM_SIZE) + MEM_SIZE : (x) % MEM_SIZE)
@@ -66,6 +66,8 @@ typedef enum	e_error
 	ERROR_CHAMPION,
 	ERROR_SME_NUMB,
 	ERROR_WRG_NUMB,
+	ERROR_SPE_LEVL,
+	ERROR_WRG_LEVL,
 	ERROR_UNK_ARGV
 }				t_error;
 
@@ -142,7 +144,7 @@ typedef struct	s_env
 */
 
 void		init_env(t_env *env);
-void		init_arena(t_env *e);
+//void		init_arena(t_env *e);
 void		set_error_value(t_env *env, t_error value);
 void		display_error(t_env *env);
 void		display_help(t_env *env);

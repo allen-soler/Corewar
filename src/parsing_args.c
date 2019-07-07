@@ -48,17 +48,21 @@ static t_bool set_dump(char **av, int ac, int index, t_env *env)
 // i don't now if i did this right
 static void set_verb_level(char **av, int ac, int index, t_env *env)
 {
+	int		level;
+
 	if (ac == index)
-		set_error_value(env, ERROR_SPE_DUMP);
+		set_error_value(env, ERROR_SPE_LEVL);
 	else
 	{
-		int level =  ft_atoi_pimp(av[index], env); // check number
-		env->verb = (level == 0) ? 0 : (1 << (level - 1));
-		if (env->flag & FLAG_ERROR)
+		level =  ft_atoi_pimp(av[index], env); // check number
+		if ((env->flag & FLAG_ERROR) || level < 0 || level > 7)
 		{
 			env->flag ^= 1;
-			set_error_value(env, ERROR_SPE_DUMP); // change errors
+			//we have to specify a verb lvl
+			set_error_value(env, ERROR_WRG_LEVL);
 		}
+		else
+			env->verb = (level == 0) ? 0 : (1 << (level - 1));
 	}
 }
 

@@ -1,8 +1,8 @@
 #include "vm.h"
 
-int	posmod(int n, int mod)
+int					posmod(int n, int mod)
 {
-	int	res;
+	int				res;
 
 	res = n % mod;
 	if (res < 0 && mod > 0)
@@ -50,10 +50,10 @@ int					ft_atoi_pimp(char *line, t_env *env)
 	return ((int)(res * sign));
 }
 
-int			ft_endswith(const char *str, const char *suffix)
+int					ft_endswith(const char *str, const char *suffix)
 {
-	size_t	len_str;
-	size_t	len_suffix;
+	size_t			len_str;
+	size_t			len_suffix;
 
 	if (!str || !suffix)
 		return (0);
