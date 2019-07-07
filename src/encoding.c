@@ -59,7 +59,7 @@ int		counting_label(t_par *lst, int nb, t_inst *inst)
 	while (tmp)
 	{
 		if (tmp->type == 6)
-			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
+			i = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
 			i += 1;
 		else if (tmp->type == 2 || tmp->type == 3 || tmp->type == 5
@@ -87,12 +87,13 @@ int		label_aff(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 	int i;
 
 	i = 0;
+	ft_printf("bugging af\\n");
 	while (tmp)
 	{
 		if (tmp->pos == lst->pos)
 			break ;
 		if (tmp->type == 6)
-			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
+			i = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
 			i += 1;
 		else if (tmp->type == 2 || tmp->type == 3 || tmp->type == 5
@@ -120,19 +121,13 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 		if (lst == tmp)
 			break ;
 		if (tmp->type == 6)
-			i = op_tab[nb].encoding_byte > 0 ? i + 2 : i + 1;
+			i = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
 			i += 1;
-		else if (tmp->type == 2 || tmp->type == 3 || tmp->type == 5
-				|| tmp->type == 15)
-		{
-			if (tmp->type == 2 || tmp->type == 15)
+		else if (tmp->type == 2 || tmp->type == 15 || tmp->type == 4 || tmp->type == 9)
 				i += 2;
-			else if (tmp->type == 3 || tmp->type == 5)
+		else if (tmp->type == 3 || tmp->type == 5)
 				i += 4;
-		}
-		else if (tmp->type == 4 || tmp->type == 9)
-			i += 2;
 		tmp = tmp->next;
 	}
 	nb = counting_label(lst->next, nb, inst);
@@ -145,6 +140,7 @@ void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
 	nb = lst->lbl_ptr->pos < tmp->pos ? label_aff(tmp, lst->lbl_ptr, nb, inst)\
 		: label_start(lst->lbl_ptr, tmp, nb, inst);
+	ft_printf("this = %i\n", nb);
 	if (lst->type == 5)
 	{
 		if (nb > 0)
@@ -159,6 +155,7 @@ void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 	}	
 	else if (lst->type == 15 || lst->type == 9)
 	{
+		ft_printf("hererere\n");
 		if (nb > 0)
 			inst->tab[inst->size += 1] = nb;
 		else
@@ -204,6 +201,7 @@ void	encoding(t_par *lst, int fd, t_inst *inst)
 
 	inst->size = 0;
 	ft_bzero(inst->tab, CHAMP_MAX_SIZE + 1);
+	int j = 0;
 	while (lst)
 	{
 		if (lst->type == 6)
@@ -216,6 +214,7 @@ void	encoding(t_par *lst, int fd, t_inst *inst)
 		}
 		else
 			check_type(lst, inst, tmp, i);
+		j++;
 		lst = lst->next;
 	}
 }
