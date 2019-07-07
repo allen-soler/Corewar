@@ -36,17 +36,34 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 }
 
 
+void			read_instruction(t_env *e, t_process *cursor, t_bool move_pc)
+{
+	int op;
+
+	op = e->arena[cursor->pc].data;
+	if (op > 0 && op <= REG_NUMBER)
+	{
+		cursor->op_code = op;
+		cursor->cycle = op_tab[op - 1].nb_cycle;
+		ft_printf("Reading op %d (%d cycles), for pid %d, (%d pc)\n", cursor->op_code, cursor->cycle, cursor->pid, cursor->pc);
+	}
+	else
+	{
+		if (move_pc)
+			cursor->pc = (cursor->pc + 1) % MEM_SIZE;
+		cursor->cycle = -1;
+	}
+}
+
+
 /*
 **	3 cases:
 **			-no op (cycle == -1):			just move forward in the arena
 **			-op w/cycle > 0:				cycle--
 **			-op w/cycle == 0:				exec cmd
 */
-/*
-**	Maybe fill the list from last player to first
-*/
 
-static void		init_processes(t_env *env)
+void		init_processes(t_env *env)
 {
 	int			i;
 	t_process	*tmp;
@@ -59,6 +76,7 @@ static void		init_processes(t_env *env)
 		if (!tmp)
 			exit_failure("Error: malloc failed in init_processes", env);
 		tmp->pc = i * (MEM_SIZE / env->players_nb);
+		read_instruction(env, tmp, TRUE);
 		push_process_front(&env->cursors, tmp);
 		i++;
 	}
@@ -74,19 +92,6 @@ static void		print_winner(t_env *env)
 	DEBUG(d_display_env(*env))
 	exit_vm(env, EXIT_SUCCESS);
 }
-
-void			read_instruction(t_env *e, t_process *cursor)
-{
-	if (e->arena[cursor->pc].data > 0 && e->arena[cursor->pc].data <= REG_NUMBER)
-	{
-		DEBUG(ft_printf("Reading op %d, for pid %d\n", e->arena[cursor->pc].data, cursor->pid))
-		cursor->op_code = e->arena[cursor->pc].data;
-		cursor->cycle = op_tab[e->arena[cursor->pc].data - 1].nb_cycle;
-	}
-	else
-		cursor->pc = (cursor->pc + 1) % MEM_SIZE;
-}
-
 
 static int		check_live(t_env *e, t_loop *l)
 {
@@ -133,7 +138,7 @@ static void		exec_process(t_env *env)
 	while (curr != NULL)
 	{
 		if (curr->cycle <= 0)
-			read_instruction(env, curr);
+			read_instruction(env, curr, TRUE);
 		if (curr->cycle > 0)
 			--curr->cycle;
 		if (curr->cycle == 0 && curr->op_code != -1)
@@ -173,7 +178,6 @@ void			game_loop(t_env *e)
 	t_loop		l;
 	int			cycle;
 
-	init_processes(e);
 	init_loop(&l, e->players_nb);
 	DEBUG(d_display_full_process(*e))
 	cycle = 0;

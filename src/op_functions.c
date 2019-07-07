@@ -7,8 +7,6 @@
 #define PRINT_D(x) ft_printf("%s: %d\n",#x, x);
 #define OP_CODE_LEN 1
 
-void			read_instruction(t_env *e, t_process *cursor);
-
 void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 {
 	int8_t i;
@@ -197,10 +195,10 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	else
 		child->pc = (child->pc + 1) % MEM_SIZE;
 	*/
-	read_instruction(e, child);
+	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
 	push_process_front(&e->cursors, child);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
-	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
+	read_instruction(e, child, FALSE); // we shouldn't add 1 here if I'm correct
 }
 
 void	ft_add(t_env *e, t_process *cursor, t_op op)
@@ -289,9 +287,9 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 	child = new_process(cursor->player, cursor->alive, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + cursor->args[0].value);
-//	read_instruction(e, child);
 	push_process_front(&e->cursors, child);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
+	read_instruction(e, child, FALSE);
 }
 
 void	ft_aff(t_env *e, t_process *cursor, t_op op)

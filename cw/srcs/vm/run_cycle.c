@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cycle.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: awoimbee <awoimbee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 13:03:25 by awoimbee          #+#    #+#             */
-/*   Updated: 2019/05/29 20:35:02 by awoimbee         ###   ########.fr       */
+/*   Updated: 2019/07/06 21:11:40 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void			read_instruction(t_vm *vm, int proc)
 	{
 		vm->procs.d[proc].op_id = op_id;
 		vm->procs.d[proc].op_cycles = g_op[op_id].cycles;
+		ft_printf("Reading op %d (%d cycles), for pid %d, (%d pc)\n", \
+				vm->procs.d[proc].op_id + 1, vm->procs.d[proc].op_cycles, vm->procs.d[proc].pid, vm->procs.d[proc].pc);
 	}
 	else
 	{
@@ -88,6 +90,7 @@ static void		check_live(t_vm *vm)
 	j = vm->players.len;
 	while (j-- != 0)
 		vm->players.d[j].period_lives = 0;
+	ft_printf("nbr_live: %d\n", nbr_live);
 	if (nbr_live >= NBR_LIVE || vm->die_cycle_checks == MAX_CHECKS)
 	{
 		vm->cycle_die -= CYCLE_DELTA;

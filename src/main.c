@@ -1,4 +1,5 @@
 #include "vm.h"
+void		init_processes(t_env *env);
 
 void	display_contestants(t_env *env)
 {
@@ -25,6 +26,7 @@ int		main(int ac, char **av)
 	init_env(&env);
 	parsing_args(av, ac, &env);
 	read_files(&env);
+	init_processes(&env);
 	if (env.verb >= VERB_AFF)
 		display_contestants(&env);
 	/* 

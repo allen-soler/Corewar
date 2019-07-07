@@ -21,8 +21,8 @@ static void	init_ncwindows(t_vm *vm)
 	struct s_sidep	*sp;
 
 	getmaxyx(stdscr, dim[1], dim[0]);
-//	if (dim[0] < 250 || dim[1] < 68)
-//		ft_printf("Warning: window too small !\n");
+	if (dim[0] < 250 || dim[1] < 68)
+		ft_printf("Warning: window too small !\n");
 	if (!(sp = &vm->visu.sidep)
 		|| !(vm->visu.rootw = newwin(68, 250, 0, 0))
 		|| !(vm->visu.arenaw = subwin(vm->visu.rootw, 64, 193, 2, 2))

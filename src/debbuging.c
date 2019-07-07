@@ -24,7 +24,6 @@ void			d_display_process(t_env e, t_process *pro)
 	ft_printf("\t<bold>Color</bold>: %d\n", pro->color);
 	ft_printf("\t<bold>Op_Code</bold>: %d\n", pro->op_code);
 	ft_printf("\t<bold>PID</bold>: %d\n", pro->pid);
-	ft_printf("\t<bold>Prev</bold>: %p\n", pro->prev);
 	ft_printf("\t<bold>Next</bold>: %p\n", pro->next);
 }
 
