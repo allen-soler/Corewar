@@ -174,11 +174,10 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 		cursor->args[i].value = mix_bytes(e, cursor, offset, arg_len);
 		if (!(cursor->args[i].type == T_DIR || cursor->args[i].type == T_IND || cursor->args[i].type == T_REG) ||
 		(op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
-		(cursor->args[i].type == T_REG && (cursor->args[i].value < 0 || cursor->args[i].value > REG_NUMBER)))
+		(cursor->args[i].type == T_REG && (cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
 		{
-			DEBUG(ft_printf("FAILED type: %02x, with value: %d, is not in the ld types: %02x\n", cursor->args[i].type, cursor->args[i].value, op_tab[op.op_code - 1].param_possible[i]))
 			current_pc_extra_in_case_of_fail += arg_len;
-			cursor->pc = POSMOD(cursor->pc + current_pc_extra_in_case_of_fail);
+			cursor->pc = POSMOD(cursor->pc + current_pc_extra_in_case_of_fail - 1);
 			return (0);
 		}
 		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));

@@ -75,6 +75,7 @@ void			delete_process(t_process **head, t_process *ptr)
 		{
 			*head = (*head)->next;
 			free(tmp);
+			tmp = NULL;
 		}
 		while (tmp && tmp->next)
 		{
