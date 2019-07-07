@@ -46,10 +46,10 @@ void print_arena(t_env *e)
 	line = 0;
 	while (i < MEM_SIZE)
 	{
-		if (i % 32 == 0)
+		if (i % e->n_dump == 0)
 		{
 			ft_printf("0x%04x : ", line);
-			line += 32;
+			line += e->n_dump;
 		}
 		ft_printf("%02hhx ", e->arena[i++].data);
 			/* 
@@ -64,7 +64,7 @@ void print_arena(t_env *e)
 		else
 			ft_printf("%02hhx ", e->arena[i++].data);
 			*/
-		if (i % 32 == 0)
+		if (i % e->n_dump == 0)
 			ft_putchar('\n');
 	}
 }

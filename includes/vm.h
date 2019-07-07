@@ -21,6 +21,7 @@
 # define FLAG_VERB (1 << 2)
 # define FLAG_DUMP (1 << 3)
 # define FLAG_DBUG (1 << 4)
+# define FLAG_DVAL (1 << 5)
 
 # define ERROR_MAX_VALUE 6
 
@@ -128,6 +129,7 @@ typedef struct	s_env
 	int					players_nb;
 	t_flag				flag;
 	int					dump;
+	int					n_dump;
 	int					last_pid;
 	int					error_value;
 	t_verb				verb;
@@ -170,7 +172,7 @@ int		get_args_len(t_process *cursor, t_op op);
 void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod);
 int		read_args(t_env *e, t_process *cursor, t_op op);
 void	set_reg_values(t_process *cursor, t_op op , int skip_index);
-void		read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
+void	read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
 
 /*
 **	OP

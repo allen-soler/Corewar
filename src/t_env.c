@@ -56,6 +56,7 @@ void		init_env(t_env *env)
 	env->flag = 0;
 	env->last_live = -1;
 	env->dump = -1;
+	env->n_dump = 32;
 	env->error_value = 0;
 	env->last_pid = 0;
 	env->verb = 0;
