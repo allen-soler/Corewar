@@ -90,6 +90,8 @@ void			delete_process(t_process **head, t_process *ptr)
 					tmp->next = NULL;
 				}
 				free(ptr);
+				ptr = NULL;
+				return ;
 			}
 			tmp = tmp->next;
 		}

@@ -59,8 +59,10 @@ void	reset_args(t_process *cursor)
 	while (i < MAX_ARGS_NUMBER)
 	{
 		cursor->args[i].type = 0;
+		cursor->args[i].value = 0;
 		i += 1;
 	}
+	cursor->a_length = 0;
 }
 
 /*
@@ -120,7 +122,7 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 
 	VERB(VERB_OP, verb_string = ft_cprintf("P%5d | %s", cursor->pid, op.name));
 	offset = 1 + op.encoding_byte;
-	current_pc_extra_in_case_of_fail = 1 + op.encoding_byte;
+	cursor->a_length = offset;
 	e->arena[cursor->pc].player = 2;
 	reset_args(cursor);
 	i = 0;
@@ -172,12 +174,12 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
 		}
 		cursor->args[i].value = mix_bytes(e, cursor, offset, arg_len);
-		current_pc_extra_in_case_of_fail += arg_len;
+		cursor->a_length += arg_len;
 		if (!(cursor->args[i].type == T_DIR || cursor->args[i].type == T_IND || cursor->args[i].type == T_REG) ||
 			(op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
 			(cursor->args[i].type == T_REG && (cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
 		{
-			cursor->pc = POSMOD(cursor->pc + current_pc_extra_in_case_of_fail - 1);
+			cursor->pc = POSMOD(cursor->pc + cursor->a_length - 1);
 			return (0);
 		}
 		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));

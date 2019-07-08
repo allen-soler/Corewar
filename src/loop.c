@@ -29,6 +29,8 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 		{
 			g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
 			VERB(VERB_OP, ft_printf("\n"));
+			if (op_code == 9)
+				cursor->pc = POSMOD(cursor->pc + cursor->a_length);
 		}
 		// i took out the increment from here because it's taken care off in read_args
 	}
@@ -76,6 +78,7 @@ void		init_processes(t_env *env)
 			exit_failure("Error: malloc failed in init_processes", env);
 		tmp->pc = i * (MEM_SIZE / env->players_nb);
 		read_instruction(env, tmp, TRUE);
+		env->last_live = i;
 		push_process_front(&env->cursors, tmp);
 		i++;
 	}
