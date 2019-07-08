@@ -172,17 +172,16 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
 		}
 		cursor->args[i].value = mix_bytes(e, cursor, offset, arg_len);
+		current_pc_extra_in_case_of_fail += arg_len;
 		if (!(cursor->args[i].type == T_DIR || cursor->args[i].type == T_IND || cursor->args[i].type == T_REG) ||
-		(op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
-		(cursor->args[i].type == T_REG && (cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
+			(op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
+			(cursor->args[i].type == T_REG && (cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
 		{
-			current_pc_extra_in_case_of_fail += arg_len;
 			cursor->pc = POSMOD(cursor->pc + current_pc_extra_in_case_of_fail - 1);
 			return (0);
 		}
 		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));
 		offset += arg_len;
-		current_pc_extra_in_case_of_fail += arg_len;
 		i += 1;
 	}
 	VERB(VERB_OP, ft_printf("%s", verb_string));

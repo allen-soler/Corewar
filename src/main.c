@@ -27,7 +27,7 @@ int		main(int ac, char **av)
 	parsing_args(av, ac, &env);
 	read_files(&env);
 	init_processes(&env);
-	if (env.verb >= VERB_AFF)
+	if (env.verb >= VERB_WINNER)
 		display_contestants(&env);
 	/* 
 	if (env.verb >= VERB_DUMP_START)

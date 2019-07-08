@@ -111,6 +111,7 @@ int				run_vm_cycle(t_vm *vm)
 	while (i != 0)
 	{
 		--i;
+		//ft_printf("Dealing with process %d\n", vm->procs.d[i].pid);
 		if (vm->verbosity >= VE_REGISTER)
 			print_register(vm, &vm->procs.d[i]);
 		if (vm->procs.d[i].op_cycles <= 0)

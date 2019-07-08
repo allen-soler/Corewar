@@ -45,7 +45,7 @@ void			read_instruction(t_env *e, t_process *cursor, t_bool move_pc)
 	{
 		cursor->op_code = op;
 		cursor->cycle = op_tab[op - 1].nb_cycle;
-		ft_printf("Reading op %d (%d cycles), for pid %d, (%d pc)\n", cursor->op_code, cursor->cycle, cursor->pid, cursor->pc);
+		//ft_printf("Reading op %d (%d cycles), for pid %d, (%d pc)\n", cursor->op_code, cursor->cycle, cursor->pid, cursor->pc);
 	}
 	else
 	{
@@ -86,7 +86,14 @@ static void		print_winner(t_env *env)
 {
 
 	if (env->last_live != -1)
-		ft_printf("Player %d (%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+	{
+
+		ft_printf("Contestant %d, \"%s\", has won !\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+
+		/// next line is the real winning message we have to print !
+	//	ft_printf("Player %d (%s) won\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+		
+	}
 	else
 		ft_printf("no winner? you lossers\n");
 	DEBUG(d_display_env(*env))
@@ -137,6 +144,7 @@ static void		exec_process(t_env *env)
 	curr = env->cursors;
 	while (curr != NULL)
 	{
+		//ft_printf("Dealing with process %d\n", curr->pid);
 		if (curr->cycle <= 0)
 			read_instruction(env, curr, TRUE);
 		if (curr->cycle > 0)
@@ -159,7 +167,7 @@ int				run_cycle(t_env *e, t_loop *l)
 		l->cycle_last_check = l->current_cycle;
 		l->i_check += 1;
 		nbr_live = check_live(e, l);
-		ft_printf("nbr_live: %d\n", nbr_live);
+		//ft_printf("nbr_live: %d\n", nbr_live);
 		if (nbr_live >= NBR_LIVE || l->i_check == MAX_CHECKS)
 		{
 			l->cycle_to_die -= CYCLE_DELTA;
