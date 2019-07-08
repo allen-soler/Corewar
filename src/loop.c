@@ -86,7 +86,12 @@ static void		print_winner(t_env *env)
 {
 
 	if (env->last_live != -1)
-		ft_printf("Player %d (%s) is the winner!\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+	{
+		ft_printf("Contestant %d, \"%s\", has won !\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+
+		/// next line is the real winning message we have to print !
+	//	ft_printf("Player %d (%s) won\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+	}
 	else
 		ft_printf("no winner? you lossers\n");
 	DEBUG(d_display_env(*env))
