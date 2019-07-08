@@ -67,6 +67,7 @@ for comb in combinations:
 	completed1 = subprocess.run(
 		"{} {}".format("./corewar -v 0", champs),
 		stdout = subprocess.PIPE,
+		timeout=10,
 		shell = True
 	)
 
