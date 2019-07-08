@@ -62,7 +62,7 @@ void		init_env(t_env *env)
 	env->n_dump = 32;
 	env->error_value = 0;
 	env->last_pid = 0;
-	env->verb = VERB_LIV;
+	env->verb = VERB_LIVE;
 	init_arena(env);
 	init_env_error(env);
 	env->cursors = NULL;
