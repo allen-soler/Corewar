@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:40:00 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/08 18:58:59 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/08 20:03:56 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	space_comma(char *line, size_t i, int row)
 	if (count == 1 || (count == 0 && line[i + j] == '\0'))
 		return (j);
 	else
-		error_row("Invalid use of commas for arguments.", row);
+		error_row("Invalid use of commas/spaces for arguments.", row);
 	return (j);
 }
 

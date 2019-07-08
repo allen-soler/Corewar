@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/06 19:37:36 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/08 19:18:14 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct		s_par
 
 void	error_function(char *string, t_par **list);
 void	error_custom(char *message, t_par *list);
+void	error_state(int state, int row);
+void	error_row(char *message, int row);
 
 /**
  *		Handle labels
@@ -62,7 +64,7 @@ void	test_print(t_par *list);//will have to delete when done
 **/
 
 char	*skip_space(char *line);
-int		check_comma(char *line, t_par **list);
+int		check_comma(char *line, int row);
 size_t	str_repoint(char *haystack, char *needle);
 void	travel_states(char **line, int state);
 //void	free_2d(char **arrray);
@@ -73,14 +75,14 @@ char	*ignore_hash_comment(char *line);
 **/
 
 char	**instructions_array(void);
-int		middlefunction(char **line, int state, t_par **list);
+int		middlefunction(char **line, int state, t_par **list, int row);
 int		name_token(char **line, int state, t_par **list);
 int		init_comm_token(char **line, int state, t_par **list);
-int		search_valid_inst(char **line, t_par **list);
-void	check_args(char **line, t_par **list);
-int		check_register(char *arg, t_par **list);
-int		check_direct(char *arg, t_par **list);
-int		check_indirect(char *arg, t_par **list);
+int		search_valid_inst(char **line, t_par **list, int row);
+void	check_args(char **line, t_par **list, int row);
+int		check_register(char *arg, t_par **list, int row);
+int		check_direct(char *arg, t_par **list, int row);
+int		check_indirect(char *arg, t_par **list, int row);
 
 /**
  *		Syntax

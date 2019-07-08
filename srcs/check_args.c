@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/08 19:33:13 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/08 20:03:16 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ int				check_register(char *arg, t_par **list, int row)
 			error_row("Invalid argument.", row);
 		arg = arg + 1;
 		*list = add_parameter(*list, ft_itoa(stock), 1);
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 int				check_direct(char *arg, t_par **list, int row)
@@ -77,8 +78,9 @@ int				check_direct(char *arg, t_par **list, int row)
 			error_row("Invalid argument.", row);
 		arg = arg + 1;
 		*list = add_parameter(*list, ft_itoa(stock), 3);
+		return(0);
 	}
-	return (0);
+	return (-1);
 }
 
 int				check_indirect(char *arg, t_par **list, int row)
@@ -106,8 +108,9 @@ int				check_indirect(char *arg, t_par **list, int row)
 			error_row("Invalid argument.", row);
 		arg = arg + 1;
 		*list = add_parameter(*list, ft_itoa(stock), 4);
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 void			check_args(char **line, t_par **list, int row)
@@ -118,15 +121,17 @@ void			check_args(char **line, t_par **list, int row)
 
 	i = -1;
 	args = ft_split(*line, " 	,");
-	err = 0;
-	err += check_comma(*line, row);
+	err = check_comma(*line, row);
 	if (err > 0)
 		error_row("Invalid use of commas for arguments.", row);
 	while (args[++i] != '\0')
 	{
+		err = 0;
 		err += check_register(args[i], list, row);
 		err += check_direct(args[i], list, row);
 		err += check_indirect(args[i], list, row);
+		if (err == -3)
+			error_row("Invalid argument.", row);
 	}
 	if (i > 3)
 		error_row("Can't have more than 3 arguments in an instruction.", row);
