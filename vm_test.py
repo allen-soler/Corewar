@@ -51,46 +51,68 @@ def query_yes_no(question: str, default = "yes") -> bool:
 
 files = get_all_files(".cor", ".")
 
-combinations = itertools.combinations(files, 2)
 
 failed = []
 diff_exit_code = []
 
 test_everything = False
 
+
 if "--everything" in sys.argv:
 	test_everything = True
 
-for comb in combinations:
-	champs = " ".join(list(comb));
-	print("champs: ", champs)
-	completed1 = subprocess.run(
-		"{} {}".format("./corewar -v 0", champs),
-		stdout = subprocess.PIPE,
-		timeout=10,
-		shell = True
-	)
 
-	completed2 = subprocess.run(
-		"{} {}".format("./resources/orig_vm -v 0", champs),
-		stdout = subprocess.PIPE,
-		shell = True
-	)
-	if completed1.returncode != 0 and completed1.returncode != completed2.returncode:
-		diff_exit_code.append(champs)
-		print("Abnormal exit in first vm , with return code {0}, second {1}, with champions {2}".format(
-		completed1.returncode, completed2.returncode, champs
-		))
-		if test_everything == False and not query_yes_no("Do you want to continue?"):
-			print(unidiff_output(completed1.stdout.decode('utf-8'), completed2.stdout.decode('utf-8')))
-			break
+error = False
 
-	if completed1.stdout.decode('utf-8') != completed2.stdout.decode('utf-8'):
-		failed.append(champs)
-		print("Found a difference with champions: ", champs)
-		if test_everything == False and not query_yes_no("Do you want to continue?, or stop and print difference"):
-			print(unidiff_output(completed1.stdout.decode('utf-8'), completed2.stdout.decode('utf-8')))
-			break
+for i in range(1, 5):
+	combinations = itertools.combinations(files, i)
+	if error is True:
+		break
+	for comb in combinations:
+		champs = " ".join(list(comb));
+		print("champs: ", champs)
+		timeout = 0
+		try:
+			completed1 = subprocess.run(
+				"{} {}".format("./corewar -v 0", champs),
+				stdout = subprocess.PIPE,
+				timeout=5,
+				shell = True
+			)
+		except subprocess.TimeoutExpired:
+			print("Time out!")
+			timeout += 1
+
+		try:
+			completed2 = subprocess.run(
+				"{} {}".format("./resources/orig_vm -v 0", champs),
+				stdout = subprocess.PIPE,
+				timeout=5,
+				shell = True
+			)
+		except subprocess.TimeoutExpired:
+			print("Time out!")
+			timeout += 1
+		if timeout is 1:
+			print("Only one of the VM's timed out, no bueno!")
+			exit()
+		if completed1.returncode != 0 and completed1.returncode != completed2.returncode:
+			diff_exit_code.append(champs)
+			print("Abnormal exit in first vm , with return code {0}, second {1}, with champions {2}".format(
+			completed1.returncode, completed2.returncode, champs
+			))
+			if test_everything == False and not query_yes_no("Do you want to continue?"):
+				print(unidiff_output(completed1.stdout.decode('utf-8'), completed2.stdout.decode('utf-8')))
+				error = True
+				break
+
+		if completed1.stdout.decode('utf-8') != completed2.stdout.decode('utf-8'):
+			failed.append(champs)
+			print("Found a difference with champions: ", champs)
+			if test_everything == False and not query_yes_no("Do you want to continue?, or stop and print difference"):
+				print(unidiff_output(completed1.stdout.decode('utf-8'), completed2.stdout.decode('utf-8')))
+				error = True
+				break
 
 print("Difference found on the following champions:")
 print("\n".join(failed))
