@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/06 19:30:25 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/08 19:17:31 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ lldi lld lfork fork aff", ' ');
 	return (instructions);
 }
 
-int		search_valid_inst(char **line, t_par **list)
+int		search_valid_inst(char **line, t_par **list, int row)
 {
 	size_t	i;
 	size_t	len;
@@ -41,7 +41,7 @@ int		search_valid_inst(char **line, t_par **list)
 				ft_strdel(inst);
 			}
 			else
-				error_custom("Non-existant instruction.\n", *list);
+				error_row("Non-existant instruction.", row);
 			return (len);
 		}
 		else
