@@ -20,26 +20,16 @@
 # include <limits.h>
 # include "op.h"
 # include "../libft/includes/libft.h"
+# define ZMASK(x) ((x) & 0xff)
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
-# define RRR 0b01010100
-# define RIR 0b01110100
-# define RDR 0b01100100
-# define IRR 0b11010100
-# define IIR 0b11110100
-# define IDR 0b11100100
-# define DRR 0b10010100
-# define DIR 0b10110100
-# define DDR 0b10100100
-# define RDD 0b01101000
-# define IR 0b11010000
-# define DR 0b10010000
 
 typedef struct		s_par
 {
 	char			*param;
 	int				type;
 	int				pos;
+	int				cnt;
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
 }					t_par;
@@ -53,6 +43,12 @@ void	readfile(int fd, char **line);
 void	ingest_file(t_par **list, char *file);
 void	encoding(t_par *lst, int fd, t_inst *inst);
 void	to_binary(t_par *lst, char *src, header_t *h, char *name);
+size_t djb_hash(const char* cp);
+int		nb_op(char *src);
+void    write_byte(t_inst *inst, int32_t value, int32_t size);
+void	get_binary(t_par *lst, t_inst *inst, int nb, int size);
+
+
 
 /**
 *		Error handling

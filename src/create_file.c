@@ -66,6 +66,24 @@ void	comment(int fd, header_t *h, char *src)
 	ft_free_tab(tab);
 }
 
+void	prog_size(int value, int size, header_t *h)
+{
+	int		len;
+	int8_t	i;
+	int8_t	tmp;
+
+	i = 0;
+	tmp = 0;
+	len = 11;
+	while (size > 0)	
+	{
+		tmp = ZMASK((value >> i));
+		h->comment[len] = tmp;
+		len--;
+		size--;
+		i += 8;
+	}
+}
 void	to_binary(t_par *lst, char *src, header_t *h, char *n_file)
 {
 	char		**tab;
@@ -80,7 +98,7 @@ void	to_binary(t_par *lst, char *src, header_t *h, char *n_file)
 	name(fd, COREWAR_EXEC_MAGIC, h, &tab[0][5]);
 	comment(fd, h, &tab[1][8]);
 	encoding(lst, fd, &inst);
-	h->comment[11] = inst.size;
+	prog_size(inst.size, 4, h);
 	ft_free_tab(tab);
 	write(fd, h->prog_name, 128);
 	write(fd, h->comment, 2048 + 16);

@@ -59,6 +59,7 @@ SOURCES =	check_args.c			\
 			search_point.c			\
 			syntax_checker.c		\
 			op.c					\
+			encoding_tools.c		\
 			encoding.c
 # header files
 
