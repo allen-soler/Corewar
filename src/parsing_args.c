@@ -16,10 +16,16 @@ static void	get_files(char **av, t_env *env)
 	}
 }
 
-static void set_dump(char **av, int ac, int index, t_env *env)
+static t_bool set_dump(char **av, int ac, int index, t_env *env)
 {
+	t_bool		n_dump;
+
+	n_dump = FALSE;
 	if (ac == index)
+	{
 		set_error_value(env, ERROR_SPE_DUMP);
+		return (FALSE);
+	}
 	else
 	{
 		env->dump = ft_atoi_pimp(av[index], env);
@@ -28,23 +34,35 @@ static void set_dump(char **av, int ac, int index, t_env *env)
 			env->flag ^= 1;
 			set_error_value(env, ERROR_SPE_DUMP);
 		}
+		else if (ac != index + 1)
+		{
+			env->n_dump = ft_atoi(av[index + 1]);
+			n_dump = (env->n_dump != 32 && env->n_dump != 64) ? FALSE : TRUE;
+			env->n_dump = (env->n_dump != 64) ? 32 : 64;
+			return (n_dump);
+		}
 	}
+	return (FALSE);
 }
 
 // i don't now if i did this right
 static void set_verb_level(char **av, int ac, int index, t_env *env)
 {
+	int		level;
+
 	if (ac == index)
-		set_error_value(env, ERROR_SPE_DUMP);
+		set_error_value(env, ERROR_SPE_LEVL);
 	else
 	{
-		int level =  ft_atoi_pimp(av[index], env); // check number
-		env->verb = (level == 0) ? 0 : (1 << (level - 1));
-		if (env->flag & FLAG_ERROR)
+		level =  ft_atoi_pimp(av[index], env); // check number
+		if ((env->flag & FLAG_ERROR) || level < 0 || level > 7)
 		{
 			env->flag ^= 1;
-			set_error_value(env, ERROR_SPE_DUMP); // change errors
+			//we have to specify a verb lvl
+			set_error_value(env, ERROR_WRG_LEVL);
 		}
+		else
+			env->verb = (level == 0) ? 0 : (1 << (level - 1));
 	}
 }
 
@@ -68,8 +86,7 @@ static int	set_flag(char **av, int ac, t_env *env)
 			else if ((!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "--dump") || !ft_strcmp(av[i], "-dump")) && ++i)
 			{
 				env->flag |= FLAG_DUMP;
-				set_dump(av, ac, i, env);
-				i++;
+				i += set_dump(av, ac, i, env) + 1;
 			}
 			else if ((!ft_strcmp(av[i], "-db") || !ft_strcmp(av[i], "--debbug")) && ++i)
 			{

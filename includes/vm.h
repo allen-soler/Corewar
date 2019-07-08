@@ -21,8 +21,9 @@
 # define FLAG_VERB (1 << 2)
 # define FLAG_DUMP (1 << 3)
 # define FLAG_DBUG (1 << 4)
+# define FLAG_DVAL (1 << 5)
 
-# define ERROR_MAX_VALUE 6
+# define ERROR_MAX_VALUE 8
 
 # define ZMASK(x) ((x) & 0xff)
 # define POSMOD(x) (((x) % MEM_SIZE) < 0 ? ((x) % MEM_SIZE) + MEM_SIZE : (x) % MEM_SIZE)
@@ -65,6 +66,8 @@ typedef enum	e_error
 	ERROR_CHAMPION,
 	ERROR_SME_NUMB,
 	ERROR_WRG_NUMB,
+	ERROR_SPE_LEVL,
+	ERROR_WRG_LEVL,
 	ERROR_UNK_ARGV
 }				t_error;
 
@@ -128,6 +131,7 @@ typedef struct	s_env
 	int					players_nb;
 	t_flag				flag;
 	int					dump;
+	int					n_dump;
 	int					last_pid;
 	int					error_value;
 	t_verb				verb;
@@ -140,7 +144,7 @@ typedef struct	s_env
 */
 
 void		init_env(t_env *env);
-void		init_arena(t_env *e);
+//void		init_arena(t_env *e);
 void		set_error_value(t_env *env, t_error value);
 void		display_error(t_env *env);
 void		display_help(t_env *env);
@@ -170,7 +174,7 @@ int		get_args_len(t_process *cursor, t_op op);
 void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod);
 int		read_args(t_env *e, t_process *cursor, t_op op);
 void	set_reg_values(t_process *cursor, t_op op , int skip_index);
-void		read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
+void	read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
 
 /*
 **	OP
