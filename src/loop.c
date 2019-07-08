@@ -45,7 +45,6 @@ void			read_instruction(t_env *e, t_process *cursor, t_bool move_pc)
 	{
 		cursor->op_code = op;
 		cursor->cycle = op_tab[op - 1].nb_cycle;
-		ft_printf("Reading op %d (%d cycles), for pid %d, (%d pc)\n", cursor->op_code, cursor->cycle, cursor->pid, cursor->pc);
 	}
 	else
 	{
@@ -159,7 +158,6 @@ int				run_cycle(t_env *e, t_loop *l)
 		l->cycle_last_check = l->current_cycle;
 		l->i_check += 1;
 		nbr_live = check_live(e, l);
-		ft_printf("nbr_live: %d\n", nbr_live);
 		if (nbr_live >= NBR_LIVE || l->i_check == MAX_CHECKS)
 		{
 			l->cycle_to_die -= CYCLE_DELTA;
