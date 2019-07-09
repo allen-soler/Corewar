@@ -110,10 +110,9 @@ void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 	}
 	else
 	{
-		cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
+		cursor->pc = POSMOD(cursor->pc + cursor->a_len);
 		VERB(VERB_OP, ft_printf(" FAILED"));
 	}
-
 }
 
 /*
