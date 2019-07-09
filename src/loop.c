@@ -28,13 +28,13 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 		if (read_args(e, cursor, op_tab[cursor->op_code - 1]))
 		{
 			g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
+			if (op_code != 9)
+				cursor->pc = POSMOD(cursor->pc + cursor->a_len);
 			VERB(VERB_OP, ft_printf("\n"));
 		}
-		// i took out the increment from here because it's taken care off in read_args
 	}
 	cursor->op_code = -1;
 }
-
 
 void			read_instruction(t_env *e, t_process *cursor, t_bool move_pc)
 {
@@ -54,7 +54,6 @@ void			read_instruction(t_env *e, t_process *cursor, t_bool move_pc)
 	}
 }
 
-
 /*
 **	3 cases:
 **			-no op (cycle == -1):			just move forward in the arena
@@ -71,6 +70,7 @@ void		init_processes(t_env *env)
 	while (i < env->players_nb)
 	{
 		tmp = new_process(env->players[i].number, 1, env->last_pid);
+		tmp->regs[0] = env->players[i].number;
 		env->last_pid += 1;
 		if (!tmp)
 			exit_failure("Error: malloc failed in init_processes", env);
@@ -87,10 +87,10 @@ static void		print_winner(t_env *env)
 
 	if (env->last_live != -1)
 	{
-		ft_printf("Contestant %d, \"%s\", has won !\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
-
-		/// next line is the real winning message we have to print !
-	//	ft_printf("Player %d (%s) won\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+		if (env->flag & FLAG_DUMP) // this one is the real winning message 
+			ft_printf("Player %d (%s) won \n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
+		else
+			ft_printf("Contestant %d, \"%s\", has won !\n", env->players[env->last_live].number, env->players[env->last_live].header.prog_name);
 	}
 	else
 		ft_printf("no winner? you lossers\n");

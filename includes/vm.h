@@ -103,6 +103,7 @@ typedef struct	s_process
 	int					cycle;
 	int					player;
 	int					color;
+	int					a_len;
 	struct s_process 	*next;
 }				t_process;
 

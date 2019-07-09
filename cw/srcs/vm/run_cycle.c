@@ -88,7 +88,6 @@ static void		check_live(t_vm *vm)
 	j = vm->players.len;
 	while (j-- != 0)
 		vm->players.d[j].period_lives = 0;
-	ft_printf("nbr_live: %d\n", nbr_live);
 	if (nbr_live >= NBR_LIVE || vm->die_cycle_checks == MAX_CHECKS)
 	{
 		vm->cycle_die -= CYCLE_DELTA;
