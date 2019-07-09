@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:07:22 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/02 19:20:01 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 13:03:19 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ size_t	str_repoint(char *haystack, char *needle)
 	return (0);
 }
 
-void	travel_states(char **line, int state)
+void	travel_states(char **line, int state, int row)
 {
 	if (state == 1 || state == 3 || state == 5 || state == 7)
 	{
 		if (**line == SPACE || **line == '\t')
 			*line = skip_space(*line);
 		else
-			error_custom("Invalid header.\n", NULL);
+			error_row("Invalid header.", row);
 	}
 	else if (state == 2 || state == 6)
 	{

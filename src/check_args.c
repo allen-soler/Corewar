@@ -6,33 +6,31 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/02 19:41:10 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 14:23:06 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-//PROBLEM WIIITHHHH HASHTAG AT END
 
 #include "../includes/asm.h"
 
-static intmax_t	handle_number(char *arg, intmax_t stock, int neg)
+static intmax_t	handle_number(char *arg, intmax_t stock, int neg, int row)
 {
 	if (neg == 1 && ft_isdigit(*arg))
 		stock = (stock * 10) - (*arg - 48);
 	else if (neg == 0 && ft_isdigit(*arg))
 		stock = (stock * 10) + (*arg - 48);
 	else
-		error_custom("Invalid argument format\n", NULL);
+		error_row("Invalid argument format.", row);
 	if (stock > 4294967295 || stock < -4294967296)
-		error_custom("Out of bounds argument value. Needs to be > -4294967297 or < 4294967296.\n", NULL);
+		error_row("Out of bounds argument value. Needs to be \
+> -4294967297 or < 4294967296.\n", row);
 	return (stock);
 }
 
-int				check_register(char *arg, t_par **list)
+int				check_register(char *arg, t_par **list, int row)
 {
 	size_t	stock;
-	char	*stk;
 
 	stock = 0;
-	stk = NULL;
 	if (*arg == 'r' && (ft_isdigit(*(arg + 1))))
 	{
 		while (ft_isdigit(*(arg + 1)) && (*(arg + 1)) != '\0')
@@ -44,30 +42,27 @@ int				check_register(char *arg, t_par **list)
 				stock = (stock * 10) + (*arg - 48);
 		}
 		if (stock > 99)
-			error_custom("Error : register size > 99.\n", *list);
+			error_row("Register size > 99.", row);
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
-			return (1);
+			error_row("Invalid argument.", row);
 		arg = arg + 1;
-		stk = ft_itoa(stock);
-		*list  = add_parameter(*list, stk, 1);
-		free(stk);
+		*list = add_parameter(*list, ft_itoa(stock), 1, row);
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
-int				check_direct(char *arg, t_par **list)
+int				check_direct(char *arg, t_par **list, int row)
 {
 	intmax_t	stock;
-	char		*stk;
 	int			neg;
 
 	stock = 0;
-	stk = NULL;
 	neg = 0;
 	if (*arg == '%')
 	{
 		if (*(arg + 1) == ':')
-			return (direct_label(list, (arg + 2), 5));
+			return (direct_label(list, (arg + 2), 5, row));
 		else if (*(arg + 1) == '-')
 		{
 			neg = 1;
@@ -76,31 +71,28 @@ int				check_direct(char *arg, t_par **list)
 		while (ft_isdigit(*(arg + 1)) && (*(arg + 1)) != '\0')
 		{
 			arg = arg + 1;
-			stock = handle_number(arg, stock, neg);
+			stock = handle_number(arg, stock, neg, row);
 		}
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
-			return (1);
-		arg = arg + 1;
-		stk = ft_itoa(stock);
-		*list  = add_parameter(*list, stk, 3);
-		free(stk);
+			error_row("Invalid argument.", row);
+//		arg = arg + 1;
+		*list = add_parameter(*list, ft_itoa(stock), 3, row);
+		return(0);
 	}
-	return (0);
+	return (-1);
 }
 
-int				check_indirect(char *arg, t_par **list)
+int				check_indirect(char *arg, t_par **list, int row)
 {
 	intmax_t	stock;
-	char		*stk;
 	int			neg;
 
 	stock = 0;
-	stk = NULL;
-	neg =  0;
+	neg = 0;
 	if (*arg == '-' || ft_isdigit(*arg) || *arg == ':')
 	{
 		if (*arg == ':')
-			return (direct_label(list, (arg + 1), 9));
+			return (direct_label(list, (arg + 1), 9, row));
 		else if (*arg == '-')
 		{
 			neg = 1;
@@ -108,36 +100,40 @@ int				check_indirect(char *arg, t_par **list)
 		}
 		while (ft_isdigit(*arg) && *arg != '\0')
 		{
-			stock = handle_number(arg, stock, neg);
+			stock = handle_number(arg, stock, neg, row);
 			arg = arg + 1;
 		}
 		if (*arg != '\0' && *arg != ',')
-			return (1);
-		arg = arg + 1;
-		stk = ft_itoa(stock);
-		*list  = add_parameter(*list, stk, 4);
-		free(stk);
+			error_row("Invalid argument.", row);
+//		arg = arg + 1;
+		*list = add_parameter(*list, ft_itoa(stock), 4, row);
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
-void			check_args(char **line, t_par **list)
+void			check_args(char **line, t_par **list, int row)
 {
-	char 	**args;
+	char	**args;
 	size_t	i;
 	int		err;
 
-
 	i = -1;
 	args = ft_split(*line, " 	,");
-	err = 0;
-	err += check_comma(*line, list);
+	err = check_comma(*line, row);
+	if (err > 0)
+		error_row("Invalid use of commas for arguments.", row);
 	while (args[++i] != '\0')
 	{
-		err += check_register(args[i], list);
-		err += check_direct(args[i], list);
-		err += check_indirect(args[i], list);
+		err = 0;
+		err += check_register(args[i], list, row);
+		err += check_direct(args[i], list, row);
+		err += check_indirect(args[i], list, row);
+		if (err == -3)
+			error_row("Invalid parameter.", row);
 	}
+	if (i > 3)
+		error_row("Can't have more than 3 arguments in an instruction.", row);
 	i = -1;
 	while (args[++i] != '\0')
 		free(args[i]);

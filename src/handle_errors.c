@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 17:13:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/04 14:32:42 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/09 14:04:09 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	error_function(char *string, t_par **list)
 	t_par *tmp;
 
 	tmp = NULL;
+	test_print(*list);
 	if (string)
 	{
 		free(string);
@@ -47,5 +48,19 @@ void	error_function(char *string, t_par **list)
 		tmp = NULL;
 	}
 	ft_putstr("File structure ERROR\n");
+	exit(EXIT_FAILURE);
+}
+
+void	error_state(int state, int row)
+{
+	if (state > 0 && state < 7)
+		error_row("Invalid header.", row);
+	else if (state == 0)
+		error_row("Lexical.", row);
+}
+
+void	error_row(char *message, int row)
+{
+	dprintf(1, "ERROR line %d. Type : %s\n", row, message);
 	exit(EXIT_FAILURE);
 }

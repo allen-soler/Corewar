@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:40:00 by bghandou          #+#    #+#             */
-/*   Updated: 2019/06/30 13:56:13 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/08 20:03:56 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ static int	check_end_comma(char *line)
 		len--;
 	}
 	return (0);
-
 }
 
-static int	space_comma(char *line, size_t i, t_par **list)
+static int	space_comma(char *line, size_t i, int row)
 {
 	size_t	count;
 	size_t	j;
@@ -47,11 +46,11 @@ static int	space_comma(char *line, size_t i, t_par **list)
 	if (count == 1 || (count == 0 && line[i + j] == '\0'))
 		return (j);
 	else
-		error_function(NULL, list);
+		error_row("Invalid use of commas/spaces for arguments.", row);
 	return (j);
 }
 
-int		check_comma(char *line, t_par **list)
+int			check_comma(char *line, int row)
 {
 	size_t	i;
 	size_t	count;
@@ -69,7 +68,7 @@ int		check_comma(char *line, t_par **list)
 	while (i <= len && line[i] != '\0' && err == 0)
 	{
 		if (line[i] == ' ' || line[i] == ',' || line[i] == '\t')
-			i += space_comma(line, i, list);
+			i += space_comma(line, i, row);
 		i++;
 	}
 	err += check_end_comma(line);

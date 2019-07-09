@@ -6,85 +6,108 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/05 14:11:51 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/09 14:06:36 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
 
-int		null_state(char **line, int state, t_par **list) //need array of functions
+int		null_state(char **line, int state, t_par **list, int row)
 {
 	size_t repoint;
 
 	repoint = 0;
 	*line = skip_space(*line);
-	if ((repoint = str_repoint(*line, NAME_CMD_STRING)))
+	if ((repoint = str_repoint(*line, ".name")) || (state > 1 && state >= 3))
 		state += 1;
-	else if ((repoint = str_repoint(*line, COMMENT_CMD_STRING)))
+	else if ((repoint = str_repoint(*line, COMMENT_CMD_STRING))
+		|| (state > 5 && state <= 7))
 		state = 5;
-	else if ((repoint = set_label(line, list)))
+	else if ((repoint = set_label(line, list, row)))
 	{
 		state = 20;
-		repoint = search_valid_inst(line, list);
+		repoint = search_valid_inst(line, list, row);
 	}
-	else if ((repoint = search_valid_inst(line, list)))
-		state = 20;	
+	else if ((repoint = search_valid_inst(line, list, row)))
+		state = 20;
 	else if (ft_strlen(*line) == 0)
 		return (0);
 	else
+	{
+		error_state(state, row);
 		return (-1);
+	}
 	*line = *line + repoint;
 	return (state);
 }
 
-void	middlefunction(char **line, int state, t_par **list)
-{ //can put array of functions here
-//	dprintf(1, "__________\n");
-//	test_print(*list);
-//	dprintf(1, "__________\n");
+int		middlefunction(char **line, int state, t_par **list, int row)
+{
 	*line = skip_space(*line);
-	*line = ignore_hash_comment(*line);
+	if (!((state > 1 && state < 3) || (state > 5 && state < 7)))
+		*line = ignore_hash_comment(*line);
 	if (state == 0)
-	{
-		state = null_state(line, state, list);
-	}
-	if (state == 1)
-		state = name_token(line, state, list);
-	else if (state == 5)
-		state = init_comm_token(line, state, list);
+		state = null_state(line, state, list, row);
+	if (state >= 1 && state <= 3)
+		state = name_token(line, state, list, row);
+	else if (state >= 5 && state <= 7)
+		state = init_comm_token(line, state, list, row);
 	else if (state == 20)
-		check_args(line, list);
+		check_args(line, list, row);
 	if (state < 0)
 		error_function(NULL, list);
+	else if ((state > 1 && state < 3) || (state > 5 && state < 7))
+		return (state);
+	else
+		state = 0;
+	return (state);
 }
 
-void	token_automata(char *line, t_par **list)
+int		token_automata(char *line, t_par **list, int state, int row)
 {
-	static int	state;
 	size_t		i;
-	char 		**instructions;//can maybe have this as enum
+	char		**instructions;
 
 	i = 0;
-	state = 0;
 	instructions = ft_strsplit("ld st live add sub and or xor zjmp ldi sti \
 lld lldi lfork fork aff", ' ');
-
-	middlefunction(&line, state, list);
+	state = middlefunction(&line, state, list, row);
 	while (instructions[i] != '\0')
 		free(instructions[i++]);
+	return (state);
 }
 
-void	ingest_file(t_par **list, char *file) 
+t_par	*ingest_file(char *file, int row)
 {
-	int		i;
-	char	**tab;
+	int			fd;
+	char		*line;
+	t_par		*list;
+	static int	state;
 
-	i = 0;
-	tab = ft_strsplit(file, '\n');
-	while (tab[i])
+	fd = open(file, O_RDONLY);
+	line = NULL;
+	list = NULL;
+	state = 0;
+	while (get_next_line(fd, &line) > 0)
 	{
-		token_automata(tab[i], list);
-		i++;
+		state = token_automata(line, &list, state, row);
+		free(line);
+		row++;
 	}
-	ft_free_tab(tab);
+	return (list);
+}
+
+int		main(int ac, char **av)
+{
+	t_par		*list;
+	static int	row;
+
+	list = NULL;
+	row = 1;
+	if (ac == 2)//add ft_endswith(av[1], ".s")
+		list = ingest_file(av[1], row);
+	else
+		error_custom("Choose one valid '.s' file to compile.\n", NULL);
+	check_syntax(list); // add row parameter to syntax
+	test_print(list);
 }

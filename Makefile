@@ -41,26 +41,27 @@ DIR_H = includes
 
 # source files for the project
 
-SOURCES =	check_args.c			\
-			create_file.c			\
-			free_systems.c			\
-			handle_labels.c			\
-			instruction_utils.c		\
-			match_labels.c			\
-			para_list.c				\
-			second_half.c			\
-			token_automata.c		\
-			check_comma.c			\
-			first_half.c			\
-			handle_errors.c			\
-			instruct_tokens.c		\
-			main.c					\
-			null_state.c			\
-			search_point.c			\
-			syntax_checker.c		\
-			op.c					\
-			encoding_tools.c		\
-			encoding.c
+SOURCES =	check_args.c		\
+			encoding_tools.c	\
+			handle_labels.c		\
+			match_labels.c		\
+			search_point.c		\
+			check_comma.c		\
+			first_half.c		\
+			instruct_tokens.c	\
+			null_state.c		\
+			second_half.c		\
+			create_file.c		\
+			free_systems.c		\
+			instruction_utils.c	\
+			op.c				\
+			syntax_checker.c	\
+			encoding.c			\
+			handle_errors.c		\
+			main.c				\
+			para_list.c			\
+			token_automata.c
+
 # header files
 
 HEADER_FILES =	includes/asm.h \
