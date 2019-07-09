@@ -186,19 +186,22 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	child = new_process(cursor->player, cursor->alive, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value));
-	/*  Might needed on the future
-	if (e->arena[child->pc].data > 0 && e->arena[child->pc].data <= REG_NUMBER)
-	{
-		child->op_code = e->arena[child->pc].data;
-		child->cycle = op_tab[e->arena[child->pc].data - 1].nb_cycle;
-	}
-	else
-		child->pc = (child->pc + 1) % MEM_SIZE;
-	*/
 	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
 	push_process_front(&e->cursors, child);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
-	read_instruction(e, child, FALSE); // we shouldn't add 1 here if I'm correct
+	read_instruction(e, child, TRUE); // we shouldn't add 1 here if I'm correct
+}
+
+void	ft_lfork(t_env *e, t_process *cursor, t_op op)
+{
+	t_process	*child;
+
+	child = new_process(cursor->player, cursor->alive, e->last_pid++);
+	duplicate_process(child, cursor);
+	child->pc = POSMOD(cursor->pc + cursor->args[0].value);
+	push_process_front(&e->cursors, child);
+	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
+	read_instruction(e, child, TRUE);
 }
 
 void	ft_add(t_env *e, t_process *cursor, t_op op)
@@ -279,19 +282,6 @@ void	ft_lldi(t_env *e, t_process *cursor, t_op op)
 	cursor->regs[cursor->args[2].value - 1] = mix_bytes(e, cursor, addr, 4);
 	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
 }
-
-void	ft_lfork(t_env *e, t_process *cursor, t_op op)
-{
-	t_process	*child;
-
-	child = new_process(cursor->player, cursor->alive, e->last_pid++);
-	duplicate_process(child, cursor);
-	child->pc = POSMOD(cursor->pc + cursor->args[0].value);
-	push_process_front(&e->cursors, child);
-	cursor->pc = POSMOD(cursor->pc + get_args_len(cursor, op) + OP_CODE_LEN);
-	read_instruction(e, child, FALSE);
-}
-
 void	ft_aff(t_env *e, t_process *cursor, t_op op)
 {
 	char		c;

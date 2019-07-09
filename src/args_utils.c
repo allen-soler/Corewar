@@ -178,7 +178,7 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 		(cursor->args[i].type == T_REG && (cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
 		{
 			current_pc_extra_in_case_of_fail += arg_len;
-			cursor->pc = POSMOD(cursor->pc + current_pc_extra_in_case_of_fail - 1);
+			cursor->pc = POSMOD(cursor->pc + current_pc_extra_in_case_of_fail);
 			return (0);
 		}
 		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));
