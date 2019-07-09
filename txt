@@ -1,0 +1,112 @@
+Norme: ./src/check_comma.c
+Error: global scope bad aligned
+Error (line 30): Empty line
+Error (line 31, col 0): no empty line before block
+Norme: ./src/create_file.c
+Error: global scope bad aligned
+Error (line 14): wrong number of spaces in preprocessor indentation
+Error (line 14): wrong number of spaces in preprocessor line
+Error (line 16): declarations must be followed by one empty line in open_file
+Error (line 16): Bad spacing for argument src
+Error (line 20): spaces at the end of line
+Error (line 69): bad spacing after prog_size
+Error (line 78): missing newline after while
+Error (line 78): spaces at the end of line
+Error (line 87): bad spacing before to_binary
+Error (line 96): spaces at the end of line
+Error (line 97): spaces at the end of line
+Norme: ./src/encoding_tools.c
+Error: global scope bad aligned
+Error: 42 header not at top of the file
+Error (line 3): Space before function name
+Error (line 3, col 26): space after pointer
+Error (line 27): Space before function name
+Error (line 27): Space before function name
+Error (line 27): Space before function name
+Error (line 27): Space before function name
+Error (line 27, col 4): bad spacing
+Norme: ./src/first_half.c
+Norme: ./src/handle_errors.c
+Norme: ./src/check_args.c
+Error: 42 header must be followed by one empty line
+Error (line 12): C++ comment
+Error (line 25): line has 106 characters
+Error (line 52, col 7): bad spacing
+Error (line 58): function check_direct has 29 lines
+Error (line 85, col 7): bad spacing
+Error (line 91): function check_indirect has 29 lines
+Error (line 99, col 6): bad spacing
+Error (line 118, col 7): bad spacing
+Error (line 124): declarations must be followed by one empty line in check_args
+Error (line 126, col 5): bad spacing
+Error (line 130): multiple empty lines
+Error (line 130): Empty line
+Norme: ./src/instruct_tokens.c
+Error (line 17): C++ comment
+Error (line 17, col 5): bad spacing
+Error (line 20): must begin only by tabulations
+Error (line 24): function search_valid_inst has 26 lines
+Error (line 35): Empty line
+Error (line 48): bad indentation
+Error (line 48): must begin only by tabulations
+Norme: ./src/encoding.c
+Error: 6 functions in the file
+Error: 42 header not at top of the file
+Error (line 16): line has 88 characters
+Error (line 42): line has 88 characters
+Error (line 64): line has 88 characters
+Error (line 78): must begin only by tabulations
+Norme: ./src/free_systems.c
+Norme: ./src/match_labels.c
+Error (line 24, col 35): space before ,
+Error (line 47): C++ comment
+Error (line 47): line has 117 characters
+Norme: ./src/handle_labels.c
+Error (line 23, col 3): missing space after return
+Error (line 34, col 31): bad spacing
+Error (line 71): spaces at the end of line
+Norme: ./src/instruction_utils.c
+Error (line 33): declarations must be followed by one empty line in check_class
+Error (line 33): Bad spacing for argument cur
+Error (line 36): spaces at the end of line
+Error (line 48, col 25): bad spacing
+Norme: ./src/main.c
+Norme: ./src/op.c
+Error (line 15, col 4): bad spacing
+Error (line 15, col 8): global named op_tab is not well prefixed
+Norme: ./src/null_state.c
+Error (line 15): C++ comment
+Error (line 15): line has 83 characters
+Error (line 31): spaces at the end of line
+Error (line 31, col 12): bad character after ;
+Error (line 41): C++ comment
+Error (line 41, col 0): no newline after block
+Error (line 42): C++ comment
+Error (line 43): C++ comment
+Error (line 44): C++ comment
+Error (line 65): C++ comment
+Error (line 65, col 5): bad spacing
+Error (line 71): Empty line
+Error (line 77): spaces at the end of line
+Norme: ./src/para_list.c
+Error (line 15): function test_print has 35 lines
+Error (line 15): C++ comment
+Error (line 34, col 22): missing space around ==
+Error (line 45): bad indentation
+Error (line 45): C++ comment
+Error (line 46): bad indentation
+Error (line 46): C++ comment
+Error (line 46): line has 100 characters
+Error (line 54): function add_parameter has 30 lines
+Error (line 61): C++ comment
+Error (line 65): spaces at the end of line
+Norme: ./src/search_point.c
+Norme: ./src/syntax_checker.c
+Error (line 31, col 18): space before ;
+Error (line 32): spaces at the end of line
+Error (line 32, col 13): bad character after ;
+Norme: ./src/token_automata.c
+Norme: ./src/second_half.c
+Error (line 57): C++ comment
+Error (line 59): missing newline after if
+Error (line 59): spaces at the end of line

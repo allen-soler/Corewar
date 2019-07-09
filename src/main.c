@@ -6,67 +6,36 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/07 18:25:29 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/09 13:25:00 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
 
-static size_t djb_hashh(const char* cp)
-{
-	size_t	hash;
-
-	hash = 5381;
-	while (*cp)
-		hash = 33 * hash ^ (unsigned char)*cp++;
-	return (hash);
-}
-
-int		nb_opp(char *src)
-{
-	int	i;
-
-	i = 0;
-	while (op_tab[i].name)
-	{
-		if (djb_hashh(src) == djb_hashh(op_tab[i].name))
-			break ;
-		i++;
-	}
-	return (i);
-}
-
 void	order_list(t_par **lst)
 {
 	int		i;
+	int		j;
 	t_par	*tmp;
 
-	tmp = *lst;
 	i = 0;
+	j = 0;
+	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->type == 7 || tmp->type == 6)
-			break ;
-		tmp = tmp->next;
-	}
-	int j = 0;
-	int nb = 0;
-	while (tmp)
-	{
-		if (tmp->type == 6)
-			nb = nb_opp(tmp->param);
-		if (tmp->type == 6)
-			j = op_tab[nb].encoding_byte > 0 ? j + 2 : j + 1;
-		else if (tmp->type == 1)
+		if (tmp->type == 6 && i++)
+			j = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? j + 2 : j + 1;
+		else if (tmp->type == 1 && i++)
 			j += 1;
-		else if (tmp->type == 2 || tmp->type == 15 || tmp->type == 4 || tmp->type == 9)
-				j += 2;
-		else if (tmp->type == 3 || tmp->type == 5)
-				j += 4;
+		else if ((tmp->type == 2 || tmp->type == 15 || tmp->type == 4
+				|| tmp->type == 9) && i++)
+			j += 2;
+		else if ((tmp->type == 3 || tmp->type == 5) && i++)
+			j += 4;
 		tmp->cnt = j;
-		tmp->pos = i;
+		if (tmp->type != 0)
+			tmp->pos = i;
 		tmp = tmp->next;
-		i++;
 	}
 }
 
