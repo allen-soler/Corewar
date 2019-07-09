@@ -68,7 +68,6 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 		tmp = tmp->next;
 	}
 	nb = counting_label(lst->next, nb, inst);
-	ft_printf("cnt %i, I %i nb %i\n", lst->next->cnt, i, nb);
 	return (i < nb ? i = -(nb - i) : i);
 }
 
@@ -76,7 +75,6 @@ void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
 	nb = lst->lbl_ptr->pos < tmp->pos ? label_aff(tmp, lst->lbl_ptr, nb, inst)\
 		 : label_start(lst->lbl_ptr, tmp, nb, inst);
-	ft_printf("%i\n", nb);
 	if (lst->type == 5)
 		write_byte(inst, nb, 4);
 	else if (lst->type == 15 || lst->type == 9)
