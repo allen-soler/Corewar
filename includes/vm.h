@@ -11,7 +11,7 @@
 # include "op.h"
 # include "../libft/libft.h"
 
-// TODO: REMOVE THIS 
+// TODO: REMOVE THIS
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 
@@ -72,10 +72,9 @@ typedef enum	e_error
 
 typedef char	t_flag;
 
-t_op    g_op_tab[17]; // TODO: eclare variable as global here, should look up how
-				
+t_op					g_op_tab[17]; // TODO: eclare variable as global here, should look up how
 
-typedef struct s_player
+typedef struct	s_player
 {
 	header_t			header;
 	char				*file;
@@ -87,8 +86,8 @@ typedef struct s_player
 
 typedef struct	s_argument
 {
-	unsigned char	type;
-	int				value;
+	unsigned char		type;
+	int					value;
 }				t_argument;
 
 typedef struct	s_process
@@ -104,7 +103,7 @@ typedef struct	s_process
 	int					player;
 	int					color;
 	int					a_len;
-	struct s_process 	*next;
+	struct s_process	*next;
 }				t_process;
 
 typedef struct	s_arena
@@ -172,7 +171,7 @@ int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes);
 int		get_args_len(t_process *cursor, t_op op);
 void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod);
 int		read_args(t_env *e, t_process *cursor, t_op op);
-void	set_reg_values(t_process *cursor, t_op op , int skip_index);
+void	set_reg_values(t_process *cursor, t_op op, int skip_index);
 void	read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
 
 /*
