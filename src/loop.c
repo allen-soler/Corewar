@@ -148,6 +148,7 @@ static void		exec_process(t_env *env)
 			--curr->cycle;
 		if (curr->cycle == 0 && curr->op_code != -1)
 			exec_cmd(env, curr);
+		ft_printf("PC: %d\n", curr->pc);
 		curr = curr->next;
 	}
 }

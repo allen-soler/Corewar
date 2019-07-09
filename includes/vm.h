@@ -226,6 +226,9 @@ void			exit_failure(const char *message, t_env *e);
 **	PARSING_ARGS
 */
 
+int			choose_turn(int used, t_env *env);
+int			set_player_turn(char **av, int ac, int index, t_env *env);
+void		set_players(char **av, int ac, int i, t_env *env);
 int			set_flag(char **av, int ac, t_env *env);
 void		parsing_args(char **av, int ac, t_env *env);
 
