@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 23:10:19 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 00:28:33 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/10 01:50:53 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ int		nb_op(char *src)
 	int	i;
 
 	i = 0;
-	while (op_tab[i].name)
+	while (g_op_tab[i].name)
 	{
-		if (djb_hash(src) == djb_hash(op_tab[i].name))
+		if (djb_hash(src) == djb_hash(g_op_tab[i].name))
 			break ;
 		i++;
 	}
 	return (i);
 }
 
-void	prog_size(int value, int size, header_t *h)
+void	prog_size(int value, int size, t_header *h)
 {
 	int		len;
 	int8_t	i;

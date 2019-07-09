@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 14:23:06 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/10 01:15:55 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int				check_direct(char *arg, t_par **list, int row)
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			error_row("Invalid argument.", row);
 		fix_leak(list, stock, 3, row);
-		return(0);
+		return (0);
 	}
 	return (-1);
 }
@@ -107,7 +107,6 @@ int				check_indirect(char *arg, t_par **list, int row)
 		}
 		if (*arg != '\0' && *arg != ',')
 			error_row("Invalid argument.", row);
-//		arg = arg + 1;
 		fix_leak(list, stock, 4, row);
 		return (0);
 	}

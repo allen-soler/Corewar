@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 15:43:01 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 00:17:26 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/10 01:56:46 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ static int	open_file(char *src, int fd)
 	return (fd);
 }
 
-static void	name(int fd, uint32_t x, header_t *h, char *dest)
+static void	name(uint32_t x, t_header *h, char *dest)
 {
 	int				i;
 	unsigned char	byte;
 
 	i = 0;
-	while (i < 4 + ft_strlen(dest))
+	while (i < 4 + (int)ft_strlen(dest))
 	{
 		if (i < 4)
 		{
@@ -55,12 +55,12 @@ static void	name(int fd, uint32_t x, header_t *h, char *dest)
 	free(dest);
 }
 
-static void	comment(int fd, header_t *h, char *src)
+static void	comment(t_header *h, char *src)
 {
 	int		i;
 
 	i = 0;
-	while (i < ft_strlen(src))
+	while (i < (int)ft_strlen(src))
 	{
 		h->comment[i + 12] = src[i];
 		i++;
@@ -68,7 +68,7 @@ static void	comment(int fd, header_t *h, char *src)
 	free(src);
 }
 
-void		to_binary(t_par *lst, char *src, header_t *h, char *n_file)
+void		to_binary(t_par *lst, char *src, t_header *h, char *n_file)
 {
 	int			fd;
 	t_inst		inst;
@@ -77,9 +77,9 @@ void		to_binary(t_par *lst, char *src, header_t *h, char *n_file)
 	fd = open_file(n_file, fd);
 	ft_bzero(h->prog_name, PROG_NAME_LENGTH + 1);
 	ft_bzero(h->comment, COMMENT_LENGTH + 17);
-	name(fd, COREWAR_EXEC_MAGIC, h, find_index(lst, src));
-	comment(fd, h, find_index(lst->next, src));
-	encoding(lst, fd, &inst);
+	name(COREWAR_EXEC_MAGIC, h, find_index(lst, src));
+	comment(h, find_index(lst->next, src));
+	encoding(lst, &inst);
 	prog_size(inst.size, 4, h);
 	write(fd, h->prog_name, 128);
 	write(fd, h->comment, 2048 + 16);

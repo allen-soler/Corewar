@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 23:12:55 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 00:34:14 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/10 01:43:23 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*find_index(t_par *lst, char *src)
 	return (NULL);
 }
 
-int		counting_label(t_par *lst, int nb, t_inst *inst)
+int		counting_label(t_par *lst, t_inst *inst)
 {
 	int		i;
 	t_par	*tmp;
@@ -74,7 +74,7 @@ int		counting_label(t_par *lst, int nb, t_inst *inst)
 	while (tmp)
 	{
 		if (tmp->type == 6)
-			i = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
+			i = g_op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
 			i += 1;
 		else if (tmp->type == 2 || tmp->type == 15 ||

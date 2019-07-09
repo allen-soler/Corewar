@@ -6,13 +6,13 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 00:30:29 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 00:45:37 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/10 01:54:51 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
 
-int		label_aff(t_par *lst, t_par *tmp, int nb, t_inst *inst)
+static int	label_aff(t_par *lst, t_par *tmp)
 {
 	int i;
 
@@ -22,7 +22,7 @@ int		label_aff(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 		if (tmp->pos == lst->pos)
 			break ;
 		if (tmp->type == 6)
-			i = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
+			i = g_op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
 			i += 1;
 		else if (tmp->type == 2 || tmp->type == 15
@@ -35,7 +35,7 @@ int		label_aff(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 	return (-i);
 }
 
-int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
+static int	label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 {
 	int i;
 
@@ -45,7 +45,7 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 		if (lst == tmp)
 			break ;
 		if (tmp->type == 6)
-			i = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
+			i = g_op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
 			i += 1;
 		else if (tmp->type == 2 || tmp->type == 15
@@ -55,13 +55,13 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 			i += 4;
 		tmp = tmp->next;
 	}
-	nb = counting_label(lst->next, nb, inst);
+	nb = counting_label(lst->next, inst);
 	return (i < nb ? i = -(nb - i) : i);
 }
 
-void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
+static void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
-	nb = lst->lbl_ptr->pos < tmp->pos ? label_aff(tmp, lst->lbl_ptr, nb, inst)\
+	nb = lst->lbl_ptr->pos < tmp->pos ? label_aff(tmp, lst->lbl_ptr)\
 	: label_start(lst->lbl_ptr, tmp, nb, inst);
 	if (lst->type == 5)
 		write_byte(inst, nb, 4);
@@ -69,7 +69,7 @@ void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 		write_byte(inst, nb, 2);
 }
 
-void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)
+static void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
 	if (lst->type == 1)
 		inst->tab[inst->size++] = ft_atoi(lst->param);
@@ -94,7 +94,7 @@ void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 	}
 }
 
-void	encoding(t_par *lst, int fd, t_inst *inst)
+void		encoding(t_par *lst, t_inst *inst)
 {
 	int		i;
 	t_par	*tmp;
@@ -108,8 +108,8 @@ void	encoding(t_par *lst, int fd, t_inst *inst)
 			tmp = lst;
 			i = nb_op(lst->param);
 			inst->tab[inst->size++] = i + 1;
-			if (op_tab[i].encoding_byte > 0)
-				get_binary(lst->next, inst, op_tab[i].param_nb, inst->size);
+			if (g_op_tab[i].encoding_byte > 0)
+				get_binary(lst->next, inst, g_op_tab[i].param_nb, inst->size);
 		}
 		else
 			check_type(lst, inst, tmp, i);

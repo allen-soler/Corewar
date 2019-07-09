@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 00:54:03 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/10 01:51:33 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	order_list(t_par **lst)
 	while (tmp)
 	{
 		if (tmp->type == 6 && i++)
-			j = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? j + 2 : j + 1;
+			j = g_op_tab[nb_op(tmp->param)].encoding_byte > 0 ? j + 2 : j + 1;
 		else if (tmp->type == 1 && i++)
 			j += 1;
 		else if ((tmp->type == 2 || tmp->type == 15 || tmp->type == 4
@@ -53,14 +53,13 @@ int		main(int ac, char **av)
 	char		*line;
 	int			fd;
 	t_par		*list;
-	header_t	header;
+	t_header	header;
 
 	list = NULL;
 	if (ac == 2)
 	{
 		if ((fd = open(av[1], O_RDONLY)) == -1)
 			exit(ft_fprintf(2, "Wrong file descriptor\n"));
-		ft_printf("%i\n", fd);
 		line = ft_strdup("");
 		readfile(fd, &line);
 		close(fd);

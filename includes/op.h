@@ -1,15 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   op.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/10 01:45:11 by jallen            #+#    #+#             */
+/*   Updated: 2019/07/10 01:48:50 by jallen           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef OP_H
 # define OP_H
 
-/* Testing out typedefs
-**
+/*
+** Testing out typedefs
 */
 
 # define END_LINE '\0'
 # define NEWLINE '\n'
 # define SPACE ' '
 # define QUOTE '"'
-//# define inst "TEST" //not final
 # define REG "r"
 # define DIG "0123456789"
 
@@ -49,8 +60,6 @@
 # define NBR_LIVE 21
 # define MAX_CHECKS 10
 
-typedef char t_arg_type;
-
 # define T_REG 1
 # define T_DIR 2
 # define T_IND 4
@@ -60,6 +69,8 @@ typedef char t_arg_type;
 # define COMMENT_LENGTH (2048)
 # define COREWAR_EXEC_MAGIC 0xea83f3
 
+typedef char		t_arg_type;
+
 typedef struct		s_inst
 {
 	unsigned char	tab[CHAMP_MAX_SIZE + 1];
@@ -67,15 +78,15 @@ typedef struct		s_inst
 	int				param_steps;
 }					t_inst;
 
-typedef struct		header_s
+typedef struct		s_header
 {
-	unsigned int 	magic;
-	char 			prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int 	prog_size;
-	char 			comment[COMMENT_LENGTH + 17];
-}					header_t;
+	unsigned int	magic;
+	char			prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int	prog_size;
+	char			comment[COMMENT_LENGTH + 17];
+}					t_header;
 
-typedef struct	s_op
+typedef struct		s_op
 {
 	char			*name;
 	int				param_nb;
@@ -85,6 +96,6 @@ typedef struct	s_op
 	char			*complete_name;
 	int				encoding_byte;
 	int				direct_size;
-}				t_op;
+}					t_op;
 
 #endif

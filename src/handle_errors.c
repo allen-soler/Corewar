@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 17:13:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 14:04:09 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/10 01:25:08 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	error_function(char *string, t_par **list)
 	t_par *tmp;
 
 	tmp = NULL;
-	test_print(*list);
 	if (string)
 	{
 		free(string);
