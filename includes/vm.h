@@ -15,13 +15,12 @@
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 
-// TODO: add a FLAG_VERB
 # define FLAG_ERROR (1 << 0)
 # define FLAG_HELP (1 << 1)
 # define FLAG_VERB (1 << 2)
 # define FLAG_DUMP (1 << 3)
 # define FLAG_DBUG (1 << 4)
-# define FLAG_DVAL (1 << 5)
+# define FLAG_COLR (1 << 5)
 
 # define ERROR_MAX_VALUE 8
 
@@ -144,10 +143,8 @@ typedef struct	s_env
 */
 
 void		init_env(t_env *env);
-//void		init_arena(t_env *e);
 void		set_error_value(t_env *env, t_error value);
 void		display_error(t_env *env);
-void		display_help(t_env *env);
 
 /*
 **	MAIN LOOP
@@ -164,6 +161,7 @@ void		duplicate_process(t_process *dst, t_process *src);
 void		append_process(t_process **head, t_process *new_p);
 void		delete_process(t_process **head, t_process *ptr);
 void		push_process_front(t_process **head, t_process *new);
+void		init_processes(t_env *env);
 
 /*
 ** ARGUMENT UTILS
@@ -175,6 +173,13 @@ void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod);
 int		read_args(t_env *e, t_process *cursor, t_op op);
 void	set_reg_values(t_process *cursor, t_op op , int skip_index);
 void	read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
+
+/*
+** DISPLAY INFO
+*/
+void		display_help(t_env *env);
+void		display_contestants(t_env *env);
+void		print_arena(t_env *e);
 
 /*
 **	OP
@@ -207,7 +212,6 @@ void		init_player(t_player *player);
 **	PARSING FILES
 */
 
-void			print_arena(t_env *e);
 void			read_files(t_env *e);
 
 /*
@@ -221,6 +225,7 @@ void			exit_failure(const char *message, t_env *e);
 **	PARSING_ARGS
 */
 
+int			set_flag(char **av, int ac, t_env *env);
 void		parsing_args(char **av, int ac, t_env *env);
 
 /*

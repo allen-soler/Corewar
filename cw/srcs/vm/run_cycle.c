@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 13:03:25 by awoimbee          #+#    #+#             */
-/*   Updated: 2019/07/06 21:11:40 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/07/09 15:14:25 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ void			read_instruction(t_vm *vm, int proc)
 	{
 		vm->procs.d[proc].op_id = op_id;
 		vm->procs.d[proc].op_cycles = g_op[op_id].cycles;
-		ft_printf("Reading op %d (%d cycles), for pid %d, (%d pc)\n", \
-				vm->procs.d[proc].op_id + 1, vm->procs.d[proc].op_cycles, vm->procs.d[proc].pid, vm->procs.d[proc].pc);
 	}
 	else
 	{

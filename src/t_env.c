@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   t_env.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/09 14:11:59 by allespag          #+#    #+#             */
+/*   Updated: 2019/07/09 14:18:40 by allespag         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 void			set_error_value(t_env *env, t_error value)
@@ -12,14 +24,21 @@ void			set_error_value(t_env *env, t_error value)
 void			display_error(t_env *env)
 {
 	if (env->error_value > ERROR_MAX_VALUE)
-		ft_fprintf(2, "{red}Error<rst>: There is an error with the error value...\n");
-	ft_fprintf(2, "{red}Error<rst>: %s\n\n", env->error_str[env->error_value]);
+	{
+		ft_fprintf(2, "{red}Error<rst>:"
+						"There is an error with the error value...\n");
+	}
+	else
+	{
+		ft_fprintf(2, "{red}Error<rst>: %s\n\n",
+				env->error_str[env->error_value]);
+	}
 	display_help(env);
 }
 
-static void 	init_arena(t_env *e)
+static void		init_arena(t_env *e)
 {
-	size_t 		i;
+	size_t		i;
 
 	i = 0;
 	while (i < MEM_SIZE)
@@ -30,23 +49,27 @@ static void 	init_arena(t_env *e)
 	}
 }
 
-// someone has to check if english is good here :(
+/*
+** someone has to check if english is good here :(
+** TODO: modify last line
+*/
+
 static void		init_env_error(t_env *env)
 {
 	env->error_str[0] = "There is no problem, how can you read this ?";
 	env->error_str[1] = "There is no specify number value after -n";
-	env->error_str[2] = "There is no specify dump value after --dump";
+	env->error_str[2] = "No specify dump value after --dump (or value < 0)";
 	env->error_str[3] = "You can not use more than 4 champions";
 	env->error_str[4] = "You can not set 2 players with the same number";
 	env->error_str[5] = "Players turn can only be from 0 to 4";
 	env->error_str[6] = "There is no specify verbosity value after --verbose";
 	env->error_str[7] = "Verbosity level can only be from 0 to 7";
-	env->error_str[8] = "unknown argv";				// we need to modify this
+	env->error_str[8] = "unknown argv";
 }
 
-void		init_env(t_env *env)
+void			init_env(t_env *env)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	while (i < MAX_PLAYERS)

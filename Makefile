@@ -40,6 +40,8 @@ SOURCES =	main.c			\
 			op.c			\
 			op_functions.c	\
 			args_utils.c	\
+			display_info.c	\
+			parsing_flags.c	\
 			exit_vm.c
 
 # header files

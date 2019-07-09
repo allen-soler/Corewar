@@ -122,7 +122,6 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 	VERB(VERB_OP, verb_string = ft_cprintf("P%5d | %s", cursor->pid, op.name));
 	offset = 1 + op.encoding_byte;
 	current_pc_extra_in_case_of_fail = offset;
-	e->arena[cursor->pc].player = 2;
 	reset_args(cursor);
 	i = 0;
 	while (i < op.param_nb)

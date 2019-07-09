@@ -37,38 +37,6 @@ static void parse_file(t_env *env, int fd, int curr)
 	}
 }
 
-void print_arena(t_env *e)
-{
-	size_t	i;
-	size_t	line;
-
-	i = 0;
-	line = 0;
-	while (i < MEM_SIZE)
-	{
-		if (i % e->n_dump == 0)
-		{
-			ft_printf("0x%04x : ", line);
-			line += e->n_dump;
-		}
-		ft_printf("%02hhx ", e->arena[i++].data);
-			/* 
-		else if (e->arena[i].player == 0)
-			ft_printf("{r}%02hhx{R} ", e->arena[i++].data);
-		else if (e->arena[i].player == 1)
-			ft_printf("{b}%02hhx{R} ", e->arena[i++].data);
-		else if (e->arena[i].player == 2)
-			ft_printf("{g}%02hhx{R} ", e->arena[i++].data);
-		else if (e->arena[i].player == 3)
-			ft_printf("{y}%02hhx{R} ", e->arena[i++].data);
-		else
-			ft_printf("%02hhx ", e->arena[i++].data);
-			*/
-		if (i % e->n_dump == 0)
-			ft_putchar('\n');
-	}
-}
-
 void read_files(t_env *e)
 {
 	int curr;
