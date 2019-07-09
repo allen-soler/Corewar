@@ -1,12 +1,15 @@
 #include "../includes/asm.h"
 
-size_t djb_hash(const char* cp)
+size_t djb_hash(char *str)
 {
-	size_t	hash;
+	unsigned long	hash;
+	int				c;
 
 	hash = 5381;
-	while (*cp)
-		hash = 33 * hash ^ (unsigned char)*cp++;
+	if (!str)
+		return (0);
+	while ((c = *str++))
+		hash = ((hash << 5) + hash) + c;
 	return (hash);
 }
 

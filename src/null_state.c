@@ -76,20 +76,23 @@ lld lldi lfork fork aff", ' ');
 	return (state);
 }
 
-void	ingest_file(t_par **list, char *line, int row)
+t_par	*ingest_file(char *file, int row)
 {
-	int			i;
-	char		**tab;
+	int			fd;
+	char		*line;
+	t_par		*list;
 	static int	state;
 
-	i = 0;
+	fd = open(file, O_RDONLY);
+	line = NULL;
+	list = NULL;
 	state = 0;
-	tab = ft_strsplit(line, '\n');
-	while (tab[i])
+	while (get_next_line(fd, &line) > 0)
 	{
-		state = token_automata(tab[i], list, state, row);
+		state = token_automata(line, &list, state, row);
+		free(line);
 		row++;
-		i++;
 	}
-	ft_free_tab(tab);
+	close(fd);
+	return (list);
 }

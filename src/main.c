@@ -62,7 +62,8 @@ int		main(int ac, char **av)
 		line = ft_strdup("");
 		readfile(fd, &line);
 		close(fd);
-		ingest_file(&list, line, 1);
+		list = ingest_file(av[1], 1);
+		ft_printf("%s\n", list->param);
 		check_syntax(list);
 		order_list(&list);
 		to_binary(list, line, &header, av[1]);

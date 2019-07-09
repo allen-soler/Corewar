@@ -41,10 +41,10 @@ t_op				op_tab[17];
 //4: IND 5: DIR_LAB4_bytes 6: inst 7: LABEL 8: comment 9: IND_LAB 15: DIR_LAB2Bytes
 
 void	readfile(int fd, char **line);
-void	ingest_file(t_par **list, char *line, int row);
+t_par	*ingest_file(char *file, int row);
 void	encoding(t_par *lst, int fd, t_inst *inst);
 void	to_binary(t_par *lst, char *src, header_t *h, char *name);
-size_t djb_hash(const char* cp);
+size_t	djb_hash(char *str);
 int		nb_op(char *src);
 void    write_byte(t_inst *inst, int32_t value, int32_t size);
 void	get_binary(t_par *lst, t_inst *inst, int nb, int size);

@@ -35,9 +35,7 @@ int		search_valid_inst(char **line, t_par **list, int row)
 		if ((len = str_repoint(*line, inst[i])))
 		{
 			if (*(*line + len) == SPACE || *(*line + len) == '\t')
-			{
 				*list = add_parameter(*list, inst[i++], 6, row);
-			}
 			else
 				error_row("Lexical.", row);
 			ft_free_tab(inst);

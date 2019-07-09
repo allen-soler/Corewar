@@ -21,7 +21,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -g
+FLAGS = -Wall -g3 -fsanitize=address
 
 # program name
 
