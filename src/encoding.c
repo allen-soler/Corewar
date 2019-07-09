@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 00:30:29 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 00:36:02 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/10 00:45:37 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ void	encoding(t_par *lst, int fd, t_inst *inst)
 		}
 		else
 			check_type(lst, inst, tmp, i);
+		if (inst->size > CHAMP_MAX_SIZE)
+			exit(ft_fprintf(2, "Champ Size too big\n"));
 		lst = lst->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/09 22:40:08 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/10 00:54:03 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ int		main(int ac, char **av)
 	list = NULL;
 	if (ac == 2)
 	{
-		fd = open(av[1], O_RDONLY);
+		if ((fd = open(av[1], O_RDONLY)) == -1)
+			exit(ft_fprintf(2, "Wrong file descriptor\n"));
+		ft_printf("%i\n", fd);
 		line = ft_strdup("");
 		readfile(fd, &line);
 		close(fd);
