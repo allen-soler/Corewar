@@ -29,6 +29,7 @@ static intmax_t	handle_number(char *arg, intmax_t stock, int neg, int row)
 int				check_register(char *arg, t_par **list, int row)
 {
 	size_t	stock;
+	char	*tmp;
 
 	stock = 0;
 	if (*arg == 'r' && (ft_isdigit(*(arg + 1))))
@@ -46,7 +47,9 @@ int				check_register(char *arg, t_par **list, int row)
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			error_row("Invalid argument.", row);
 		arg = arg + 1;
-		*list = add_parameter(*list, ft_itoa(stock), 1, row);
+		tmp = ft_itoa(stock);
+		*list = add_parameter(*list, tmp, 1, row);
+		free(tmp);
 		return (0);
 	}
 	return (-1);
@@ -75,8 +78,7 @@ int				check_direct(char *arg, t_par **list, int row)
 		}
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			error_row("Invalid argument.", row);
-//		arg = arg + 1;
-		*list = add_parameter(*list, ft_itoa(stock), 3, row);
+		fix_leak(list, stock, 3, row);
 		return(0);
 	}
 	return (-1);
@@ -106,7 +108,7 @@ int				check_indirect(char *arg, t_par **list, int row)
 		if (*arg != '\0' && *arg != ',')
 			error_row("Invalid argument.", row);
 //		arg = arg + 1;
-		*list = add_parameter(*list, ft_itoa(stock), 4, row);
+		fix_leak(list, stock, 4, row);
 		return (0);
 	}
 	return (-1);
@@ -135,8 +137,7 @@ void			check_args(char **line, t_par **list, int row)
 	if (i > 3)
 		error_row("Can't have more than 3 arguments in an instruction.", row);
 	i = -1;
-	while (args[++i] != '\0')
-		free(args[i]);
+	ft_free_tab(args);
 	if (err > 0)
 		error_function(NULL, list);
 }

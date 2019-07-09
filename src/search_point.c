@@ -15,12 +15,18 @@
 char	*ignore_hash_comment(char *line)
 {
 	size_t	i;
+	size_t	j;
 
 	i = 0;
 	while (line && line[i] != '\0')
 	{
+		j = 0;
 		if (line[i] == '#')
-			ft_bzero(&line[i], ft_strlen(line));
+		{
+			while (line[i + j] != '\0')
+				j++;
+			ft_bzero(&line[i], j);
+		}
 		i++;
 	}
 	return (line);

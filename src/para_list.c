@@ -12,6 +12,15 @@
 
 #include "../includes/asm.h"
 
+void	fix_leak(t_par **list, intmax_t stock, int n, int row)
+{
+	char	*dest;
+
+	dest = ft_itoa(stock);
+	*list = add_parameter(*list, dest, n, row);
+	free(dest);
+}
+
 void	test_print(t_par *list)//delete when done!!
 {
 	char *str;
@@ -61,6 +70,8 @@ static void	add_par_extra(t_par *list, char *inst, int type, int row)
 	tmp->param = ft_strdup(inst);
 	tmp->type = type;
 	tmp->row = row;
+	tmp->cnt = 0;
+	tmp->pos = 0;
 	tmp->lbl_ptr = NULL;
 	tmp->next = NULL;
 	while (list->next)

@@ -65,5 +65,6 @@ void	check_syntax(t_par *list)
 	{
 		instruct = instructions_array();
 		match_instruction(tmp, instruct);
+		ft_free_tab(instruct);
 	}
 }

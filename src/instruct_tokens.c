@@ -37,15 +37,15 @@ int		search_valid_inst(char **line, t_par **list, int row)
 			if (*(*line + len) == SPACE || *(*line + len) == '\t')
 			{
 				*list = add_parameter(*list, inst[i++], 6, row);
-				ft_strdel(inst);
 			}
 			else
 				error_row("Lexical.", row);
+			ft_free_tab(inst);
 			return (len);
 		}
 		else
 			i++;
 	}
-	ft_strdel(inst);
+	ft_free_tab(inst);
 	return (0);
 }

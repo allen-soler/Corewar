@@ -72,42 +72,24 @@ int		token_automata(char *line, t_par **list, int state, int row)
 	instructions = ft_strsplit("ld st live add sub and or xor zjmp ldi sti \
 lld lldi lfork fork aff", ' ');
 	state = middlefunction(&line, state, list, row);
-	while (instructions[i] != '\0')
-		free(instructions[i++]);
+	ft_free_tab(instructions);
 	return (state);
 }
 
-t_par	*ingest_file(char *file, int row)
+void	ingest_file(t_par **list, char *line, int row)
 {
-	int			fd;
-	char		*line;
-	t_par		*list;
+	int			i;
+	char		**tab;
 	static int	state;
 
-	fd = open(file, O_RDONLY);
-	line = NULL;
-	list = NULL;
+	i = 0;
 	state = 0;
-	while (get_next_line(fd, &line) > 0)
+	tab = ft_strsplit(line, '\n');
+	while (tab[i])
 	{
-		state = token_automata(line, &list, state, row);
-		free(line);
+		state = token_automata(tab[i], list, state, row);
 		row++;
+		i++;
 	}
-	return (list);
-}
-
-int		main(int ac, char **av)
-{
-	t_par		*list;
-	static int	row;
-
-	list = NULL;
-	row = 1;
-	if (ac == 2)//add ft_endswith(av[1], ".s")
-		list = ingest_file(av[1], row);
-	else
-		error_custom("Choose one valid '.s' file to compile.\n", NULL);
-	check_syntax(list); // add row parameter to syntax
-	test_print(list);
+	ft_free_tab(tab);
 }

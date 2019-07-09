@@ -62,12 +62,14 @@ int		main(int ac, char **av)
 		line = ft_strdup("");
 		readfile(fd, &line);
 		close(fd);
-		ingest_file(&list, line);
+		ingest_file(&list, line, 1);
 		check_syntax(list);
 		order_list(&list);
 		to_binary(list, line, &header, av[1]);
 		free_list(list);
 		free(line);
 	}
+	else
+		error_custom("Choose one valid '.s' file to compile.\n", NULL);
 	return (0);
 }
