@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debbuging.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/09 17:25:49 by allespag          #+#    #+#             */
+/*   Updated: 2019/07/09 17:27:01 by allespag         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 void			d_display_process(t_env e, t_process *pro)
@@ -18,7 +30,7 @@ void			d_display_process(t_env e, t_process *pro)
 		i++;
 	}
 	ft_printf("\t<bold>PC</bold>: %d\n", pro->pc);
-	ft_printf("\t<bold>Carry</bold>: %d\n",pro->carry);
+	ft_printf("\t<bold>Carry</bold>: %d\n", pro->carry);
 	ft_printf("\t<bold>Alive</bold>: %d\n", pro->alive);
 	ft_printf("\t<bold>Player</bold>: %d, %s\n", pro->player, e.players[pro->player - 1].header.prog_name);
 	ft_printf("\t<bold>Color</bold>: %d\n", pro->color);
@@ -87,20 +99,18 @@ void			d_display_env(t_env env)
 	ft_printf("{PNK}--------------T_ENV-------------<rst>\n");
 	ft_printf("<bold>{cyn}Flag<rst></bold>:\n");
 	ft_printf("\t\t<bold>-Error</bold>: ");
-		(env.flag & FLAG_ERROR) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
+	(env.flag & FLAG_ERROR) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
 	ft_printf("\t\t<bold>-Help</bold>:  ");
-		(env.flag & FLAG_HELP) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
+	(env.flag & FLAG_HELP) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
 	ft_printf("\t\t<bold>-Verb %d</bold>:  ", env.verb);
-		(env.flag & FLAG_VERB) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
+	(env.flag & FLAG_VERB) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
 	ft_printf("\t\t<bold>-Dump</bold>:  ");
-		(env.flag & FLAG_DUMP) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
+	(env.flag & FLAG_DUMP) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
 	ft_printf("\t\t<bold>-Dbug</bold>:  ");
-		(env.flag & FLAG_DBUG) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
+	(env.flag & FLAG_DBUG) ? ft_printf("{GRN}[OK]<rst>\n") : ft_printf("{RED}[KO]<rst>\n");
 	d_display_players(env);
 	ft_putchar('\n');
-
 	ft_printf("{ylw}<bold>players_nb</bold> = %d<rst>\n", env.players_nb);
 	ft_printf("{ylw}<bold>dump</bold> = %d<rst>\n", env.dump);
-
 	ft_printf("{CYN}----------END_OF_T_ENV----------<rst>\n");
 }

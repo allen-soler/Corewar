@@ -72,7 +72,7 @@ typedef enum	e_error
 
 typedef char	t_flag;
 
-t_op    op_tab[17]; // TODO: eclare variable as global here, should look up how
+t_op    g_op_tab[17]; // TODO: eclare variable as global here, should look up how
 				
 
 typedef struct s_player
