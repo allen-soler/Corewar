@@ -1,24 +1,18 @@
-#include "vm.h"
-void		init_processes(t_env *env);
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/09 11:07:02 by allespag          #+#    #+#             */
+/*   Updated: 2019/07/09 11:29:34 by allespag         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	display_contestants(t_env *env)
-{
-	int		i;
+#include "../includes/vm.h"
 
-	i = 0;
-	ft_printf("Introducing contestants...\n");
-	while (i < env->players_nb)
-	{
-		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n"
-			, env->players[i].number
-			, env->players[i].header.prog_size
-			, env->players[i].header.prog_name
-			, env->players[i].header.comment);
-		i++;
-	}
-}
-
-int		main(int ac, char **av)
+int				main(int ac, char **av)
 {
 	t_env		env;
 

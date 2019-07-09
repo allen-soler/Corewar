@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_args.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/09 11:12:30 by allespag          #+#    #+#             */
+/*   Updated: 2019/07/09 15:12:18 by allespag         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
-static void	get_files(char **av, t_env *env)
+static void		get_files(char **av, t_env *env)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	while (i < MAX_PLAYERS)
@@ -16,97 +28,12 @@ static void	get_files(char **av, t_env *env)
 	}
 }
 
-static t_bool set_dump(char **av, int ac, int index, t_env *env)
+static int		set_player_turn(char **av, int ac, int index, t_env *env)
 {
-	t_bool		n_dump;
-
-	n_dump = FALSE;
-	if (ac == index)
-	{
-		set_error_value(env, ERROR_SPE_DUMP);
-		return (FALSE);
-	}
-	else
-	{
-		env->dump = ft_atoi_pimp(av[index], env);
-		if (env->flag & FLAG_ERROR)
-		{
-			env->flag ^= 1;
-			set_error_value(env, ERROR_SPE_DUMP);
-		}
-		else if (ac != index + 1)
-		{
-			env->n_dump = ft_atoi(av[index + 1]);
-			n_dump = (env->n_dump != 32 && env->n_dump != 64) ? FALSE : TRUE;
-			env->n_dump = (env->n_dump != 64) ? 32 : 64;
-			return (n_dump);
-		}
-	}
-	return (FALSE);
-}
-
-// i don't now if i did this right
-static void set_verb_level(char **av, int ac, int index, t_env *env)
-{
-	int		level;
-
-	if (ac == index)
-		set_error_value(env, ERROR_SPE_LEVL);
-	else
-	{
-		level =  ft_atoi_pimp(av[index], env); // check number
-		if ((env->flag & FLAG_ERROR) || level < 0 || level > 7)
-		{
-			env->flag ^= 1;
-			//we have to specify a verb lvl
-			set_error_value(env, ERROR_WRG_LEVL);
-		}
-		else
-			env->verb = (level == 0) ? 0 : (1 << (level - 1));
-	}
-}
-
-static int	set_flag(char **av, int ac, t_env *env)
-{
-	int		i;
-
-	i = 1;
-	if (ac == 1 || !ft_strcmp(av[1], "--help") || !ft_strcmp(av[1], "-h"))
-		env->flag |= FLAG_HELP;
-	else
-	{
-		while (i < ac)
-		{
-			if ((!ft_strcmp(av[i], "-v") || !ft_strcmp(av[i], "--verbose")) && ++i)
-			{
-				env->flag |= FLAG_VERB;
-				set_verb_level(av, ac, i, env);
-				i++;
-			}
-			else if ((!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "--dump") || !ft_strcmp(av[i], "-dump")) && ++i)
-			{
-				env->flag |= FLAG_DUMP;
-				i += set_dump(av, ac, i, env) + 1;
-			}
-			else if ((!ft_strcmp(av[i], "-db") || !ft_strcmp(av[i], "--debbug")) && ++i)
-			{
-				env->flag |= FLAG_DBUG;
-				g_debug = 1;
-			}
-			else
-				break ;
-		}
-	}
-	return (i);
-}
-
-static int	set_player_turn(char **av, int ac, int index, t_env *env)
-{
-	int		turn;
+	int			turn;
 
 	if (ac == index)
 	{
-		// there is no turn specify
 		set_error_value(env, ERROR_SPE_NUMB);
 		return (-1);
 	}
@@ -119,9 +46,9 @@ static int	set_player_turn(char **av, int ac, int index, t_env *env)
 	return (turn - 1);
 }
 
-static int	choose_turn(int used, t_env *env)
+static int		choose_turn(int used, t_env *env)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	while (i < MAX_PLAYERS)
@@ -131,12 +58,11 @@ static int	choose_turn(int used, t_env *env)
 		else
 			i++;
 	}
-	// already 4 players
 	set_error_value(env, ERROR_CHAMPION);
 	return (-1);
 }
 
-static void	set_players(char **av, int ac, int i, t_env *env)
+static void		set_players(char **av, int ac, int i, t_env *env)
 {
 	int			turn;
 	int			used;
@@ -149,7 +75,6 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			turn = set_player_turn(av, ac, i, env);
 			if (turn == -1 || used & (1 << turn))
 			{
-				// turn already set
 				set_error_value(env, ERROR_SME_NUMB);
 				return ;
 			}
@@ -167,7 +92,6 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 			turn = choose_turn(used, env);
 			if (turn == -1)
 			{
-				// turn already set
 				set_error_value(env, ERROR_SME_NUMB);
 				return ;
 			}
@@ -182,14 +106,13 @@ static void	set_players(char **av, int ac, int i, t_env *env)
 		}
 		else
 		{
-			// unknown argv
 			set_error_value(env, ERROR_UNK_ARGV);
 			return ;
 		}
 	}
 }
 
-static void	shift_players(t_env *env)
+static void		shift_players(t_env *env)
 {
 	int			i;
 	int			j;
@@ -217,18 +140,7 @@ static void	shift_players(t_env *env)
 	}
 }
 
-void	display_help(t_env *env)
-{
-	ft_printf("Usage: ./corewar [-d N | -v] [[-n N <champion.cor>] <...>]\n\n");
-	ft_printf("options:\n");
-	ft_printf("\t--help (-h)\t: Show this message\n");
-	ft_printf("\t--dump N (-d N)\t: Dump memory after N cycles then exits\n");
-	ft_printf("\t--verbose (-v)\t: Verbose mode (TODO: EXPLAIN ALL THE DIFFERENT MODE NESTORINO)");
-	exit_vm(env, (env->flag & FLAG_ERROR) ? EXIT_FAILURE : EXIT_SUCCESS);
-}
-
-//TODO: FLAG_VISU must be the only flag
-void		parsing_args(char **av, int ac, t_env *env)
+void			parsing_args(char **av, int ac, t_env *env)
 {
 	int			i;
 

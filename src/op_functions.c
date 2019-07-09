@@ -18,7 +18,6 @@ void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 		uint8_t tmp = ZMASK((value >> i));
 		uint16_t ptr = POSMOD(addr + size - 1);
 		e->arena[ptr].data = tmp;
-		e->arena[ptr].player = 3;
 		i += 8;
 	}
 }
