@@ -46,9 +46,9 @@ foreach ($argv as $arg)
 
 $i = $from;
 
-while (true) {
-	$vm1_command = "$vm1 -dump $i 64 $players ";
-	$vm2_command = "$vm2 -d $i $players ";
+while ($i < 100000) {
+	$vm1_command = "$vm1 -dump $i $players ";
+	$vm2_command = "$vm2 -dump $i $players ";
 	$vm1_output = `$vm1_command > /tmp/vm1_output`;
 	$vm2_output = `$vm2_command > /tmp/vm2_output`;
 
