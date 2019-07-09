@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/09 12:32:47 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 14:04:55 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef struct		s_par
 
 void	error_function(char *string, t_par **list);
 void	error_custom(char *message, t_par *list);
-void	error_state(int state, int row);
 void	error_row(char *message, int row);
+void	error_state(int state, int row);
 
 /**
  *		Handle labels
@@ -67,7 +67,7 @@ void	test_print(t_par *list);//will have to delete when done
 char	*skip_space(char *line);
 int		check_comma(char *line, int row);
 size_t	str_repoint(char *haystack, char *needle);
-void	travel_states(char **line, int state);
+void	travel_states(char **line, int state, int row);
 char	*ignore_hash_comment(char *line);
 
 /**

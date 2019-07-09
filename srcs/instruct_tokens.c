@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 20:56:35 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 12:16:31 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 13:54:14 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		search_valid_inst(char **line, t_par **list, int row)
 				ft_strdel(inst);
 			}
 			else
-				error_row("Non-existant instruction.", row);
+				error_row("Lexical.", row);
 			return (len);
 		}
 		else

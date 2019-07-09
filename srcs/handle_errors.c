@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 17:13:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/08 19:18:53 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 14:04:09 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ void	error_function(char *string, t_par **list)
 
 void	error_state(int state, int row)
 {
-	if (state >= 0 && state < 7)
+	if (state > 0 && state < 7)
 		error_row("Invalid header.", row);
+	else if (state == 0)
+		error_row("Lexical.", row);
 }
 
 void	error_row(char *message, int row)

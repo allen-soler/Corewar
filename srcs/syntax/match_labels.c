@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:10:25 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 12:38:42 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 13:55:21 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_par	*search_label(t_par *to_label, t_par *tmp, int *count)
 		}
 		search_lab = search_lab->next;
 	}
-	error_row("Did not find matchine label.", to_label->row);
+	error_row("Did not find matching label.", to_label->row);
 	return (0);
 }
 
@@ -57,5 +57,5 @@ void	match_labels(t_par *tmp, t_par *head)
 		tmp2 = tmp2->next;
 	}
 	if (!count || (count != count_ptrs))
-		error_row("Did not find matching label(s) to argument(s).", tmp->row);
+		error_row("Did not find matching label.", tmp->row);
 }

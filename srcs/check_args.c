@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 12:18:16 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 14:23:06 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int				check_direct(char *arg, t_par **list, int row)
 		}
 		if (*(arg + 1) != '\0' && *(arg + 1) != ',')
 			error_row("Invalid argument.", row);
-		arg = arg + 1;
+//		arg = arg + 1;
 		*list = add_parameter(*list, ft_itoa(stock), 3, row);
 		return(0);
 	}
@@ -106,7 +106,7 @@ int				check_indirect(char *arg, t_par **list, int row)
 		}
 		if (*arg != '\0' && *arg != ',')
 			error_row("Invalid argument.", row);
-		arg = arg + 1;
+//		arg = arg + 1;
 		*list = add_parameter(*list, ft_itoa(stock), 4, row);
 		return (0);
 	}
@@ -131,7 +131,7 @@ void			check_args(char **line, t_par **list, int row)
 		err += check_direct(args[i], list, row);
 		err += check_indirect(args[i], list, row);
 		if (err == -3)
-			error_row("Invalid argument.", row);
+			error_row("Invalid parameter.", row);
 	}
 	if (i > 3)
 		error_row("Can't have more than 3 arguments in an instruction.", row);
