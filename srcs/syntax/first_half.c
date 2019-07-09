@@ -6,24 +6,24 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:53:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/01 14:06:08 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 12:19:28 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "op.h"
 
-t_par	*class_1(t_par *tmp, t_par *head)
+t_par	*class_1(t_par *tmp)
 {
 	tmp = tmp->next;
 	if (tmp && (tmp->type == 3 || tmp->type == 5)
 			&& remaining_tokens(tmp))
 		return (tmp->next);
-	error_custom("Invalid argument(s) for 'live'.\n", head);
+	error_row("Invalid argument(s) for 'live'.", tmp->row);
 	return (tmp);
 }
 
-t_par	*class_2(t_par *tmp, t_par *head)
+t_par	*class_2(t_par *tmp)
 {
 	tmp = tmp->next;
 	if (tmp && (tmp->type == 3 || tmp->type == 5)
@@ -32,11 +32,11 @@ t_par	*class_2(t_par *tmp, t_par *head)
 		tmp = convert_size_direct(tmp);
 		return (tmp->next);
 	}
-	error_custom("Invalid argument(s) for 'zjmp' | 'fork' | 'lfork'.\n", head);
+	error_row("Invalid argument(s) for 'zjmp' | 'fork' | 'lfork'.", tmp->row);
 	return (tmp);
 }
 
-t_par	*class_3(t_par *tmp, t_par *head)
+t_par	*class_3(t_par *tmp)
 {
 	tmp = tmp->next;
 	if (tmp && (tmp->type == 3 || tmp->type == 5
@@ -46,11 +46,11 @@ t_par	*class_3(t_par *tmp, t_par *head)
 		if (tmp && (tmp->type == 1) && remaining_tokens(tmp))
 			return (tmp->next);
 	}
-	error_custom("Invalid argument(s) for 'ld' | 'lld'.\n", head);
+	error_row("Invalid argument(s) for 'ld' | 'lld'.", tmp->row);
 	return (tmp);
 }
 
-t_par	*class_4(t_par *tmp, t_par *head)
+t_par	*class_4(t_par *tmp)
 {
 	tmp = tmp->next;
 	if (tmp && (tmp->type == 1))
@@ -60,6 +60,6 @@ t_par	*class_4(t_par *tmp, t_par *head)
 				&& remaining_tokens(tmp))
 			return (tmp->next);
 	}
-	error_custom("Invalid argument(s) for 'st'.\n", head);
+	error_row("Invalid argument(s) for 'st'.", tmp->row);
 	return (tmp);
 }

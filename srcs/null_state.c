@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/08 19:15:40 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 12:17:56 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		null_state(char **line, int state, t_par **list, int row)
 	else if ((repoint = str_repoint(*line, COMMENT_CMD_STRING))
 		|| (state > 5 && state <= 7))
 		state = 5;
-	else if ((repoint = set_label(line, list)))
+	else if ((repoint = set_label(line, list, row)))
 	{
 		state = 20;
 		repoint = search_valid_inst(line, list, row);
@@ -51,9 +51,9 @@ int		middlefunction(char **line, int state, t_par **list, int row)
 	if (state == 0)
 		state = null_state(line, state, list, row);
 	if (state >= 1 && state <= 3)
-		state = name_token(line, state, list);
+		state = name_token(line, state, list, row);
 	else if (state >= 5 && state <= 7)
-		state = init_comm_token(line, state, list);
+		state = init_comm_token(line, state, list, row);
 	else if (state == 20)
 		check_args(line, list, row);
 	if (state < 0)

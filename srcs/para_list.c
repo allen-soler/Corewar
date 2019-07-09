@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:10:03 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/06 19:34:03 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 12:18:43 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,16 @@ void	test_print(t_par *list)//delete when done!!
 	dprintf(1, "\n");
 }
 
-static void	add_par_extra(t_par *list, t_par *tmp, char *inst, int type)
+static void	add_par_extra(t_par *list, char *inst, int type, int row)
 {
+	t_par *tmp;
+
 	tmp = list;
 	if (!(tmp = malloc(sizeof(t_par))))
 		return ;
 	tmp->param = ft_strdup(inst);
 	tmp->type = type;
+	tmp->row = row;
 	tmp->lbl_ptr = NULL;
 	tmp->next = NULL;
 	while (list->next)
@@ -66,7 +69,7 @@ static void	add_par_extra(t_par *list, t_par *tmp, char *inst, int type)
 	list->next = tmp;
 }
 
-t_par	*add_parameter(t_par *list, char *inst, int type)
+t_par	*add_parameter(t_par *list, char *inst, int type, int row)
 {
 	t_par	*tmp;
 	t_par	*head;
@@ -80,11 +83,12 @@ t_par	*add_parameter(t_par *list, char *inst, int type)
 			return (NULL); 
 		list->param = ft_strdup(inst);
 		list->type = type;
+		list->row = row;
 		list->lbl_ptr = NULL;
 		list->next = NULL;
 		head = list;
 	}
 	else
-		add_par_extra(list, tmp, inst, type);
+		add_par_extra(list, inst, type, row);
 	return (head);
 }

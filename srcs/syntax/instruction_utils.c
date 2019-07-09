@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:46:44 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/06 19:36:20 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 12:20:14 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,28 @@ t_par	*convert_size_direct(t_par *list)
 
 int		check_class(int cur)
 {
-	int class;
+	int group;
 
-	class = 0;
+	group = 0;
 	if (cur == 0 || cur == 11)
-		class = 7;
+		group = 7;
 	else if (cur == 1)
-		class = 8;
+		group = 8;
 	else if (cur == 2)
-		class = 4;
+		group = 4;
 	else if (cur == 3)
-		class = 1;
+		group = 1;
 	else if (cur == 4 || cur == 5)
-		class = 5;
+		group = 5;
 	else if (cur == 6 || cur == 7 || cur == 8)
-		class = 6;
+		group = 6;
 	else if (cur == 9 || cur == 13 || cur == 14)
-		class = 2;
+		group = 2;
 	else if (cur == 10 || cur == 12)
-		class = 3;
+		group = 3;
 	else if (cur == 15)
-		class = 9;
-	return (class);
+		group = 9;
+	return (group);
 }
 
 t_par	*next_inst(t_par *list)
