@@ -29,7 +29,6 @@ def unidiff_output(expected: str, actual: str) -> str:
 
 	return ''.join(diff)
 
-
 def query_yes_no(question: str, default = "yes") -> bool:
 	valid = {"yes": True, "y": True,
              "no": False, "n": False}
@@ -48,6 +47,11 @@ def query_yes_no(question: str, default = "yes") -> bool:
 			"(or 'y' or 'n').\n")
 
 
+def compile_champions():
+	files = get_all_files(".s", ".")
+
+	for file in files:
+		subprocess.run("./asm {}".format(file), shell=True)
 
 files = get_all_files(".cor", ".")
 
@@ -56,10 +60,17 @@ failed = []
 diff_exit_code = []
 
 test_everything = False
+compare_dumps = False
+dump_step_size = 1
 
 
 if "--everything" in sys.argv:
 	test_everything = True
+
+if "--dumps" in sys.argv:
+	compare_dumps = True
+	dump_step_size = sys.argv[list(sys.argv).index("--dumps") + 1]
+	print("Dump set, comparing every {} cycles".format(dump_step_size))
 
 
 error = False
@@ -76,7 +87,7 @@ for i in range(1, 5):
 			completed1 = subprocess.run(
 				"{} {}".format("./corewar -v 0", champs),
 				stdout = subprocess.PIPE,
-				timeout=5,
+				timeout=10,
 				shell = True
 			)
 		except subprocess.TimeoutExpired:
@@ -87,7 +98,7 @@ for i in range(1, 5):
 			completed2 = subprocess.run(
 				"{} {}".format("./resources/orig_vm -v 0", champs),
 				stdout = subprocess.PIPE,
-				timeout=5,
+				timeout=10,
 				shell = True
 			)
 		except subprocess.TimeoutExpired:
@@ -114,8 +125,12 @@ for i in range(1, 5):
 				error = True
 				break
 
+		if compare_dumps is True:
+			subprocess.run("./scripts/compare_vm.php --cycles 1 {0} './corewar -v 0' './resources/orig_vm -v 0' {1}".format(dump_step_size, champs),
+							shell=True,
+							check=True)
+
 print("Difference found on the following champions:")
 print("\n".join(failed))
 print("Different exit code with the next ones:")
 print("\n".join(diff_exit_code))
-
