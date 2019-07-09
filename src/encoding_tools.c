@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   encoding_tools.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/09 23:10:19 by jallen            #+#    #+#             */
+/*   Updated: 2019/07/10 00:28:33 by jallen           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/asm.h"
 
-size_t djb_hash(char *str)
+size_t	djb_hash(char *str)
 {
 	unsigned long	hash;
 	int				c;
@@ -27,7 +39,26 @@ int		nb_op(char *src)
 	return (i);
 }
 
-void    write_byte(t_inst *inst, int32_t value, int32_t size)
+void	prog_size(int value, int size, header_t *h)
+{
+	int		len;
+	int8_t	i;
+	int8_t	tmp;
+
+	i = 0;
+	tmp = 0;
+	len = 11;
+	while (size > 0)
+	{
+		tmp = ZMASK((value >> i));
+		h->comment[len] = tmp;
+		len--;
+		size--;
+		i += 8;
+	}
+}
+
+void	write_byte(t_inst *inst, int32_t value, int32_t size)
 {
 	int		len;
 	int8_t	i;

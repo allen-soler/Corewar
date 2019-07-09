@@ -6,7 +6,7 @@
 #    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/07/01 16:10:10 by jallen           ###   ########.fr        #
+#    Updated: 2019/07/10 00:17:07 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -g3 -fsanitize=address
+FLAGS = -Wall -g3
 
 # program name
 
@@ -60,6 +60,7 @@ SOURCES =	check_args.c		\
 			handle_errors.c		\
 			main.c				\
 			para_list.c			\
+			parsing_tools.c		\
 			token_automata.c
 
 # header files

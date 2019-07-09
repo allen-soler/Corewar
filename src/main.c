@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/09 13:25:00 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/09 22:40:08 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int		main(int ac, char **av)
 		readfile(fd, &line);
 		close(fd);
 		list = ingest_file(av[1], 1);
-		ft_printf("%s\n", list->param);
 		check_syntax(list);
 		order_list(&list);
 		to_binary(list, line, &header, av[1]);

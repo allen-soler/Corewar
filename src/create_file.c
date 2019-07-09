@@ -6,19 +6,25 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 15:43:01 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/05 14:09:07 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/10 00:17:26 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
-# define  BUFF_SIZE 1000000
 
-int	open_file(char	*src, int fd)
+static int	open_file(char *src, int fd)
 {
 	int		i;
+	int		len;
 	char	*name;
-	
+
 	i = 0;
+	len = ft_strlen(src);
+	if (len <= 2 && src[len - 1] != 's' && src[len - 2] != '.')
+	{
+		ft_fprintf(2, "Wrong file format, please try \"name\".s");
+		exit(1);
+	}
 	while (src[i] && src[i] != '.')
 		i++;
 	src[i] = '\0';
@@ -29,15 +35,13 @@ int	open_file(char	*src, int fd)
 	return (fd);
 }
 
-void	name(int fd, uint32_t x, header_t *h, char *src)
+static void	name(int fd, uint32_t x, header_t *h, char *dest)
 {
 	int				i;
-	char			**tab;
 	unsigned char	byte;
 
 	i = 0;
-	tab = ft_strsplit(src, '"');
-	while (i < 4 + ft_strlen(tab[1]))
+	while (i < 4 + ft_strlen(dest))
 	{
 		if (i < 4)
 		{
@@ -45,61 +49,38 @@ void	name(int fd, uint32_t x, header_t *h, char *src)
 			h->prog_name[i] = byte;
 		}
 		else
-			h->prog_name[i] = tab[1][i - 4];
+			h->prog_name[i] = dest[i - 4];
 		i++;
 	}
-	ft_free_tab(tab);
+	free(dest);
 }
 
-void	comment(int fd, header_t *h, char *src)
+static void	comment(int fd, header_t *h, char *src)
 {
-	char	**tab;
 	int		i;
 
 	i = 0;
-	tab = ft_strsplit(src, '"');
-	while (i < ft_strlen(tab[1]))
+	while (i < ft_strlen(src))
 	{
-		h->comment[i + 12] = tab[1][i];
+		h->comment[i + 12] = src[i];
 		i++;
 	}
-	ft_free_tab(tab);
+	free(src);
 }
 
-void	prog_size(int value, int size, header_t *h)
+void		to_binary(t_par *lst, char *src, header_t *h, char *n_file)
 {
-	int		len;
-	int8_t	i;
-	int8_t	tmp;
-
-	i = 0;
-	tmp = 0;
-	len = 11;
-	while (size > 0)	
-	{
-		tmp = ZMASK((value >> i));
-		h->comment[len] = tmp;
-		len--;
-		size--;
-		i += 8;
-	}
-}
-void	to_binary(t_par *lst, char *src, header_t *h, char *n_file)
-{
-	char		**tab;
 	int			fd;
 	t_inst		inst;
 
 	fd = 0;
-	tab = ft_strsplit(src, '\n');
 	fd = open_file(n_file, fd);
-	ft_bzero(h->prog_name, PROG_NAME_LENGTH + 1); 
-	ft_bzero(h->comment, COMMENT_LENGTH + 17); 
-	name(fd, COREWAR_EXEC_MAGIC, h, &tab[0][5]);
-	comment(fd, h, &tab[1][8]);
+	ft_bzero(h->prog_name, PROG_NAME_LENGTH + 1);
+	ft_bzero(h->comment, COMMENT_LENGTH + 17);
+	name(fd, COREWAR_EXEC_MAGIC, h, find_index(lst, src));
+	comment(fd, h, find_index(lst->next, src));
 	encoding(lst, fd, &inst);
 	prog_size(inst.size, 4, h);
-	ft_free_tab(tab);
 	write(fd, h->prog_name, 128);
 	write(fd, h->comment, 2048 + 16);
 	write(fd, inst.tab, inst.size);

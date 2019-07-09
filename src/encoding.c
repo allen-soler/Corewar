@@ -1,30 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   encoding.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/10 00:30:29 by jallen            #+#    #+#             */
+/*   Updated: 2019/07/10 00:36:02 by jallen           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/asm.h"
-
-int		counting_label(t_par *lst, int nb, t_inst *inst)
-{
-	int		i;
-	t_par	*tmp;
-
-	i = 0;
-	tmp = lst;
-	while (tmp)
-	{
-		if (tmp->type == 6)
-			i = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
-		else if (tmp->type == 1)
-			i += 1;
-		else if (tmp->type == 2 || tmp->type == 15 || tmp->type == 4 || tmp->type == 9)
-			i += 2;
-		else if (tmp->type == 3 || tmp->type == 5)
-			i += 4;
-		inst->param_steps += 1;
-		tmp = tmp->next;
-		if (tmp)
-			if (tmp->type == 6 || tmp->type == 7)
-				break ;
-	}
-	return (i);
-}
 
 int		label_aff(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 {
@@ -39,7 +25,8 @@ int		label_aff(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 			i = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
 			i += 1;
-		else if (tmp->type == 2 || tmp->type == 15 || tmp->type == 4 || tmp->type == 9)
+		else if (tmp->type == 2 || tmp->type == 15
+				|| tmp->type == 4 || tmp->type == 9)
 			i += 2;
 		else if (tmp->type == 3 || tmp->type == 5)
 			i += 4;
@@ -61,7 +48,8 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 			i = op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
 			i += 1;
-		else if (tmp->type == 2 || tmp->type == 15 || tmp->type == 4 || tmp->type == 9)
+		else if (tmp->type == 2 || tmp->type == 15
+				|| tmp->type == 4 || tmp->type == 9)
 			i += 2;
 		else if (tmp->type == 3 || tmp->type == 5)
 			i += 4;
@@ -74,7 +62,7 @@ int		label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
 	nb = lst->lbl_ptr->pos < tmp->pos ? label_aff(tmp, lst->lbl_ptr, nb, inst)\
-		 : label_start(lst->lbl_ptr, tmp, nb, inst);
+	: label_start(lst->lbl_ptr, tmp, nb, inst);
 	if (lst->type == 5)
 		write_byte(inst, nb, 4);
 	else if (lst->type == 15 || lst->type == 9)

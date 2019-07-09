@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/05 14:33:38 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/10 00:38:47 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,35 @@ typedef struct		s_par
 	int				row;
 	struct s_par	*lbl_ptr;
 	struct s_par	*next;
-}					t_par;
+}					t_par; 
 
 t_op				op_tab[17];
 
 //1: REG_CODE, 2: DIR_2Bytes, 3: DIR_4Bytes
 //4: IND 5: DIR_LAB4_bytes 6: inst 7: LABEL 8: comment 9: IND_LAB 15: DIR_LAB2Bytes
 
-void	readfile(int fd, char **line);
-t_par	*ingest_file(char *file, int row);
-void	encoding(t_par *lst, int fd, t_inst *inst);
-void	to_binary(t_par *lst, char *src, header_t *h, char *name);
-size_t	djb_hash(char *str);
-int		nb_op(char *src);
-void    write_byte(t_inst *inst, int32_t value, int32_t size);
-void	get_binary(t_par *lst, t_inst *inst, int nb, int size);
+void				readfile(int fd, char **line);
+t_par				*ingest_file(char *file, int row);
+void				encoding(t_par *lst, int fd, t_inst *inst);
+void				to_binary(t_par *lst, char *src, header_t *h, char *name);
 
+/**
+*		Parsing Tools
+**/
 
+char				*n_string(char *src);
+char				*find_index(t_par *lst, char *src);
+int					counting_label(t_par *lst, int nb, t_inst *inst);
+
+/**
+*		Encoding Tools
+**/
+
+size_t				djb_hash(char *str);
+int					nb_op(char *src);
+void				write_byte(t_inst *inst, int32_t value, int32_t size);
+void				get_binary(t_par *lst, t_inst *inst, int nb, int size);
+void				prog_size(int value, int size, header_t *h);
 
 /**
 *		Error handling

@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:10:25 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 13:55:21 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/09 22:00:32 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ void	match_labels(t_par *tmp, t_par *head)
 			count_ptrs++;
 		tmp2 = tmp2->next;
 	}
-	if (!count || (count != count_ptrs))
+	if (tmp && (!count || (count != count_ptrs)))
 		error_row("Did not find matching label.", tmp->row);
 }
