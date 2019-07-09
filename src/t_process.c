@@ -10,7 +10,6 @@ t_process		*new_process(int player, int alive, int pid)
 	ft_bzero(new->regs, sizeof(int) * REG_NUMBER);
 	new->alive = 0; // this is wrong
 	new->player = player;
-	new->regs[0] = player;
 	new->op_code = -1;
 	new->pid = pid + 1;
 	new->cycle = 0;

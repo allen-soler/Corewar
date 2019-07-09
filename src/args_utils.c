@@ -8,8 +8,8 @@
  **
  ** @return total size of the arguments
  **
- */ 
 
+ */ 
 int		get_args_len(t_process *cursor, t_op op)
 {
 	int				size;
@@ -62,6 +62,7 @@ void	reset_args(t_process *cursor)
 		cursor->args[i].value = 0;
 		i += 1;
 	}
+	cursor->a_len = 0;
 }
 
 /*
@@ -111,79 +112,54 @@ void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
 		verb_string = ft_strjoin(verb_string, ft_cprintf(" %d", args[i].value));
 }
 
+int		read_type(t_env *e, t_process *cursor, t_op op, int i)
+{
+	int type;
+	int arg_len;
+
+	arg_len = 0;
+	if (op.encoding_byte)
+	{
+		type = e->arena[(cursor->pc + 1) % MEM_SIZE].data;
+		type = (type >> ((3 - i) * 2) & 3); // another solution for this 3?
+		if (type == 0b11)
+			type = T_IND;
+		cursor->args[i].type = type;
+		arg_len = 1;
+		if ((op.direct_size == 1 && type == T_DIR) || type == T_IND)
+			arg_len = IND_SIZE;
+		else if (type == T_DIR && op.direct_size == 0)
+			arg_len = DIR_SIZE;
+	}
+	else
+	{
+		cursor->args[i].type = T_DIR;
+		arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
+	}
+	return (arg_len);
+}
+
 int		read_args(t_env *e, t_process *cursor, t_op op)
 {
 	int				i;
-	int				type;
 	int				arg_len;
-	int				offset;
-	int				current_pc_extra_in_case_of_fail;
 
 	VERB(VERB_OP, verb_string = ft_cprintf("P%5d | %s", cursor->pid, op.name));
-	offset = 1 + op.encoding_byte;
-	current_pc_extra_in_case_of_fail = offset;
-	e->arena[cursor->pc].player = 2;
 	reset_args(cursor);
+	cursor->a_len = 1 + op.encoding_byte;
 	i = 0;
 	while (i < op.param_nb)
 	{
-		if (op.encoding_byte)
-		{
-			type = e->arena[(cursor->pc + 1) % MEM_SIZE].data;
-			if (type >> (i * 2) != 0)
-			{
-				/*
-				 ** In this bitwise operation we are taking the byte that
-				 ** represents the arguments and taking the last two bytes (& 3 should do the work),
-				 ** after previously shifting to right in reversed order (type >> decresing_size).
-				 */
-
-				type = (type >> ((3 - i) * 2) & 3); // that 3 is not the best solution
-				if (type == 0b11)
-					type = T_IND;
-				cursor->args[i].type = type;
-
-				/*
-				 ** An argument can have a different size depending on both it's
-				 ** type and the op_code.
-				 ** For example a direct type (T_DIR) can have a size of 4 or 2 bytes,
-				 ** while an indirect type (T_IND) will always have a size of 2 bytes
-				 ** and a register (T_REG) will always have a size of 1 byte.
-				 */
-
-				arg_len = 1;
-				if ((op.direct_size == 1 && type == T_DIR) || type == T_IND)
-				{
-					arg_len = 2;
-				}
-				else if (type == T_DIR && op.direct_size == 0)
-				{
-					arg_len = 4;
-				}
-			}
-		}
-		else
-		{
-			/*
-			 **	When an instruction doesn't have an encoding byte it'll always have one argument
-			 **	and it's always of type T_DIR
-			 */
-
-			cursor->args[i].type = T_DIR;
-			arg_len = (op.direct_size == 1) ? 2 : DIR_SIZE;
-		}
-		cursor->args[i].value = mix_bytes(e, cursor, offset, arg_len);
-		if (!(cursor->args[i].type == T_DIR || cursor->args[i].type == T_IND || cursor->args[i].type == T_REG) ||
-		(op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
+		arg_len = read_type(e, cursor, op, i);
+		cursor->args[i].value = mix_bytes(e, cursor, cursor->a_len, arg_len);
+		cursor->a_len += arg_len;
+		if ((op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
 		(cursor->args[i].type == T_REG && (cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
 		{
-			current_pc_extra_in_case_of_fail += arg_len;
-			cursor->pc = POSMOD(cursor->pc + current_pc_extra_in_case_of_fail);
+			cursor->pc = POSMOD(cursor->pc + cursor->a_len);
 			return (0);
 		}
 		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));
-		offset += arg_len;
-		current_pc_extra_in_case_of_fail += arg_len;
 		i += 1;
 	}
 	VERB(VERB_OP, ft_printf("%s", verb_string));
