@@ -46,7 +46,7 @@ void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod)
 		else if ((cursor->args[i].type & T_IND) && ind_mod == FALSE)
 			cursor->args[i].value = mix_bytes(env, cursor, cursor->args[i].value, DIR_SIZE);
 		else
-			ft_printf("{r}There is a problem in shift_args ; REMOVE THIS LINE{R}\n");
+			ft_printf("{r}There is a problem in shift_args ; REMOVE THIS LINE{R}\n"); // this is no bueno
 		i++;
 	}
 }
@@ -114,14 +114,16 @@ void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
 
 int		read_type(t_env *e, t_process *cursor, t_op op, int i)
 {
-	int type;
+	uint8_t type;
 	int arg_len;
 
 	arg_len = 0;
 	if (op.encoding_byte)
 	{
 		type = e->arena[(cursor->pc + 1) % MEM_SIZE].data;
-		type = (type >> ((3 - i) * 2) & 3); // another solution for this 3?
+		type = (type >> ((3 - i) * 2) & 0b11);
+		if (type == 0)
+			return (-1);
 		if (type == 0b11)
 			type = T_IND;
 		cursor->args[i].type = type;
@@ -153,6 +155,12 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 	while (i < op.param_nb)
 	{
 		arg_len = read_type(e, cursor, op, i);
+		if (arg_len < 0)
+		{
+			fail = TRUE;
+			i += 1;
+			continue;
+		}
 		cursor->args[i].value = mix_bytes(e, cursor, cursor->a_len, arg_len);
 		if ((g_op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
 		(cursor->args[i].type == T_REG && (cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))

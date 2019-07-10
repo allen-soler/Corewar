@@ -23,21 +23,9 @@ static void		launch_instruction(t_vm *vm, int proc)
 		if (vm->verbosity >= VE_OPS)
 			ft_printf("\n");
 	}
-	if (vm->verbosity >= VE_PC_MOVE && vm->procs.d[proc].op_id != 8)
-	{
-		ft_printf("ADV %i (%#06x -> %#06x) ",
-			vm->procs.d[proc].new_pc - vm->procs.d[proc].pc,
-			vm->procs.d[proc].pc,
-			vm->procs.d[proc].new_pc);
-		i = -1;
-		while (++i + vm->procs.d[proc].pc < vm->procs.d[proc].new_pc)
-			ft_printf("%02x ",
-				vm->arena[(vm->procs.d[proc].pc + i) % MEM_SIZE]);
-		ft_printf("\n");
-	}
 	vm->procs.d[proc].pc = vm->procs.d[proc].new_pc % MEM_SIZE;
-	vm->procs.d[proc].new_pc = 0;
-}
+	ft_printf("PC: %d, pid: %d\n", vm->procs.d[proc].pc, vm->procs.d[proc].pid);
+	vm->procs.d[proc].new_pc = 0; }
 
 void			read_instruction(t_vm *vm, int proc)
 {

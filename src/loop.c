@@ -33,6 +33,7 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 			VERB(VERB_OP, ft_printf("\n"));
 		}
 		cursor->pc = POSMOD(cursor->pc + cursor->a_len);
+		//if (!hehe) ft_printf("PC: %d, pid: %d\n", cursor->pc, cursor->pid);
 	}
 	cursor->op_code = -1;
 }
@@ -123,18 +124,8 @@ static int		check_live(t_env *e, t_loop *l)
 			index = index->next;
 		}
 	}
-	/*  not necessary i think
-	int i = 0;
-	while (i < e->players_nb)
-	{
-
-		e->players[i].alive = 0;
-		i += 1;
-	}
-	*/
 	return (alive);
 }
-
 
 static void		exec_process(t_env *env)
 {

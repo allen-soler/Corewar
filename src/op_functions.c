@@ -190,6 +190,7 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 	child = new_process(cursor->player, cursor->alive, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + cursor->args[0].value);
+	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
 	push_process_front(&e->cursors, child);
 	read_instruction(e, child, FALSE);
 }
