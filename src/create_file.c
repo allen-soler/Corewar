@@ -20,9 +20,9 @@ static int	open_file(char *src, int fd)
 
 	i = 0;
 	len = ft_strlen(src);
-	if (len <= 2 && src[len - 1] != 's' && src[len - 2] != '.')
+	if (len <= 2 || (src[len - 1] != 's' && src[len - 2] != '.'))
 	{
-		ft_fprintf(2, "Wrong file format, please try \"name\".s");
+		ft_fprintf(2, "Wrong file format, please try \"name\".s\n");
 		exit(1);
 	}
 	while (src[i] && src[i] != '.')

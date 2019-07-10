@@ -42,7 +42,7 @@ static int	label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 
 	i = 0;
 	j = 0;
-	if (tmp->pos < lst->next->pos)
+	if (tmp && lst->next && tmp->pos < lst->next->pos)
 		j = 1;
 	while (tmp)
 	{
