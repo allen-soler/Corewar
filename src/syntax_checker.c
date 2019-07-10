@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 17:43:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 12:24:07 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/10 17:10:44 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ void	check_syntax(t_par *list)
 
 	tmp = NULL;
 	match_labels(tmp, list);
+	if (!(list && list->next && !ft_strcmp(list->param, ".name")
+		&& !ft_strcmp(list->next->param, ".comment")
+		&& (list->next->next == NULL || list->next->next->type != 0)))
+		error_custom("Invalid header.\n", list);
 	tmp = next_inst(list);
 	if (tmp && tmp->type != 6)
 		error_custom("Instruction(s) needed.", list);
