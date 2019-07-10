@@ -1,39 +1,73 @@
 #include "../includes/vm.h"
 
-static void parse_file(t_env *env, int fd, int curr)
+uint32_t	swap32_bytes(uint32_t val)
 {
-	size_t	offset;
-	size_t	size;
-	size_t	i;
-	size_t	position;
+	return (
+		((val >> 24) & 0xFF) |
+		((val << 8) & 0x00FF0000) |
+		((val >> 8) & 0xFF00) |
+		((val << 24) & 0xFF000000)
+	);
+}
 
-	if ((size = read(fd, &(env->players[curr].header), sizeof(header_t))) != sizeof(header_t))
+static void parse_file(t_env *e, int fd, int curr)
+{
+	size_t full_size;
+	size_t champ_size;
+	size_t read_size;
+
+	if (fd == -1)
+		exit_vm(e, EXIT_FAILURE); // ejejej
+	if ((full_size = lseek(fd, 0, SEEK_END)) <= sizeof(header_t))
 	{
-		ft_fprintf(2, "Error: File %s header has an incorrect size (%d bytes != %d bytes).\n", size, sizeof(header_t));
-		exit_vm(env, EXIT_FAILURE);
+		ft_fprintf(2, "Error: Too small/empty file %s.\n",\
+			e->players[curr].file);
+		exit_vm(e, EXIT_FAILURE);
 	}
-	if ((offset = lseek(fd, 0,SEEK_END) - sizeof(header_t)) > CHAMP_MAX_SIZE)
+	champ_size = full_size - sizeof(header_t);
+	if (champ_size > CHAMP_MAX_SIZE)
 	{
 		ft_fprintf(2, "Error: File %s has too large of a code (%d bytes > %d bytes)\n",\
-					env->players[curr].file, offset, CHAMP_MAX_SIZE);
-		exit_vm(env, EXIT_FAILURE);
+					e->players[curr].file, champ_size, CHAMP_MAX_SIZE);
+		exit_vm(e, EXIT_FAILURE);
 	}
-	env->players[curr].header.prog_size = offset;
-	if (lseek(fd, sizeof(header_t), SEEK_SET) == sizeof(header_t))
+	lseek(fd, 0, SEEK_SET); // after checking return to start
+	if ((read_size = read(fd, &e->players[curr].header, sizeof(header_t))) != sizeof(header_t))
 	{
-		position = curr * (MEM_SIZE / env->players_nb);
+		ft_fprintf(2, "Error: File %s header has an incorrect size (%d bytes != %d bytes).\n", read_size, sizeof(header_t));
+		exit_vm(e, EXIT_FAILURE);
+	}
+	e->players[curr].header.prog_size = swap32_bytes(e->players[curr].header.prog_size);
+	e->players[curr].header.magic = swap32_bytes(e->players[curr].header.magic);
+	if (e->players[curr].header.magic != COREWAR_EXEC_MAGIC)
+	{
+		ft_fprintf(2, "Error: Couldn't recognise corewar exec magic\n");
+		exit_vm(e, EXIT_FAILURE);
+	}
+	if (e->players[curr].header.prog_size != champ_size)
+	{
+		ft_fprintf(2, "Error: Champion size doesn't match prog size\n");
+		exit_vm(e, EXIT_FAILURE);
+	}
+	char	buff[CHAMP_MAX_SIZE];
+	int		i;
+	int		position;
+
+	if (read(fd, buff, champ_size) == champ_size)
+	{
 		i = 0;
-		while (i <= offset)
+		position = curr * (MEM_SIZE / e->players_nb);
+		while (i < champ_size)
 		{
-			if (read(fd, &(env->arena[position + i].data), 1) < 0)
-			{
-				ft_fprintf(2, "Error: Couldn't read file %s.\n",\
-					env->players[curr].file);
-				exit_vm(env, EXIT_FAILURE);
-			}
-			env->arena[position + i].player = curr;
+			e->arena[POSMOD(position + i)].data = buff[i];
 			i += 1;
 		}
+
+	}
+	else
+	{
+		ft_fprintf(2, "Error: Unable to read predicted champ size\n");
+		exit_vm(e, EXIT_FAILURE);
 	}
 }
 

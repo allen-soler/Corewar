@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   display_info.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 11:19:10 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/09 12:23:03 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/10 11:11:52 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
+
+// we have to take out verb level that we are not using
 
 void		display_help(t_env *env)
 {
@@ -20,11 +22,18 @@ void		display_help(t_env *env)
 			"\t--help (-h)\t: Show this message\n"
 			"\t--dump N (-d N)\t: Dump memory after N cycles then exits\n"
 			"\t--color (-c)\t: Dump output with colors\n"
-			"\t--verbose (-v)\t: Verbose mode (TODO: DISPLAY VERB LVL)");
+			"\t--verbose (-v)\t: Verbose mode (TODO: DISPLAY VERB LVL)"
+			"\t\t0: winner (Player X (champion_name) won) and greetings message\n"
+			"\t\t1: aff\n"
+			"\t\t2: live (A process shows that player X (champion_name) is alive)"
+			"{red}<- DEFAULT SETTING{eoc}\n"
+			"\t\t3: process creation-death\n"
+			"\t\t4: OPs\n"
+			"\t\t5: Show Cycles\n"
+			);
 	exit_vm(env, (env->flag & FLAG_ERROR) ? EXIT_FAILURE : EXIT_SUCCESS);
 }
-
-void		display_contestants(t_env *env)
+	void		display_contestants(t_env *env)
 {
 	int		i;
 
