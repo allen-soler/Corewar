@@ -103,17 +103,13 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 
 void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
-	//DEBUG(d_display_argument(cursor, op))
 	if (cursor->carry)
 	{
-		cursor->pc = POSMOD(cursor->pc + (cursor->args[0].value % IDX_MOD));
+		cursor->a_len = cursor->args[0].value % IDX_MOD;
 		VERB(VERB_OP, ft_printf(" OK"));
 	}
 	else
-	{
-		cursor->pc = POSMOD(cursor->pc + cursor->a_len);
 		VERB(VERB_OP, ft_printf(" FAILED"));
-	}
 }
 
 /*
@@ -184,7 +180,7 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value));
 	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
 	push_process_front(&e->cursors, child);
-	read_instruction(e, child, TRUE); // we shouldn't add 1 here if I'm correct
+	read_instruction(e, child, FALSE); // we shouldn't add 1 here if I'm correct
 }
 
 void	ft_lfork(t_env *e, t_process *cursor, t_op op)
@@ -195,7 +191,7 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + cursor->args[0].value);
 	push_process_front(&e->cursors, child);
-	read_instruction(e, child, TRUE);
+	read_instruction(e, child, FALSE);
 }
 
 void	ft_add(t_env *e, t_process *cursor, t_op op)

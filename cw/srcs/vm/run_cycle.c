@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 13:03:25 by awoimbee          #+#    #+#             */
-/*   Updated: 2019/07/09 17:17:46 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/10 16:24:01 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int				run_vm_cycle(t_vm *vm)
 			launch_instruction(vm, i);
 		--vm->procs.d[i].op_cycles;
 		vm->procs.d[i].new_pc = 0;
-		ft_printf("PC: %d\n", vm->procs.d[i].pc);
+		//ft_printf("PC: %d, pid: %d\n", vm->procs.d[i].pc, vm->procs.d[i].pid);
 	}
 	if (vm->cycle_curr - vm->cycle_last_check >= vm->cycle_die)
 		check_live(vm);
