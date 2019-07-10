@@ -48,6 +48,18 @@ void	free_list(t_par *list)
 	free(list);
 }
 
+void	check_file(char *src)
+{
+	int	len;
+
+	len = ft_strlen(src);
+	if (len <= 2  || (src[len - 1] != 's' && src[len- 2] != '.'))
+	{
+		ft_fprintf(2, "Wrong file format\n");
+		exit(1);
+	}
+}
+
 int		main(int ac, char **av)
 {
 	char		*line;
@@ -56,9 +68,9 @@ int		main(int ac, char **av)
 	t_header	header;
 
 	list = NULL;
-	fd = ft_strlen(av[1]);
-	if ((ac == 2 && fd <= 2) || (av[1][fd - 1] != 's' && av[1][fd- 2] != '.'))
+	if (ac == 2)
 	{
+		check_file(av[1]);
 		if ((fd = open(av[1], O_RDONLY)) == -1)
 			exit(ft_fprintf(2, "Wrong file descriptor\n"));
 		line = ft_strdup("");
