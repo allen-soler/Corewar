@@ -56,7 +56,8 @@ int		main(int ac, char **av)
 	t_header	header;
 
 	list = NULL;
-	if (ac == 2)
+	fd = ft_strlen(av[1]);
+	if ((ac == 2 && fd <= 2) || (av[1][fd - 1] != 's' && av[1][fd- 2] != '.'))
 	{
 		if ((fd = open(av[1], O_RDONLY)) == -1)
 			exit(ft_fprintf(2, "Wrong file descriptor\n"));
