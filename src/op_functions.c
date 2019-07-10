@@ -7,6 +7,8 @@
 #define PRINT_D(x) ft_printf("%s: %d\n",#x, x);
 #define OP_CODE_LEN 1
 
+
+//we have to set e->arena[ptr].player here
 void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 {
 	int8_t i;

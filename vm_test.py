@@ -16,7 +16,7 @@ def get_all_files(extension= ".s", directory=".") -> List:
 	except subprocess.CalledProcessError as err:
 		print("FIND FAILED, ERROR: ", err)
 	print("Find executed correctly, return code {}".format(completed.returncode))
-	print("Compiling the following files:\n", completed.stdout.decode('utf-8'))
+	#print("Compiling the following files:\n", completed.stdout.decode('utf-8'))
 	return completed.stdout.decode('utf-8').split('\n')
 
 def unidiff_output(expected: str, actual: str) -> str:
@@ -47,14 +47,83 @@ def query_yes_no(question: str, default = "yes") -> bool:
 			"(or 'y' or 'n').\n")
 
 
-def compile_champions():
+def compile_champions(compare = False, assemblers = None):
 	files = get_all_files(".s", ".")
+	failed = []
 
 	for file in files:
-		subprocess.run("./asm {}".format(file), shell=True)
+		if not compare:
+			subprocess.run("./asm {}".format(file), shell=True)
+			continue
+		print("File: ", file)
+		cor_champ = file.replace(".s", ".cor")
+		champ_name = cor_champ.split('/')[-1]
+		print("========================================")
+		print("FIRST ASM")
+		print("========================================")
+		completed1 = subprocess.run(
+			"{} {}".format(assemblers[0], file),
+			shell = True
+		)
+		print("\n")
+		if completed1.returncode is 0:
+			subprocess.run("mv {0} /tmp/{1}".format(cor_champ, champ_name), shell = True)
+		print("========================================")
+		print("SECOND ASM")
+		print("========================================")
+		completed2 = subprocess.run(
+			"{} {}".format(assemblers[1], file),
+			shell = True
+		)
+		print("\n")
+		if completed1.returncode == 1 and completed1.returncode != completed2.returncode:
+			failed.append(file)
+			print("Exit codes are not equal, exiting (unless everything is activated)\n")
+			if "--everything" not in sys.argv:
+				exit(1)
 
-files = get_all_files(".cor", ".")
+		if completed1.returncode == 0:
+			diff = subprocess.run(
+				"diff {0} /tmp/{1}".format(cor_champ, champ_name),
+				shell = True
+			)
+			if diff.returncode is not 0:
+				failed.append(file)
+				print("Found a difference!")
+				if "--everything" not in sys.argv:
+					exit(1)
+	return failed
 
+
+if len(sys.argv) == 1:
+	print("Explanation of flags:\n"
+		"\t--everything: it will keep doing test without stopping on diff | abnormal exit codes\n"
+		"\t--compile: will compile the champions)\n"
+		"\t--cmp_asm asm1 asm2: will compare the .cor files while compiling (specifie two asm afterwards)\n"
+		"\t--cmp_vm: it will trigger the tests for the vm\n"
+		"\t--dumps step_size: it will compare the dumps on all the champions while testing the VM")
+
+compile_champ = False
+cmp_asm = False
+assemblers = []
+
+if "--compile" in sys.argv:
+    compile_champ = True
+
+if "--cmp_asm" in sys.argv:
+    cmp_asm = True
+    assemblers.append(sys.argv[sys.argv.index("--cmp_asm") + 1])
+    assemblers.append(sys.argv[sys.argv.index("--cmp_asm") + 2])
+
+if compile_champ:
+	fail = compile_champions(cmp_asm, assemblers)
+	print("the following champions had some type of error with the asm: ", fail)
+
+
+# VM part of the script
+
+if "--cmp_vm" not in sys.argv:
+    exit(0)
 
 failed = []
 diff_exit_code = []
@@ -63,6 +132,7 @@ test_everything = False
 compare_dumps = False
 dump_step_size = 1
 
+files = get_all_files(".cor", ".")
 
 if "--everything" in sys.argv:
 	test_everything = True

@@ -7,3 +7,4 @@ asm
 obj
 tags
 *.data
+*.a

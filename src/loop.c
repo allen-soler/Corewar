@@ -24,10 +24,10 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 	op_code = cursor->op_code;
 	if (op_code <= REG_NUMBER && op_code > 0)
 	{
-		DEBUG(ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", op_tab[op_code - 1].name, op_code))
-		if (read_args(e, cursor, op_tab[cursor->op_code - 1]))
+		DEBUG(ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", g_op_tab[op_code - 1].name, op_code))
+		if (read_args(e, cursor, g_op_tab[cursor->op_code - 1]))
 		{
-			g_func_ptr[op_code - 1](e, cursor, op_tab[op_code - 1]);
+			g_func_ptr[op_code - 1](e, cursor, g_op_tab[op_code - 1]);
 			if (op_code != 9)
 				cursor->pc = POSMOD(cursor->pc + cursor->a_len);
 			VERB(VERB_OP, ft_printf("\n"));
@@ -44,7 +44,7 @@ void			read_instruction(t_env *e, t_process *cursor, t_bool move_pc)
 	if (op > 0 && op <= REG_NUMBER)
 	{
 		cursor->op_code = op;
-		cursor->cycle = op_tab[op - 1].nb_cycle;
+		cursor->cycle = g_op_tab[op - 1].nb_cycle;
 	}
 	else
 	{

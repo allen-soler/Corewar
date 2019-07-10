@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   t_process.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/09 17:29:55 by allespag          #+#    #+#             */
+/*   Updated: 2019/07/09 17:32:56 by allespag         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 t_process		*new_process(int player, int alive, int pid)
@@ -28,7 +40,7 @@ void			duplicate_process(t_process *dst, t_process *src)
 
 void			append_process(t_process **head, t_process *new)
 {
-	t_process 	*tmp;
+	t_process	*tmp;
 
 	if (*head == NULL)
 		*head = new;
@@ -57,6 +69,7 @@ void			push_process_front(t_process **head, t_process *new)
 	}
 }
 
+// TODO: we remove this for the norm
 int			count_processes(t_process *head)
 {
 	if (!head) return 0;
@@ -65,7 +78,7 @@ int			count_processes(t_process *head)
 
 void			delete_process(t_process **head, t_process *ptr)
 {
-	t_process 	*tmp;
+	t_process	*tmp;
 
 	tmp = *head;
 	if (tmp)
@@ -81,13 +94,9 @@ void			delete_process(t_process **head, t_process *ptr)
 			if (ptr == tmp->next)
 			{
 				if (ptr->next)
-				{
 					tmp->next = ptr->next;
-				}
 				else
-				{
 					tmp->next = NULL;
-				}
 				free(ptr);
 				ptr = NULL;
 			}
