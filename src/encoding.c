@@ -38,12 +38,14 @@ static int	label_aff(t_par *lst, t_par *tmp)
 static int	label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 {
 	int i;
+	int	j;
 
 	i = 0;
+	j = 0;
+	if (tmp->pos < lst->next->pos)
+		j = 1;
 	while (tmp)
 	{
-		if (lst == tmp)
-			break ;
 		if (tmp->type == 6)
 			i = g_op_tab[nb_op(tmp->param)].encoding_byte > 0 ? i + 2 : i + 1;
 		else if (tmp->type == 1)
@@ -54,19 +56,24 @@ static int	label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 		else if (tmp->type == 3 || tmp->type == 5)
 			i += 4;
 		tmp = tmp->next;
+		if (lst == tmp)
+			break ;
+
 	}
 	nb = counting_label(lst->next, inst);
-	return (i < nb ? i = -(nb - i) : i);
+	return (j == 0 ? i = -(nb - i) : i);
 }
 
 static void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
-	nb = lst->lbl_ptr->pos < tmp->pos ? label_aff(tmp, lst->lbl_ptr)\
-	: label_start(lst->lbl_ptr, tmp, nb, inst);
+	nb = lst->lbl_ptr->row < tmp->row ? label_aff(tmp, lst->lbl_ptr)\
+		 : label_start(lst->lbl_ptr, tmp, nb, inst);
 	if (lst->type == 5)
 		write_byte(inst, nb, 4);
 	else if (lst->type == 15 || lst->type == 9)
+	{
 		write_byte(inst, nb, 2);
+	}
 }
 
 static void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)

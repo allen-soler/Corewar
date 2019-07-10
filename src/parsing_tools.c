@@ -85,7 +85,7 @@ int		counting_label(t_par *lst, t_inst *inst)
 		inst->param_steps += 1;
 		tmp = tmp->next;
 		if (tmp)
-			if (tmp->type == 6 || tmp->type == 7)
+			if (tmp->type == 6)
 				break ;
 	}
 	return (i);
