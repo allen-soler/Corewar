@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:45:15 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 21:56:53 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/11 17:46:57 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int		init_comm_token(char **line, int state, t_par **list, int row)
 {
+	static int	row_store;
+	
+	if (state == 5)
+		row_store = row;
 	while (**line && (state >= 5 && state <= 7))
 	{
 		if (!(state == 5 && **line == '"'))
@@ -27,7 +31,7 @@ int		init_comm_token(char **line, int state, t_par **list, int row)
 		{
 			if (**line == END_LINE)
 			{
-				*list = add_parameter(*list, COMMENT_CMD_STRING, 0, row);
+				*list = add_parameter(*list, COMMENT_CMD_STRING, 0, row_store);
 				break ;
 			}
 		}
@@ -37,6 +41,10 @@ int		init_comm_token(char **line, int state, t_par **list, int row)
 
 int		name_token(char **line, int state, t_par **list, int row)
 {
+	static int	row_store;
+
+	if (state == 1)
+		row_store = row;
 	while (**line && (state >= 1 && state <= 3))
 	{
 		if (!(state == 1 && **line == '"'))
@@ -50,7 +58,7 @@ int		name_token(char **line, int state, t_par **list, int row)
 		{
 			if (**line == END_LINE)
 			{
-				*list = add_parameter(*list, NAME_CMD_STRING, 0, row);
+				*list = add_parameter(*list, NAME_CMD_STRING, 0, row_store);
 				break ;
 			}
 		}
