@@ -17,9 +17,9 @@ static int	open_file(char *src, int fd)
 	int		i;
 	char	*name;
 
-	i = 0;
-	while (src[i] && src[i] != '.')
-		i++;
+	i = ft_strlen(src);
+	while (src[i] != '.')
+		i--;
 	src[i] = '\0';
 	name = ft_strjoin(src, ".cor");
 	fd = open(name, O_WRONLY | O_CREAT, 0644);
@@ -63,7 +63,6 @@ static void	comment(t_header *h, char *src)
 
 	i = 0;
 	len = 0;
-	ft_printf("%s\n", src);
 	while (i < (int)ft_strlen(src))
 	{
 		h->comment[i + 12] = src[i];
@@ -84,13 +83,13 @@ void		to_binary(t_par *lst, char *src, t_header *h, char *n_file)
 	t_inst		inst;
 
 	fd = 0;
-	fd = open_file(n_file, fd);
 	ft_bzero(h->prog_name, PROG_NAME_LENGTH + 1);
 	ft_bzero(h->comment, COMMENT_LENGTH + 17);
 	name(COREWAR_EXEC_MAGIC, h, find_index(lst, src));
 	comment(h, find_index(lst->next, src));
 	encoding(lst, &inst);
 	prog_size(inst.size, 4, h);
+	fd = open_file(n_file, fd);
 	write(fd, h->prog_name, 128);
 	write(fd, h->comment, 2048 + 16);
 	write(fd, inst.tab, inst.size);
