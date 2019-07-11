@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 01:54:46 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/11 20:38:46 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int					check_comma(char *line, int row);
 size_t				str_repoint(char *haystack, char *needle);
 void				travel_states(char **line, int state, int row);
 char				*ignore_hash_comment(char *line);
+void				check_useless_header(char *line, t_par *list, int row);
 
 /*
 **		Tokens

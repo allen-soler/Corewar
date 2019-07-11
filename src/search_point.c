@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:07:22 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 13:03:19 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/11 20:38:31 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,13 @@ void	travel_states(char **line, int state, int row)
 		while (**line && **line != '"')
 			*line = *line + 1;
 	}
+}
+
+void	check_useless_header(char *line, t_par *list, int row)
+{
+	if (list && str_repoint(line, ".name") > 0)
+		error_row("Misplaced '.name' header.", row);
+	else if (list && list->next && str_repoint(line, ".comment") > 0)
+		error_row("Misplaced '.comment' header.", row);
+	return ;
 }
