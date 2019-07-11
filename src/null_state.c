@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/11 17:37:08 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:37:44 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ int		null_state(char **line, int state, t_par **list, int row)
 int		middlefunction(char **line, int state, t_par **list, int row)
 {
 	*line = skip_space(*line);
+	if (*list && (*list)->next && !ft_strcmp((*list)->param, ".name")
+		&& !ft_strcmp((*list)->next->param, ".comment"))
+		*line = ignore_hash_comment(*line);
 	if (state == 0)
 		state = null_state(line, state, list, row);
-	if (!((state >= 1 && state <= 3) || (state >= 5 && state <= 7)))
-		*line = ignore_hash_comment(*line);
 	if (state >= 1 && state <= 3)
 		state = name_token(line, state, list, row);
 	else if (state >= 5 && state <= 7)
