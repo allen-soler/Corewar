@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:46:44 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/09 12:20:14 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/11 19:08:40 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ t_par	*next_inst(t_par *list)
 
 	tmp = list;
 	while (tmp && tmp->type != 6)
+	{
+		if (tmp->type == 0)
+			error_row("Syntax.", tmp->row);
 		tmp = tmp->next;
+	}
 	if (tmp && tmp->type == 6)
 		return (tmp);
 	return (list);
