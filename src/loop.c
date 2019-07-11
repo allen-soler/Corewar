@@ -127,6 +127,19 @@ static int		check_live(t_env *e, t_loop *l)
 	return (alive);
 }
 
+void		print_register(t_env *e, t_process *proc)
+{
+	int		i;
+
+	ft_printf("Proc: %i |", proc->pid);
+	i = -1;
+	while (++i < REG_NUMBER)
+	{
+		ft_printf(" r%-2d: %-10d", i + 1, proc->regs[i]);
+	}
+	ft_printf("\n");
+}
+
 static void		exec_process(t_env *env)
 {
 	t_process	*curr;
@@ -142,7 +155,6 @@ static void		exec_process(t_env *env)
 		if (curr->cycle == 0 && curr->op_code != -1)
 			exec_cmd(env, curr);
 		if (hehe) ft_printf("PC state 2: %d, pid: %d\n", curr->pc, curr->pid);
-		//if (!hehe) ft_printf("PC: %d, pid: %d\n", curr->pc, curr->pid);
 		curr = curr->next;
 	}
 }

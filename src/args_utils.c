@@ -1,59 +1,8 @@
 #include "../includes/vm.h"
 
-/*
- ** @function: get_args_len
- **
- ** @params	cursor: current process
- **			op: info of current code
- **
- ** @return total size of the arguments
- **
-
- */ 
-int		get_args_len(t_process *cursor, t_op op)
-{
-	int				size;
-	int				i;
-
-	i = 0;
-	size = 0;
-	while (i < op.param_nb)
-	{
-		if (cursor->args[i].type & T_REG)
-			size += 1;
-		else if (cursor->args[i].type & T_DIR)
-			size += (op.direct_size == 1) ? 2 : DIR_SIZE;
-		else if (cursor->args[i].type & T_IND)
-			size += IND_SIZE;
-		i += 1;
-	}
-	return (size + op.encoding_byte);
-}
-
-void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod)
-{
-	int				i;
-
-	i = 0;
-	while (i < shift)
-	{
-		if (cursor->args[i].type & T_REG)
-			cursor->args[i].value = cursor->regs[cursor->args[i].value - 1];
-		else if (cursor->args[i].type & T_DIR)
-			;
-		else if ((cursor->args[i].type & T_IND) && ind_mod == TRUE)
-			cursor->args[i].value = mix_bytes(env, cursor, MODX(cursor->args[i].value), DIR_SIZE);
-		else if ((cursor->args[i].type & T_IND) && ind_mod == FALSE)
-			cursor->args[i].value = mix_bytes(env, cursor, cursor->args[i].value, DIR_SIZE);
-		else
-			ft_printf("{r}There is a problem in shift_args ; REMOVE THIS LINE{R}\n"); // this is no bueno
-		i++;
-	}
-}
-
 void	reset_args(t_process *cursor)
 {
-	u_int8_t		i;
+	uint8_t		i;
 
 	i = 0;
 	while (i < MAX_ARGS_NUMBER)
@@ -64,8 +13,8 @@ void	reset_args(t_process *cursor)
 	}
 	cursor->a_len = 0;
 }
-
 /*
+
  **	Function: mix_bytes
  **	Takes an index and the number of bytes you want to mix
  **	and it'll mix those bytes into one number.
