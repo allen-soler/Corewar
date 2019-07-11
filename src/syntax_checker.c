@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 17:43:21 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/11 19:11:53 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/11 21:38:58 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	check_syntax(t_par *list)
 	else if (!(list->next && !ft_strcmp(list->param, ".name")
 		&& !ft_strcmp(list->next->param, ".comment")
 		&& (list->next->next == NULL || list->next->next->type != 0)))
-		error_custom("Invalid header.\n", list);
+		error_custom("'.name' AND '.comment' not found in start of \
+file.\n", list);
 	tmp = list->next->next;
 	tmp = next_inst(tmp);
 	if (tmp && tmp->type != 6)
