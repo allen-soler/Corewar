@@ -3,7 +3,6 @@ import sys
 import subprocess
 import itertools
 from typing import List
-import uuid
 
 def get_all_files(extension= ".s", directory=".") -> List:
 	try:
@@ -174,7 +173,7 @@ for i in range(1, 5):
 		except subprocess.TimeoutExpired:
 			print("Time out!")
 			timeout += 1
-		if timeout is 1:
+		if timeout is 1 and test_everything is False:
 			print("Only one of the VM's timed out, no bueno!")
 			exit()
 		if completed1.returncode != 0 and completed1.returncode != completed2.returncode:
@@ -196,7 +195,7 @@ for i in range(1, 5):
 				break
 
 		if compare_dumps is True:
-			subprocess.run("./scripts/compare_vm.php --cycles 1 {0} './corewar -v 0' './resources/orig_vm -v 0' {1}".format(dump_step_size, champs),
+			subprocess.run("./scripts/compare_vm.php --cycles 1 {0} './corewar -v 0' './cw/corewar -ve 0' {1}".format(dump_step_size, champs),
 							shell=True,
 							check=True)
 

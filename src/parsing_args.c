@@ -6,29 +6,13 @@
 /*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 11:12:30 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/09 15:12:18 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/09 16:32:57 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-static void		get_files(char **av, t_env *env)
-{
-	int			i;
-
-	i = 0;
-	while (i < MAX_PLAYERS)
-	{
-		if (env->players[i].parse_index != -1)
-		{
-			env->players[i].file = av[env->players[i].parse_index];
-			env->players[i].number = i + 1;
-		}
-		i++;
-	}
-}
-
-static int		set_player_turn(char **av, int ac, int index, t_env *env)
+int				set_player_turn(char **av, int ac, int index, t_env *env)
 {
 	int			turn;
 
@@ -46,7 +30,7 @@ static int		set_player_turn(char **av, int ac, int index, t_env *env)
 	return (turn - 1);
 }
 
-static int		choose_turn(int used, t_env *env)
+int				choose_turn(int used, t_env *env)
 {
 	int			i;
 
@@ -62,53 +46,19 @@ static int		choose_turn(int used, t_env *env)
 	return (-1);
 }
 
-static void		set_players(char **av, int ac, int i, t_env *env)
+static void		get_files(char **av, t_env *env)
 {
-	int			turn;
-	int			used;
+	int			i;
 
-	used = 0;
-	while (i < ac)
+	i = 0;
+	while (i < MAX_PLAYERS)
 	{
-		if (!ft_strcmp(av[i], "-n") && ++i)
+		if (env->players[i].parse_index != -1)
 		{
-			turn = set_player_turn(av, ac, i, env);
-			if (turn == -1 || used & (1 << turn))
-			{
-				set_error_value(env, ERROR_SME_NUMB);
-				return ;
-			}
-			else
-			{
-				env->players[turn].parse_index = ++i;
-				env->players[turn].alive = 0;
-				env->players_nb++;
-				used |= (1 << turn);
-				i++;
-			}
+			env->players[i].file = av[env->players[i].parse_index];
+			env->players[i].number = i + 1;
 		}
-		else if (ft_endswith(av[i], ".cor") == 1)
-		{
-			turn = choose_turn(used, env);
-			if (turn == -1)
-			{
-				set_error_value(env, ERROR_SME_NUMB);
-				return ;
-			}
-			else
-			{
-				env->players[turn].parse_index = i;
-				env->players[turn].alive = 0;
-				env->players_nb++;
-				used |= (1 << turn);
-			}
-			i++;
-		}
-		else
-		{
-			set_error_value(env, ERROR_UNK_ARGV);
-			return ;
-		}
+		i++;
 	}
 }
 
