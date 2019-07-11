@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:07:22 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/11 21:25:23 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/11 21:31:21 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ void	check_useless_header(char *line, t_par *list, int row)
 {
 	if (list && list->type == 0 && str_repoint(line, ".name") > 0)
 		error_row("Misplaced '.name' header. \
-Headers must be placed first.", row);
+Headers must be placed first and no duplicates allowed.", row);
 	else if (list && list->next && list->type == 0 && list->next->type == 0
 		&& str_repoint(line, ".comment") > 0)
 		error_row("Misplaced '.comment' header. \
-Headers must be placed first.", row);
+Headers must be placed first and no duplicates allowed", row);
 	return ;
 }
