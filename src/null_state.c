@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/11 18:37:44 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/11 21:29:13 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int		null_state(char **line, int state, t_par **list, int row)
 
 	repoint = 0;
 	*line = skip_space(*line);
-	if ((repoint = str_repoint(*line, ".name")) || (state > 1 && state >= 3))
+	if ((repoint = str_repoint(*line, ".name"))
+		|| (state > 1 && state >= 3))
 		state += 1;
 	else if ((repoint = str_repoint(*line, COMMENT_CMD_STRING))
 		|| (state > 5 && state <= 7))
@@ -44,8 +45,9 @@ int		null_state(char **line, int state, t_par **list, int row)
 int		middlefunction(char **line, int state, t_par **list, int row)
 {
 	*line = skip_space(*line);
-	if (*list && (*list)->next && !ft_strcmp((*list)->param, ".name")
-		&& !ft_strcmp((*list)->next->param, ".comment"))
+	check_useless_header(*line, *list, row);
+	if (*line && !str_repoint(*line, ".name")
+		&& !str_repoint(*line, ".comment"))
 		*line = ignore_hash_comment(*line);
 	if (state == 0)
 		state = null_state(line, state, list, row);
