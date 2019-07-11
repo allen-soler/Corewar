@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 13:03:25 by awoimbee          #+#    #+#             */
-/*   Updated: 2019/07/09 15:14:25 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/10 16:24:01 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,9 @@ static void		launch_instruction(t_vm *vm, int proc)
 		if (vm->verbosity >= VE_OPS)
 			ft_printf("\n");
 	}
-	if (vm->verbosity >= VE_PC_MOVE && vm->procs.d[proc].op_id != 8)
-	{
-		ft_printf("ADV %i (%#06x -> %#06x) ",
-			vm->procs.d[proc].new_pc - vm->procs.d[proc].pc,
-			vm->procs.d[proc].pc,
-			vm->procs.d[proc].new_pc);
-		i = -1;
-		while (++i + vm->procs.d[proc].pc < vm->procs.d[proc].new_pc)
-			ft_printf("%02x ",
-				vm->arena[(vm->procs.d[proc].pc + i) % MEM_SIZE]);
-		ft_printf("\n");
-	}
 	vm->procs.d[proc].pc = vm->procs.d[proc].new_pc % MEM_SIZE;
-	vm->procs.d[proc].new_pc = 0;
-}
+	//ft_printf("PC: %d, pid: %d\n", vm->procs.d[proc].pc, vm->procs.d[proc].pid);
+	vm->procs.d[proc].new_pc = 0; }
 
 void			read_instruction(t_vm *vm, int proc)
 {
@@ -116,6 +104,7 @@ int				run_vm_cycle(t_vm *vm)
 			launch_instruction(vm, i);
 		--vm->procs.d[i].op_cycles;
 		vm->procs.d[i].new_pc = 0;
+		//ft_printf("PC: %d, pid: %d\n", vm->procs.d[i].pc, vm->procs.d[i].pid);
 	}
 	if (vm->cycle_curr - vm->cycle_last_check >= vm->cycle_die)
 		check_live(vm);

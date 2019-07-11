@@ -1,5 +1,7 @@
 #include "vm.h"
 
+#define hehe FALSE
+
 static void (*g_func_ptr[17])(t_env *e, t_process *cursor, t_op op) =
 {
 	ft_live, ft_ld, ft_st, ft_add, ft_sub, ft_and, ft_or,
@@ -24,14 +26,14 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 	op_code = cursor->op_code;
 	if (op_code <= REG_NUMBER && op_code > 0)
 	{
-		DEBUG(ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", g_op_tab[op_code - 1].name, op_code))
+		if (hehe) ft_fprintf(2, "Excuting instruction %s with op_code: %d\n", g_op_tab[op_code - 1].name, op_code);
 		if (read_args(e, cursor, g_op_tab[cursor->op_code - 1]))
 		{
 			g_func_ptr[op_code - 1](e, cursor, g_op_tab[op_code - 1]);
-			if (op_code != 9)
-				cursor->pc = POSMOD(cursor->pc + cursor->a_len);
 			VERB(VERB_OP, ft_printf("\n"));
 		}
+		cursor->pc = POSMOD(cursor->pc + cursor->a_len);
+		//if (!hehe) ft_printf("PC: %d, pid: %d\n", cursor->pc, cursor->pid);
 	}
 	cursor->op_code = -1;
 }
@@ -122,18 +124,8 @@ static int		check_live(t_env *e, t_loop *l)
 			index = index->next;
 		}
 	}
-	/*  not necessary i think
-	int i = 0;
-	while (i < e->players_nb)
-	{
-
-		e->players[i].alive = 0;
-		i += 1;
-	}
-	*/
 	return (alive);
 }
-
 
 static void		exec_process(t_env *env)
 {
@@ -144,10 +136,13 @@ static void		exec_process(t_env *env)
 	{
 		if (curr->cycle <= 0)
 			read_instruction(env, curr, TRUE);
+		if (hehe) ft_printf("PC state 1: %d, pid: %d\n", curr->pc, curr->pid);
 		if (curr->cycle > 0)
 			--curr->cycle;
 		if (curr->cycle == 0 && curr->op_code != -1)
 			exec_cmd(env, curr);
+		if (hehe) ft_printf("PC state 2: %d, pid: %d\n", curr->pc, curr->pid);
+		//if (!hehe) ft_printf("PC: %d, pid: %d\n", curr->pc, curr->pid);
 		curr = curr->next;
 	}
 }
