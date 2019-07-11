@@ -24,7 +24,7 @@ static void		launch_instruction(t_vm *vm, int proc)
 			ft_printf("\n");
 	}
 	vm->procs.d[proc].pc = vm->procs.d[proc].new_pc % MEM_SIZE;
-	ft_printf("PC: %d, pid: %d\n", vm->procs.d[proc].pc, vm->procs.d[proc].pid);
+	//ft_printf("PC: %d, pid: %d\n", vm->procs.d[proc].pc, vm->procs.d[proc].pid);
 	vm->procs.d[proc].new_pc = 0; }
 
 void			read_instruction(t_vm *vm, int proc)
