@@ -1,5 +1,5 @@
 .name 		"turtle"
-.comment	"TURTLE FFS U LAMA"
+.comment	""
 
 entry:
 	sti			r1, %:zork, %1

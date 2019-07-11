@@ -71,9 +71,7 @@ static void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 	if (lst->type == 5)
 		write_byte(inst, nb, 4);
 	else if (lst->type == 15 || lst->type == 9)
-	{
 		write_byte(inst, nb, 2);
-	}
 }
 
 static void	check_type(t_par *lst, t_inst *inst, t_par *tmp, int nb)

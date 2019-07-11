@@ -55,7 +55,7 @@ void	check_file(char *src)
 	len = ft_strlen(src);
 	if (len <= 2  || (src[len - 1] != 's' && src[len- 2] != '.'))
 	{
-		ft_fprintf(2, "Wrong file format\n");
+		error_custom("Choose one valid '.s' file to compile.\n", NULL);
 		exit(1);
 	}
 }
