@@ -36,7 +36,7 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 	cursor->op_code = -1;
 }
 
-static int		check_live(t_env *e, t_loop *l)
+static int		check_live(t_env *e)
 {
 	int			alive;
 	t_process	*index;
@@ -92,7 +92,7 @@ int				run_cycle(t_env *e, t_loop *l)
 	{
 		l->cycle_last_check = l->current_cycle;
 		l->i_check += 1;
-		nbr_live = check_live(e, l);
+		nbr_live = check_live(e);
 		if (nbr_live >= NBR_LIVE || l->i_check == MAX_CHECKS)
 		{
 			l->cycle_to_die -= CYCLE_DELTA;
@@ -111,7 +111,7 @@ void			game_loop(t_env *e)
 	t_loop		l;
 	int			cycle;
 
-	init_loop(&l, e->players_nb);
+	init_loop(&l);
 	cycle = 0;
 	while (run_cycle(e, &l) == 1)
 	{

@@ -150,7 +150,7 @@ void		display_error(t_env *env);
 **	MAIN LOOP
 */
 
-void		init_loop(t_loop *loop, int player_nb);
+void		init_loop(t_loop *loop);
 void		init_processes(t_env *env);
 void		game_loop(t_env *env);
 
@@ -158,7 +158,7 @@ void		game_loop(t_env *env);
 **	PROCESS
 */
 
-t_process	*new_process(int player, int alive, int pid);
+t_process	*new_process(int player, int pid);
 void		duplicate_process(t_process *dst, t_process *src);
 void		append_process(t_process **head, t_process *new_p);
 void		delete_process(t_process **head, t_process *ptr);

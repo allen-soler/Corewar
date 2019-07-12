@@ -14,7 +14,7 @@ static void	reset_args(t_process *cursor)
 	cursor->a_len = 0;
 }
 
-static void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
+static void	verb_print_arg(t_process *cursor, t_argument *args, int i)
 {
 	if (args[i].type == T_REG)
 		ft_strcat_join(&cursor->verb_string, ft_cprintf(" r%d", args[i].value));
@@ -75,7 +75,7 @@ static t_bool	read_params(t_env *e, t_process *cursor, t_op op)
 			(cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
 			fail = TRUE;
 		cursor->a_len += arg_len;
-		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));
+		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i));
 		i += 1;
 	}
 	return (fail);

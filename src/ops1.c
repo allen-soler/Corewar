@@ -16,6 +16,7 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	int i;
 
 	i = 0;
+	(void)op;
 	while (i < e->players_nb)
 	{
 		if (e->players[i].number == cursor->args[0].value)
@@ -47,6 +48,7 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
 	int		addr;
 
+	(void)op;
 	if (cursor->args[1].type == T_IND)
 	{
 		addr = cursor->pc + MODX(cursor->args[1].value);
@@ -61,6 +63,7 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 
 void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
+	(void)op;
 	if (cursor->carry)
 	{
 		cursor->a_len = cursor->args[0].value % IDX_MOD;

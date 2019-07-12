@@ -12,7 +12,7 @@
 
 #include "vm.h"
 
-void			init_loop(t_loop *loop, int player_nb)
+void			init_loop(t_loop *loop)
 {
 	loop->nb_process_alive = 0;
 	loop->current_cycle = 0;
@@ -30,7 +30,7 @@ void			init_processes(t_env *env)
 	i = 0;
 	while (i < env->players_nb)
 	{
-		tmp = new_process(env->players[i].number, 1, env->last_pid);
+		tmp = new_process(env->players[i].number, env->last_pid);
 		tmp->regs[0] = env->players[i].number;
 		env->last_pid += 1;
 		if (!tmp)

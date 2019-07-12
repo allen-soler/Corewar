@@ -10,7 +10,7 @@ static uint32_t	swap32_bytes(uint32_t val)
 	);
 }
 
-static void parse_file2(t_env *e, int fd, int curr, int champ_size)
+static void parse_file2(t_env *e, int fd, int curr, uint32_t champ_size)
 {	
 	char	buff[CHAMP_MAX_SIZE];
 	int		i;
@@ -32,7 +32,7 @@ static void parse_file2(t_env *e, int fd, int curr, int champ_size)
 	{
 		i = -1;
 		position = curr * (MEM_SIZE / e->players_nb);
-		while (++i < champ_size)
+		while (++i < (int32_t)champ_size)
 			e->arena[POSMOD(position + i)].data = buff[i];
 	}
 	else
@@ -41,9 +41,9 @@ static void parse_file2(t_env *e, int fd, int curr, int champ_size)
 
 static void parse_file(t_env *e, int fd, int curr)
 {
-	size_t full_size;
-	size_t champ_size;
-	size_t read_size;
+	size_t	full_size;
+	int32_t	champ_size;
+	size_t	read_size;
 
 	if (fd == -1)
 		exit_vm(e, EXIT_FAILURE); // ejejej

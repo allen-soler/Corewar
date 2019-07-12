@@ -21,6 +21,7 @@ void	set_error_exit(t_env *e, t_error value)
 
 void	exit_vm(t_env *e, int status)
 {
+	(void)e;
 	exit(status);
 }
 

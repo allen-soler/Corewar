@@ -9,7 +9,7 @@ CC = clang
 
 # compilation flags
 
-FLAGS = -Wall -Wextra -g -fsanitize=address -fno-omit-frame-pointer
+FLAGS = -Wall -Werror -Wextra
 
 # program name
 

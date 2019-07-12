@@ -15,7 +15,9 @@ void	ft_fork(t_env *e, t_process *cursor, t_op op)
 {
 	t_process	*child;
 
-	child = new_process(cursor->player, cursor->alive, e->last_pid++);
+	(void)op;
+	(void)e;
+	child = new_process(cursor->player, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + MODX(cursor->args[0].value));
 	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
@@ -27,7 +29,9 @@ void	ft_lfork(t_env *e, t_process *cursor, t_op op)
 {
 	t_process	*child;
 
-	child = new_process(cursor->player, cursor->alive, e->last_pid++);
+	(void)op;
+	(void)e;
+	child = new_process(cursor->player, e->last_pid++);
 	duplicate_process(child, cursor);
 	child->pc = POSMOD(cursor->pc + cursor->args[0].value);
 	VERB(VERB_OP, ft_printf(" (%d)", child->pc));
@@ -39,6 +43,7 @@ void	ft_add(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
+	(void)e;
 	set_reg_values(cursor, op, 2);
 	res = cursor->args[0].value + cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = res;
@@ -49,6 +54,7 @@ void	ft_sub(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
+	(void)e;
 	set_reg_values(cursor, op, 2);
 	res = cursor->args[0].value - cursor->args[1].value;
 	cursor->regs[cursor->args[2].value - 1] = res;
