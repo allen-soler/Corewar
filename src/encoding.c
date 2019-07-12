@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 00:30:29 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/12 14:01:50 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/12 15:51:05 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,11 @@ void		encoding(t_par *lst, t_inst *inst)
 		}
 		else
 			check_type(lst, inst, tmp, i);
+		if (inst->size > CHAMP_MAX_SIZE)
+		{
+			ft_fprintf(2, "Champion is too big\n");
+			exit(1);
+		}
 		lst = lst->next;
 	}
 }

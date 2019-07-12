@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 15:43:01 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/12 15:06:35 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/12 15:56:40 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ static int	open_file(char *src, int fd)
 static void	name(uint32_t x, t_header *h, char *dest)
 {
 	int				i;
-	int				len;
 	unsigned char	byte;
 
 	i = 0;
-	len = 0;
+	if ((int)ft_strlen(dest) > PROG_NAME_LENGTH + 4)
+	{
+		ft_fprintf(2, "Name is too big\n");
+		exit(1);
+	}
 	while (i < 4 + (int)ft_strlen(dest))
 	{
 		if (i < 4)
@@ -46,12 +49,6 @@ static void	name(uint32_t x, t_header *h, char *dest)
 		else
 			h->prog_name[i] = dest[i - 4];
 		i++;
-		len++;
-	}
-	if (len > PROG_NAME_LENGTH + 4)
-	{
-		ft_fprintf(2, "Name is too big\n");
-		exit(1);
 	}
 	free(dest);
 }
@@ -59,20 +56,17 @@ static void	name(uint32_t x, t_header *h, char *dest)
 static void	comment(t_header *h, char *src)
 {
 	int		i;
-	int		len;
 
 	i = 0;
-	len = 0;
+	if ((int)ft_strlen(src) > COMMENT_LENGTH)
+	{
+		ft_fprintf(2, "Comment is too big\n");
+		exit(1);
+	}
 	while (i < (int)ft_strlen(src))
 	{
 		h->comment[i + 12] = src[i];
 		i++;
-		len++;
-	}
-	if (len > COMMENT_LENGTH)
-	{
-		ft_fprintf(2, "Comment is too big\n");
-		exit(1);
 	}
 	free(src);
 }

@@ -6,7 +6,7 @@
 #    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/07/10 01:33:06 by jallen           ###   ########.fr        #
+#    Updated: 2019/07/12 16:01:37 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra
-
+FLAGS = -Wall -Wextra 
 # program name
 
 NAME = asm

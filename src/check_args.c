@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:12:28 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/10 01:15:55 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/12 16:01:59 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static intmax_t	handle_number(char *arg, intmax_t stock, int neg, int row)
 		error_row("Invalid argument format.", row);
 	if (stock > 4294967295 || stock < -4294967296)
 		error_row("Out of bounds argument value. Needs to be \
-> -4294967297 or < 4294967296.\n", row);
+> -4294967297 or < 4294967296.", row);
 	return (stock);
 }
 
