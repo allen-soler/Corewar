@@ -1,4 +1,0 @@
-:%!xxd -> will put the file into hexa
-modify or do whatever you want
-:%!xxd -r -> will put it back to normal
-save and execute
