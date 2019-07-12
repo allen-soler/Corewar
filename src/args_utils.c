@@ -1,6 +1,6 @@
 #include "../includes/vm.h"
 
-void	reset_args(t_process *cursor)
+static void	reset_args(t_process *cursor)
 {
 	uint8_t		i;
 
@@ -13,42 +13,6 @@ void	reset_args(t_process *cursor)
 	}
 	cursor->a_len = 0;
 }
-/*
-
- **	Function: mix_bytes
- **	Takes an index and the number of bytes you want to mix
- **	and it'll mix those bytes into one number.
- */
-
-int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes)
-{
-	unsigned short	res;
-	unsigned int	res2;
-
-	if (bytes == 1)
-		return ((char)(ZMASK(e->arena[POSMOD(cursor->pc + offset)].data)));
-	if (bytes == 2)
-		res = (ZMASK(e->arena[POSMOD(cursor->pc + offset)].data) << 8) |
-				ZMASK(e->arena[POSMOD(cursor->pc + offset + 1)].data);
-	else if (bytes == 4)
-		res2 = (ZMASK(e->arena[POSMOD(cursor->pc + offset)].data) << 24) |
-				(ZMASK(e->arena[POSMOD(cursor->pc + offset + 1)].data) << 16) |
-				(ZMASK(e->arena[POSMOD(cursor->pc + offset + 2)].data) << 8) |
-				ZMASK(e->arena[POSMOD(cursor->pc + offset + 3)].data);
-	if (bytes == 2)
-		return ((short)res);
-	return ((int)res2);
-}
-
-/*
- **	Function: read_args
- **	This function will read the enconding byte if it exists and read
- **	the associated arguments afterwards, it supposes the cursor->pc
- **	is set to the instructions index.
- **	This function should work with all the op's, those who have an
- **	encoding byte and those who don't.
- */
-
 
 static void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
 {
@@ -60,7 +24,7 @@ static void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
 		ft_strcat_join(&cursor->verb_string, ft_cprintf(" %d", args[i].value));
 }
 
-int		read_type(t_env *e, t_process *cursor, t_op op, int i)
+int			read_type(t_env *e, t_process *cursor, t_op op, int i)
 {
 	uint8_t type;
 	int arg_len;
@@ -89,7 +53,7 @@ int		read_type(t_env *e, t_process *cursor, t_op op, int i)
 	return (arg_len);
 }
 
-t_bool	read_params(t_env *e, t_process *cursor, t_op op)
+static t_bool	read_params(t_env *e, t_process *cursor, t_op op)
 {
 	int				i;
 	int				arg_len;
@@ -117,7 +81,7 @@ t_bool	read_params(t_env *e, t_process *cursor, t_op op)
 	return (fail);
 }
 
-int		read_args(t_env *e, t_process *cursor, t_op op)
+int			read_args(t_env *e, t_process *cursor, t_op op)
 {
 	t_bool			fail;
 
@@ -130,17 +94,4 @@ int		read_args(t_env *e, t_process *cursor, t_op op)
 	if (fail == FALSE)
 		VERB(VERB_OP, ft_printf("%s", cursor->verb_string));
 	return (fail == FALSE);
-}
-
-void	set_reg_values(t_process *cursor, t_op op , int skip_index)
-{
-	int				i;
-
-	i = -1;
-	while (++i < op.param_nb)
-	{
-		if (i == skip_index || cursor->args[i].type != T_REG)
-			continue;
-		cursor->args[i].value = cursor->regs[cursor->args[i].value - 1];
-	}
 }

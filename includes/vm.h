@@ -175,6 +175,8 @@ void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod);
 int		read_args(t_env *e, t_process *cursor, t_op op);
 void	set_reg_values(t_process *cursor, t_op op, int skip_index);
 void	read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
+void	charge_memory(t_env *e, t_process *proc, t_op op, t_bool modx);
+void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size);
 
 /*
 ** DISPLAY INFO

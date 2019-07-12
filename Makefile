@@ -5,11 +5,11 @@ ccgreen= "\033[0;32m"
 
 # compiler
 
-CC = gcc
+CC = clang 
 
 # compilation flags
 
-FLAGS = -Wall -g3 -fsanitize=address
+FLAGS = -Wall -Wextra -g -fsanitize=address -fno-omit-frame-pointer
 
 # program name
 
@@ -38,11 +38,12 @@ SOURCES =	main.c			\
 			read_files.c	\
 			game_loop.c		\
 			op.c			\
-			op_functions.c	\
 			args_utils.c	\
 			display_info.c	\
 			parsing_flags.c	\
 			set_players.c	\
+			op_utils.c		\
+			ops1.c ops2.c ops3.c ops4.c \
 			exit_vm.c
 
 # header files

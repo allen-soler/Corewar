@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 17:29:55 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/12 16:28:40 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/07/12 17:02:40 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,6 @@ void			duplicate_process(t_process *dst, t_process *src)
 	dst->alive = src->alive;
 	dst->player = src->player;
 	dst->color = src->color;
-}
-
-void			append_process(t_process **head, t_process *new)
-{
-	t_process	*tmp;
-
-	if (*head == NULL)
-		*head = new;
-	else
-	{
-		tmp = *head;
-		while (tmp->next != NULL)
-		{
-			tmp = tmp->next;
-		}
-		tmp->next = new;
-	}
 }
 
 void			push_process_front(t_process **head, t_process *new)
