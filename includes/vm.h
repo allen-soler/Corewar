@@ -93,6 +93,7 @@ typedef struct	s_process
 {
 	int					regs[REG_NUMBER];
 	t_argument			args[MAX_ARGS_NUMBER];
+	char				*verb_string;
 	int					op_code;
 	int					pc;
 	int					pid;

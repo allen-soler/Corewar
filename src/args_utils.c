@@ -49,16 +49,15 @@ int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes)
  **	encoding byte and those who don't.
  */
 
-char	*verb_string;
 
-void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
+static void	verb_print_arg(t_process *cursor, t_argument *args, int i, t_op op)
 {
 	if (args[i].type == T_REG)
-		verb_string = ft_strjoin(verb_string, ft_cprintf(" r%d", args[i].value));
+		ft_strcat_join(&cursor->verb_string, ft_cprintf(" r%d", args[i].value));
 	else if (args[i].type == T_IND)
-		verb_string = ft_strjoin(verb_string, ft_cprintf(" %d", args[i].value));
+		ft_strcat_join(&cursor->verb_string, ft_cprintf(" %d", args[i].value));
 	else if (args[i].type == T_DIR)
-		verb_string = ft_strjoin(verb_string, ft_cprintf(" %d", args[i].value));
+		ft_strcat_join(&cursor->verb_string, ft_cprintf(" %d", args[i].value));
 }
 
 int		read_type(t_env *e, t_process *cursor, t_op op, int i)
@@ -90,50 +89,48 @@ int		read_type(t_env *e, t_process *cursor, t_op op, int i)
 	return (arg_len);
 }
 
-int		read_args(t_env *e, t_process *cursor, t_op op)
+t_bool	read_params(t_env *e, t_process *cursor, t_op op)
 {
 	int				i;
 	int				arg_len;
 	t_bool			fail;
 
-	fail = FALSE;
-	VERB(VERB_OP, verb_string = ft_cprintf("P%5d | %s", cursor->pid, op.name));
-	reset_args(cursor);
-	cursor->a_len = 1 + op.encoding_byte;
 	i = 0;
+	fail = FALSE;
 	while (i < op.param_nb)
 	{
-		arg_len = read_type(e, cursor, op, i);
-		if (arg_len < 0)
+		if ((arg_len = read_type(e, cursor, op, i)) < 0)
 		{
 			fail = TRUE;
 			i += 1;
 			continue;
 		}
 		cursor->args[i].value = mix_bytes(e, cursor, cursor->a_len, arg_len);
-		if ((g_op_tab[op.op_code - 1].param_possible[i] & cursor->args[i].type) == 0 ||
-		(cursor->args[i].type == T_REG && (cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
-		{
+		if ((g_op_tab[op.op_code - 1].param_possible[i] \
+			& cursor->args[i].type) == 0 || (cursor->args[i].type == T_REG && \
+			(cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
 			fail = TRUE;
-		}
 		cursor->a_len += arg_len;
 		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i, op));
 		i += 1;
 	}
-	if (fail == FALSE)
-		VERB(VERB_OP, ft_printf("%s", verb_string));
-	return (fail == FALSE);
+	return (fail);
 }
 
-/*
- ** @function: set_reg_values
- **
- ** @params: receives the cursor and the index (0-based) where it shouldn't do the change 
- **
- ** This function will simply swap the register number @arg.value for the value
- ** stored in the register skipping the specified index
- **
- */ 
+int		read_args(t_env *e, t_process *cursor, t_op op)
+{
+	t_bool			fail;
+
+	fail = FALSE;
+	VERB(VERB_OP, \
+	cursor->verb_string = ft_cprintf("P%5d | %s", cursor->pid, op.name));
+	reset_args(cursor);
+	cursor->a_len = 1 + op.encoding_byte;
+	fail = read_params(e, cursor, op);
+	if (fail == FALSE)
+		VERB(VERB_OP, ft_printf("%s", cursor->verb_string));
+	return (fail == FALSE);
+}
 
 void	set_reg_values(t_process *cursor, t_op op , int skip_index)
 {

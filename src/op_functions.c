@@ -83,7 +83,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 	set_reg_values(cursor, op , -1);
 	charge_memory(e, cursor, op, TRUE);
 	addr = cursor->pc + MODX(cursor->args[1].value + cursor->args[2].value);
-	write_byte(e, addr + OP_CODE_LEN, cursor->args[0].value, DIR_SIZE);
+	write_byte(e, addr + 1, cursor->args[0].value, DIR_SIZE);
 }
 
 void	ft_st(t_env *e, t_process *cursor, t_op op)
@@ -93,7 +93,7 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 	if (cursor->args[1].type == T_IND)
 	{
 		addr = cursor->pc + MODX(cursor->args[1].value);
-		write_byte(e, addr + OP_CODE_LEN, cursor->regs[cursor->args[0].value - 1], DIR_SIZE);
+		write_byte(e, addr + 1, cursor->regs[cursor->args[0].value - 1], DIR_SIZE);
 
 	}
 	else if( cursor->args[1].type == T_REG)
