@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 00:30:29 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 01:54:51 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/12 11:43:24 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static int	label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 		tmp = tmp->next;
 		if (lst == tmp)
 			break ;
-
 	}
 	nb = counting_label(lst->next, inst);
 	return (j == 0 ? i = -(nb - i) : i);
@@ -67,7 +66,7 @@ static int	label_start(t_par *lst, t_par *tmp, int nb, t_inst *inst)
 static void	direct_lab(t_par *lst, t_inst *inst, t_par *tmp, int nb)
 {
 	nb = lst->lbl_ptr->row < tmp->row ? label_aff(tmp, lst->lbl_ptr)\
-		 : label_start(lst->lbl_ptr, tmp, nb, inst);
+	: label_start(lst->lbl_ptr, tmp, nb, inst);
 	if (lst->type == 5)
 		write_byte(inst, nb, 4);
 	else if (lst->type == 15 || lst->type == 9)

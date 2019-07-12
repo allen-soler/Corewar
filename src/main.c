@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 01:51:33 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/12 11:44:08 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	check_file(char *src)
 	int	len;
 
 	len = ft_strlen(src);
-	if (len <= 2  || (src[len - 1] != 's' && src[len- 2] != '.'))
+	if (len <= 2 || (src[len - 1] != 's' && src[len - 2] != '.'))
 	{
 		error_custom("Choose one valid '.s' file to compile.\n", NULL);
 		exit(1);

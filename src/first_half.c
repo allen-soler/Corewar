@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:53:16 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/11 17:21:45 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/12 11:42:24 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_par	*class_3(t_par *tmp)
 		if (tmp && (tmp->type == 3 || tmp->type == 5
 			|| tmp->type == 4 || tmp->type == 9))
 		{
-				tmp = tmp->next;
+			tmp = tmp->next;
 			if (tmp && (tmp->type == 1) && remaining_tokens(tmp))
 				return (tmp->next);
 		}

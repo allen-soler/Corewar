@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 16:45:15 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/11 17:46:57 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/12 11:50:05 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		init_comm_token(char **line, int state, t_par **list, int row)
 {
 	static int	row_store;
-	
+
 	if (state == 5)
 		row_store = row;
 	while (**line && (state >= 5 && state <= 7))

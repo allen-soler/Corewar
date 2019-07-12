@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 17:09:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/11 21:29:13 by bghandou         ###   ########.fr       */
+/*   Updated: 2019/07/12 11:48:53 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ int		null_state(char **line, int state, t_par **list, int row)
 
 	repoint = 0;
 	*line = skip_space(*line);
-	if ((repoint = str_repoint(*line, ".name"))
-		|| (state > 1 && state >= 3))
+	if ((repoint = str_repoint(*line, ".name")) || (state > 1 && state >= 3))
 		state += 1;
 	else if ((repoint = str_repoint(*line, COMMENT_CMD_STRING))
 		|| (state > 5 && state <= 7))
