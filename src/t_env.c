@@ -6,7 +6,7 @@
 /*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 14:11:59 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/09 14:18:40 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/12 16:10:33 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@ void			set_error_value(t_env *env, t_error value)
 void			display_error(t_env *env)
 {
 	if (env->error_value > ERROR_MAX_VALUE)
-	{
-		ft_fprintf(2, "{red}Error<rst>:"
-						"There is an error with the error value...\n");
-	}
+		ft_fprintf(2, "{red}Error{eoc}\n\n");
 	else
 	{
-		ft_fprintf(2, "{red}Error<rst>: %s\n\n",
+		ft_fprintf(2, "{red}Error{eoc}: %s\n\n",
 				env->error_str[env->error_value]);
 	}
 	display_help(env);

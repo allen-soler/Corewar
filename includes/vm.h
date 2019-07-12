@@ -19,8 +19,7 @@
 # define FLAG_HELP (1 << 1)
 # define FLAG_VERB (1 << 2)
 # define FLAG_DUMP (1 << 3)
-# define FLAG_DBUG (1 << 4)
-# define FLAG_COLR (1 << 5)
+# define FLAG_COLR (1 << 4)
 
 # define ERROR_MAX_VALUE 8
 
@@ -150,6 +149,8 @@ void		display_error(t_env *env);
 **	MAIN LOOP
 */
 
+void		init_loop(t_loop *loop, int player_nb);
+void		init_processes(t_env *env);
 void		game_loop(t_env *env);
 
 /*
@@ -180,6 +181,7 @@ void	read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
 void		display_help(t_env *env);
 void		display_contestants(t_env *env);
 void		print_arena(t_env *e);
+void		print_winner(t_env *env);
 
 /*
 **	OP
@@ -218,6 +220,7 @@ void			read_files(t_env *e);
 **	ERROR HANDLING
 */
 
+void			set_error_exit(t_env *e, t_error value);
 void			exit_vm(t_env *e, int status);
 void			exit_failure(const char *message, t_env *e);
 
@@ -238,14 +241,5 @@ void		parsing_args(char **av, int ac, t_env *env);
 int			posmod(int n, int mod);
 int			ft_atoi_pimp(char *line, t_env *env);
 int			ft_endswith(const char *str, const char *suffix);
-
-/*
-**	DEBBUGING
-*/
-
-void			d_display_env(t_env env);
-void			d_display_process(t_env e, t_process *pro);
-void			d_display_full_process(t_env env);
-void			d_display_argument(t_process *cursor, t_op op);
 
 #endif

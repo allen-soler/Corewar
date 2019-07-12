@@ -6,7 +6,7 @@
 /*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 13:26:58 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/09 15:12:25 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/12 15:04:52 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,6 @@ int				set_flag(char **av, int ac, t_env *env)
 			else if ((!ft_strcmp(av[i], "-c") || !ft_strcmp(av[i], "--color"))
 					&& ++i)
 				env->flag |= FLAG_COLR;
-			else if ((!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "--debbug"))		// TODO: remove this else if and the norm will be bueno
-					&& ++i)
-			{
-				env->flag |= FLAG_DBUG;
-				g_debug = 1;
-			}
 			else
 				break ;
 		}

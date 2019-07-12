@@ -32,11 +32,11 @@ DIR_H = includes
 SOURCES =	main.c			\
 			t_env.c			\
 			t_process.c		\
+			t_loop.c		\
 			parsing_args.c	\
 			utils.c			\
-			debbuging.c		\
 			read_files.c	\
-			loop.c			\
+			game_loop.c		\
 			op.c			\
 			op_functions.c	\
 			args_utils.c	\

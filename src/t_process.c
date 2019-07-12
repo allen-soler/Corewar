@@ -6,7 +6,7 @@
 /*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 17:29:55 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/09 17:32:56 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/12 15:01:10 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_process		*new_process(int player, int alive, int pid)
 		return (NULL);
 	ft_bzero(new, sizeof(t_process));
 	ft_bzero(new->regs, sizeof(int) * REG_NUMBER);
-	new->alive = 0; // this is wrong
+	new->alive = 0;
 	new->player = player;
 	new->op_code = -1;
 	new->pid = pid + 1;
@@ -67,13 +67,6 @@ void			push_process_front(t_process **head, t_process *new)
 		new->next = tmp;
 		*head = new;
 	}
-}
-
-// TODO: we remove this for the norm
-int			count_processes(t_process *head)
-{
-	if (!head) return 0;
-	return 1 + count_processes(head->next);
 }
 
 void			delete_process(t_process **head, t_process *ptr)
