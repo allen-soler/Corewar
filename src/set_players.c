@@ -6,7 +6,7 @@
 /*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 16:23:51 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/09 16:35:04 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/12 16:09:50 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ void		set_players(char **av, int ac, int i, t_env *env)
 		{
 			turn = set_player_turn(av, ac, i, env);
 			if (turn == -1 || used & (1 << turn))
-			{
-				set_error_value(env, ERROR_SME_NUMB);
-				return ;
-			}
+				set_error_exit(env, ERROR_SME_NUMB);
 			else
 			{
 				env->players[turn].parse_index = ++i;
@@ -41,10 +38,7 @@ void		set_players(char **av, int ac, int i, t_env *env)
 		{
 			turn = choose_turn(used, env);
 			if (turn == -1)
-			{
-				set_error_value(env, ERROR_SME_NUMB);
-				return ;
-			}
+				set_error_exit(env, ERROR_SME_NUMB);
 			else
 			{
 				env->players[turn].parse_index = i;
@@ -55,9 +49,6 @@ void		set_players(char **av, int ac, int i, t_env *env)
 			i++;
 		}
 		else
-		{
-			set_error_value(env, ERROR_UNK_ARGV);
-			return ;
-		}
+			set_error_exit(env, ERROR_UNK_ARGV);
 	}
 }

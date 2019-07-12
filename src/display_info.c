@@ -6,13 +6,11 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 11:19:10 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/10 11:11:52 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/07/12 15:12:06 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
-
-// we have to take out verb level that we are not using
 
 void		display_help(t_env *env)
 {
@@ -22,18 +20,20 @@ void		display_help(t_env *env)
 			"\t--help (-h)\t: Show this message\n"
 			"\t--dump N (-d N)\t: Dump memory after N cycles then exits\n"
 			"\t--color (-c)\t: Dump output with colors\n"
-			"\t--verbose (-v)\t: Verbose mode (TODO: DISPLAY VERB LVL)"
-			"\t\t0: winner (Player X (champion_name) won) and greetings message\n"
+			"\t--verbose (-v)\t: Verbose mode (TODO: DISPLAY VERB LVL)\n"
+			"\t\t0: winner (Player X (champion_name) won) "
+			"and greetings message\n"
 			"\t\t1: aff\n"
-			"\t\t2: live (A process shows that player X (champion_name) is alive)"
-			"{red}<- DEFAULT SETTING{eoc}\n"
+			"\t\t2: live (A process shows that player X "
+			"(champion_name) is alive)"
+			"{red} <- DEFAULT SETTING{eoc}\n"
 			"\t\t3: process creation-death\n"
 			"\t\t4: OPs\n"
-			"\t\t5: Show Cycles\n"
-			);
+			"\t\t5: Show Cycles\n");
 	exit_vm(env, (env->flag & FLAG_ERROR) ? EXIT_FAILURE : EXIT_SUCCESS);
 }
-	void		display_contestants(t_env *env)
+
+void		display_contestants(t_env *env)
 {
 	int		i;
 
@@ -65,16 +65,38 @@ void		print_arena(t_env *e)
 			line += e->n_dump;
 		}
 		if ((e->flag & FLAG_COLR) && e->arena[i].player == 0)
-			ft_printf("{RED}%02hhx<rst> ", e->arena[i++].data);
+			ft_printf("{RED}%02hhx{eoc} ", e->arena[i++].data);
 		else if ((e->flag & FLAG_COLR) && e->arena[i].player == 1)
-			ft_printf("{CYN}%02hhx<rst> ", e->arena[i++].data);
+			ft_printf("{CYN}%02hhx{eoc} ", e->arena[i++].data);
 		else if ((e->flag & FLAG_COLR) && e->arena[i].player == 2)
-			ft_printf("{GRN}%02hhx<rst> ", e->arena[i++].data);
+			ft_printf("{GRN}%02hhx{eoc} ", e->arena[i++].data);
 		else if ((e->flag & FLAG_COLR) && e->arena[i].player == 3)
-			ft_printf("{YLW}%02hhx<rst> ", e->arena[i++].data);
+			ft_printf("{YLW}%02hhx{eoc} ", e->arena[i++].data);
 		else
 			ft_printf("%02hhx ", e->arena[i++].data);
 		if (i % e->n_dump == 0)
 			ft_putchar('\n');
 	}
+}
+
+void		print_winner(t_env *env)
+{
+	if (env->last_live != -1)
+	{
+		if (env->flag & FLAG_DUMP)
+		{
+			ft_printf("Player %d (%s) won \n",
+					env->players[env->last_live].number,
+					env->players[env->last_live].header.prog_name);
+		}
+		else
+		{
+			ft_printf("Contestant %d, \"%s\", has won !\n",
+					env->players[env->last_live].number,
+					env->players[env->last_live].header.prog_name);
+		}
+	}
+	else
+		ft_printf("no winner? you lossers\n");
+	exit_vm(env, EXIT_SUCCESS);
 }

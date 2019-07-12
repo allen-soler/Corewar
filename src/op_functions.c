@@ -23,7 +23,6 @@ void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 
 	i = 0;
 	r = (uint8_t*)&value;
-	DEBUG(ft_printf("writing value: %d, @ cursor->pc: %x\n", value, addr))
 	while (size--)
 	{
 		uint16_t ptr = POSMOD(addr + (size - 1));
@@ -89,9 +88,11 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 
 void	ft_st(t_env *e, t_process *cursor, t_op op)
 {
+	int		addr;
+
 	if (cursor->args[1].type == T_IND)
 	{
-		int addr = cursor->pc + MODX(cursor->args[1].value);
+		addr = cursor->pc + MODX(cursor->args[1].value);
 		write_byte(e, addr + OP_CODE_LEN, cursor->regs[cursor->args[0].value - 1], DIR_SIZE);
 
 	}
@@ -138,7 +139,6 @@ void	ft_and(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
-	//DEBUG(d_display_argument(cursor, op))
 	set_reg_values(cursor, op, 2);
 	charge_memory(e, cursor, op, TRUE); // NOIDEA
 	res = cursor->args[0].value & cursor->args[1].value;
@@ -214,7 +214,6 @@ void	ft_xor(t_env *e, t_process *cursor, t_op op)
 {
 	int		res;
 
-	//DEBUG(d_display_argument(cursor, op))
 	set_reg_values(cursor, op, 2);
 	charge_memory(e, cursor, op, TRUE); // NOIDEA
 	res = cursor->args[0].value ^ cursor->args[1].value;
