@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 15:43:01 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/12 14:07:18 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/12 15:06:35 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	name(uint32_t x, t_header *h, char *dest)
 		i++;
 		len++;
 	}
-	if (len > 128)
+	if (len > PROG_NAME_LENGTH + 4)
 	{
 		ft_fprintf(2, "Name is too big\n");
 		exit(1);
@@ -83,7 +83,7 @@ void		to_binary(t_par *lst, char *src, t_header *h, char *n_file)
 	t_inst		inst;
 
 	fd = 0;
-	ft_bzero(h->prog_name, PROG_NAME_LENGTH + 1);
+	ft_bzero(h->prog_name, PROG_NAME_LENGTH + 5);
 	ft_bzero(h->comment, COMMENT_LENGTH + 17);
 	name(COREWAR_EXEC_MAGIC, h, find_index(lst, src));
 	comment(h, find_index(lst->next, src));
