@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Ofast
+FLAGS = -Wall -g3 -fsanitize=address
 
 # program name
 

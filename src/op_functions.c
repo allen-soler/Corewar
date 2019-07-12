@@ -1,10 +1,4 @@
 #include "../includes/vm.h" 
-#define SET_MSIZE(where, x) where = (where + x) % MEM_SIZE
-#define SET_MIDX(where, x) where = (where + (x % IDX_MOD)) % MEM_SIZE
-#define MIDX(x) x % IDX_MOD
-#define P_CURSOR_PC ft_printf("cursor->pc @ %d", cursor->pc); ft_putendl(0);
-#define PRINT_D(x) ft_printf("%s: %d\n",#x, x);
-#define OP_CODE_LEN 1
 
 void	charge_memory(t_env *e, t_process *proc, t_op op, t_bool modx)
 {
@@ -22,7 +16,6 @@ void	charge_memory(t_env *e, t_process *proc, t_op op, t_bool modx)
 	}
 }
 
-//we have to set e->arena[ptr].player here
 void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 {
 	int8_t i;
