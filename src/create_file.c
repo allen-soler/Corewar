@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 15:43:01 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/10 01:56:46 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/12 14:07:18 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	open_file(char *src, int fd)
 		i--;
 	src[i] = '\0';
 	name = ft_strjoin(src, ".cor");
-	fd = open(name, O_WRONLY | O_CREAT, 0644);
+	fd = open(name, O_WRONLY | O_NOFOLLOW | O_CREAT, 0644);
 	ft_printf("Writing output program to %s\n", name);
 	free(name);
 	return (fd);
