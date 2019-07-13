@@ -28,8 +28,7 @@ void		display_help(t_env *env)
 			"(champion_name) is alive)"
 			"{red} <- DEFAULT SETTING{eoc}\n"
 			"\t\t3: process creation-death\n"
-			"\t\t4: OPs\n"
-			"\t\t5: Show Cycles\n");
+			"\t\t4: Show Cycles\n");
 	exit_vm(env, (env->flag & FLAG_ERROR) ? EXIT_FAILURE : EXIT_SUCCESS);
 }
 

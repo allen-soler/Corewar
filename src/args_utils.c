@@ -14,16 +14,6 @@ static void	reset_args(t_process *cursor)
 	cursor->a_len = 0;
 }
 
-static void	verb_print_arg(t_process *cursor, t_argument *args, int i)
-{
-	if (args[i].type == T_REG)
-		ft_strcat_join(&cursor->verb_string, ft_cprintf(" r%d", args[i].value));
-	else if (args[i].type == T_IND)
-		ft_strcat_join(&cursor->verb_string, ft_cprintf(" %d", args[i].value));
-	else if (args[i].type == T_DIR)
-		ft_strcat_join(&cursor->verb_string, ft_cprintf(" %d", args[i].value));
-}
-
 int			read_type(t_env *e, t_process *cursor, t_op op, int i)
 {
 	uint8_t type;
@@ -75,7 +65,6 @@ static t_bool	read_params(t_env *e, t_process *cursor, t_op op)
 			(cursor->args[i].value <= 0 || cursor->args[i].value > REG_NUMBER)))
 			fail = TRUE;
 		cursor->a_len += arg_len;
-		VERB(VERB_OP, verb_print_arg(cursor, cursor->args, i));
 		i += 1;
 	}
 	return (fail);
@@ -86,12 +75,8 @@ int			read_args(t_env *e, t_process *cursor, t_op op)
 	t_bool			fail;
 
 	fail = FALSE;
-	VERB(VERB_OP, \
-	cursor->verb_string = ft_cprintf("P%5d | %s", cursor->pid, op.name));
 	reset_args(cursor);
 	cursor->a_len = 1 + op.encoding_byte;
 	fail = read_params(e, cursor, op);
-	if (fail == FALSE)
-		VERB(VERB_OP, ft_printf("%s", cursor->verb_string));
 	return (fail == FALSE);
 }

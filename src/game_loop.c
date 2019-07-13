@@ -29,7 +29,6 @@ static void		exec_cmd(t_env *e, t_process *cursor)
 		if (read_args(e, cursor, g_op_tab[cursor->op_code - 1]))
 		{
 			g_func_ptr[op_code - 1](e, cursor, g_op_tab[op_code - 1]);
-			VERB(VERB_OP, ft_printf("\n"));
 		}
 		cursor->pc = POSMOD(cursor->pc + cursor->a_len);
 	}

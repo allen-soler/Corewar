@@ -21,11 +21,9 @@ void	ft_live(t_env *e, t_process *cursor, t_op op)
 	{
 		if (e->players[i].number == cursor->args[0].value)
 		{
-			VERB(VERB_OP, ft_printf("\n"));
 			VERB(VERB_LIVE,\
-					ft_printf("A process shows that player %d (%s) is alive%s",\
-						e->players[i].number, e->players[i].header.prog_name,
-						(e->verb < VERB_OP) ? "\n" : ""));
+				ft_printf("A process shows that player %d (%s) is alive%s\n",\
+					e->players[i].number, e->players[i].header.prog_name));
 			e->last_live = i;
 			break ;
 		}
@@ -64,12 +62,10 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 {
 	(void)op;
+	(void)e;
 	if (cursor->carry)
 	{
 		cursor->a_len = cursor->args[0].value % IDX_MOD;
-		VERB(VERB_OP, ft_printf(" OK"));
 	}
-	else
-		VERB(VERB_OP, ft_printf(" FAILED"));
 }
 

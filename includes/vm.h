@@ -31,7 +31,7 @@
 # define ABS(value)  ((value) > 0 ? (value) : -(value))
 
 # define VERB(val, func) if (e->verb >= val) func
-# define SHIFT(x) (1 << x)
+# define SHIFT(x) (1 << (x))
 
 #define DEBUG(x) if (g_debug == 1) x;
 
@@ -40,12 +40,8 @@ typedef enum	e_verb
 	VERB_WINNER = 0,
 	VERB_AFF = SHIFT(0),
 	VERB_LIVE = SHIFT(1),
-	VERB_DUMP_START = SHIFT(2),
-	VERB_PLAYER_DEATH = SHIFT(3),
-	VERB_PROCESS_CREATION_DEATH = SHIFT(4),
-	VERB_OP = SHIFT(5),
-	VERB_SHOW_CYCLES = SHIFT(6),
-	VER_PRINT_REGISTERS = SHIFT(7)
+	VERB_PROCESS_CREATION_DEATH = SHIFT(2),
+	VERB_SHOW_CYCLES = SHIFT(3),
 }				t_verb;
 
 typedef enum	e_bool

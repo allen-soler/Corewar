@@ -56,7 +56,7 @@ static void		set_verb_level(char **av, int ac, int index, t_env *env)
 	else
 	{
 		level = ft_atoi_pimp(av[index], env);
-		if ((env->flag & FLAG_ERROR) || level < 0 || level > 7)
+		if ((env->flag & FLAG_ERROR) || level < 0 || level > 4)
 		{
 			env->flag = 0;
 			set_error_value(env, ERROR_WRG_LEVL);
