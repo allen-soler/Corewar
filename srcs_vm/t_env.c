@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 14:11:59 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/13 09:59:02 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/07/13 12:23:19 by bghandou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,17 @@ static void		init_arena(t_env *e)
 	}
 }
 
-/*
-** someone has to check if english is good here :(
-** TODO: modify last line
-*/
-
 static void		init_env_error(t_env *env)
 {
-	env->error_str[0] = "There is no problem, how can you read this ?";
-	env->error_str[1] = "There is no specify number value after -n";
-	env->error_str[2] = "No specify dump value after --dump (or value < 0)";
-	env->error_str[3] = "You can not use more than 4 champions";
-	env->error_str[4] = "You can not set 2 players with the same number";
-	env->error_str[5] = "Players turn can only be from 0 to 4";
-	env->error_str[6] = "There is no specify verbosity value after --verbose";
+	env->error_str[0] = "Error, what are you trying to do ?";
+	env->error_str[1] = "Need to specify number value after -n";
+	env->error_str[2] = "Need to specify value after --dump (or value < 0)";
+	env->error_str[3] = "You cannot use more than 4 champions";
+	env->error_str[4] = "Cannot set 2 players with the same player number";
+	env->error_str[5] = "Players number can only be from 1 to 4";
+	env->error_str[6] = "Need to specify verbosity value after --verbose";
 	env->error_str[7] = "Verbosity level can only be from 0 to 4";
-	env->error_str[8] = "unknown argv";
+	env->error_str[8] = "Unknown arguments";
 }
 
 void			init_env(t_env *env)
