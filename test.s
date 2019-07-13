@@ -1,4 +1,4 @@
-.name "TESTAMOS"
-.comment "la verdad es que, estamos hablando el verdadero castellano"
+.name "hello"
+.comment "hehehe"
 
-st r3, 350
+aff r1 

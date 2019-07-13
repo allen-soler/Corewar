@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   args_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/13 09:51:17 by nalonso           #+#    #+#             */
+/*   Updated: 2019/07/13 09:52:07 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/vm.h"
 
-static void	reset_args(t_process *cursor)
+static void		reset_args(t_process *cursor)
 {
 	uint8_t		i;
 
@@ -14,10 +26,10 @@ static void	reset_args(t_process *cursor)
 	cursor->a_len = 0;
 }
 
-int			read_type(t_env *e, t_process *cursor, t_op op, int i)
+int				read_type(t_env *e, t_process *cursor, t_op op, int i)
 {
-	uint8_t type;
-	int arg_len;
+	uint8_t	type;
+	int		arg_len;
 
 	arg_len = 0;
 	if (op.encoding_byte)
@@ -70,7 +82,7 @@ static t_bool	read_params(t_env *e, t_process *cursor, t_op op)
 	return (fail);
 }
 
-int			read_args(t_env *e, t_process *cursor, t_op op)
+int				read_args(t_env *e, t_process *cursor, t_op op)
 {
 	t_bool			fail;
 

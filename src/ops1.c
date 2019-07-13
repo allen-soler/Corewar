@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ops1.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/13 09:52:29 by nalonso           #+#    #+#             */
+/*   Updated: 2019/07/13 09:53:45 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/vm.h"
 
 void	ft_ld(t_env *e, t_process *cursor, t_op op)
@@ -36,7 +48,7 @@ void	ft_sti(t_env *e, t_process *cursor, t_op op)
 {
 	int	addr;
 
-	set_reg_values(cursor, op , -1);
+	set_reg_values(cursor, op, -1);
 	charge_memory(e, cursor, op, TRUE);
 	addr = cursor->pc + MODX(cursor->args[1].value + cursor->args[2].value);
 	write_byte(e, addr + 1, cursor->args[0].value, DIR_SIZE);
@@ -50,12 +62,13 @@ void	ft_st(t_env *e, t_process *cursor, t_op op)
 	if (cursor->args[1].type == T_IND)
 	{
 		addr = cursor->pc + MODX(cursor->args[1].value);
-		write_byte(e, addr + 1, cursor->regs[cursor->args[0].value - 1], DIR_SIZE);
-
+		write_byte(e, addr + 1, \
+		cursor->regs[cursor->args[0].value - 1], DIR_SIZE);
 	}
-	else if( cursor->args[1].type == T_REG)
+	else if (cursor->args[1].type == T_REG)
 	{
-		cursor->regs[cursor->args[1].value - 1] = cursor->regs[cursor->args[0].value - 1];
+		cursor->regs[cursor->args[1].value - 1] =\
+			cursor->regs[cursor->args[0].value - 1];
 	}
 }
 
@@ -68,4 +81,3 @@ void	ft_zjmp(t_env *e, t_process *cursor, t_op op)
 		cursor->a_len = cursor->args[0].value % IDX_MOD;
 	}
 }
-

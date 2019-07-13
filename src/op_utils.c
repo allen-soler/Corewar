@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   op_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/13 10:07:28 by nalonso           #+#    #+#             */
+/*   Updated: 2019/07/13 10:08:03 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/vm.h"
 
 int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes)
@@ -20,7 +32,7 @@ int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes)
 	return ((int)res2);
 }
 
-void	set_reg_values(t_process *cursor, t_op op , int skip_index)
+void	set_reg_values(t_process *cursor, t_op op, int skip_index)
 {
 	int				i;
 
@@ -37,13 +49,14 @@ void	charge_memory(t_env *e, t_process *proc, t_op op, t_bool modx)
 {
 	int8_t i;
 
-	i = -1; 
+	i = -1;
 	while (++i < op.param_nb)
 	{
 		if (proc->args[i].type != T_IND)
 			continue ;
 		if (modx)
-			proc->args[i].value = mix_bytes(e, proc, proc->args[i].value % IDX_MOD, 4);
+			proc->args[i].value = \
+			mix_bytes(e, proc, proc->args[i].value % IDX_MOD, 4);
 		else
 			proc->args[i].value = mix_bytes(e, proc, proc->args[i].value, 4);
 	}
@@ -51,16 +64,16 @@ void	charge_memory(t_env *e, t_process *proc, t_op op, t_bool modx)
 
 void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size)
 {
-	int8_t i;
-	uint8_t *r;
+	int8_t		i;
+	uint8_t		*r;
+	uint16_t	ptr;
 
 	i = 0;
 	r = (uint8_t*)&value;
 	while (size--)
 	{
-		uint16_t ptr = POSMOD(addr + (size - 1));
+		ptr = POSMOD(addr + (size - 1));
 		e->arena[ptr].data = r[i];
 		i += 1;
 	}
 }
-

@@ -70,9 +70,6 @@ SRCS_GARB =	gb_fail.c			gb_add.c			gb_defrag.c			\
 			gb_malloc.c			gb_remove.c			gb_memalloc.c		\
 			gb_init_existing.c	gb_realloc.c		intrin_gb_extend.c
 
-SRCS_MAP =	map_insert.c		map_insert_repair.c	map_insert_repair_rotate.c	\
-			map_freeall.c		map_iter.c
-
 SRCS_OTHER = msg_exit.c
 
 SRCS_NAME =	$(addprefix libchar/,   $(SRCS_CHAR))	\
@@ -85,14 +82,13 @@ SRCS_NAME =	$(addprefix libchar/,   $(SRCS_CHAR))	\
 			$(addprefix t_queue/,   $(SRCS_QUE))	\
 			$(addprefix t_vector/,  $(SRCS_VECT))	\
 			$(addprefix t_garbage/, $(SRCS_GARB))	\
-			$(addprefix t_rbtmap/,     $(SRCS_MAP))	\
 			$(SRCS_OTHER)
 OBJ_NAME = $(SRCS_NAME:.c=.o)
 
 SRC_PATH = src
 OBJ_PATH = obj
 OBJ_DIRS =	libchar	libfd	libmem	libnb	libstr	ft_prtf	\
-			t_lst	t_queue	t_vector	t_garbage	t_rbtmap
+			t_lst	t_queue	t_vector	t_garbage
 
 ################################################################################
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))

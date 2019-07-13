@@ -5,7 +5,7 @@ ccgreen= "\033[0;32m"
 
 # compiler
 
-CC = clang 
+CC = gcc 
 
 # compilation flags
 

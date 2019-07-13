@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vm.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/13 10:10:05 by nalonso           #+#    #+#             */
+/*   Updated: 2019/07/13 10:17:53 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VM_H
 # define VM_H
 
@@ -22,9 +34,9 @@
 
 # define ERROR_MAX_VALUE 8
 
+# define MSIZE MEM_SIZE
 # define ZMASK(x) ((x) & 0xff)
-# define POSMOD(x) (((x) % MEM_SIZE) < 0 ? ((x) % MEM_SIZE) + MEM_SIZE : (x) % MEM_SIZE)
-# define POSMOD_IDX(x) (MODX(x) % MEM_SIZE < 0 ? MODX(x) % MEM_SIZE + MEM_SIZE : MODX(x) % MEM_SIZE)
+# define POSMOD(x) (((x) % MSIZE) < 0 ? ((x) % MSIZE) + MSIZE : (x) % MSIZE)
 # define MODMS(x) ((x) % MEM_SIZE)
 # define MODX(x) ((x) % IDX_MOD)
 # define ABS(value)  ((value) > 0 ? (value) : -(value))
@@ -47,7 +59,8 @@ typedef enum	e_bool
 	TRUE
 }				t_bool;
 
-t_bool g_debug;
+t_bool	g_debug;
+t_op	g_op_tab[17];
 
 typedef enum	e_error
 {
@@ -64,11 +77,9 @@ typedef enum	e_error
 
 typedef char	t_flag;
 
-t_op					g_op_tab[17]; // TODO: eclare variable as global here, should look up how
-
 typedef struct	s_player
 {
-	header_t			header;
+	t_header			header;
 	char				*file;
 	int					number;
 	int					parse_index;
@@ -135,76 +146,77 @@ typedef struct	s_env
 **	ENV
 */
 
-void		init_env(t_env *env);
-void		set_error_value(t_env *env, t_error value);
-void		display_error(t_env *env);
+void			init_env(t_env *env);
+void			set_error_value(t_env *env, t_error value);
+void			display_error(t_env *env);
 
 /*
 **	MAIN LOOP
 */
 
-void		init_loop(t_loop *loop);
-void		init_processes(t_env *env);
-void		game_loop(t_env *env);
+void			init_loop(t_loop *loop);
+void			init_processes(t_env *env);
+void			game_loop(t_env *env);
 
 /*
 **	PROCESS
 */
 
-t_process	*new_process(int player, int pid);
-void		duplicate_process(t_process *dst, t_process *src);
-void		append_process(t_process **head, t_process *new_p);
-void		delete_process(t_process **head, t_process *ptr);
-void		push_process_front(t_process **head, t_process *new);
-void		init_processes(t_env *env);
+t_process		*new_process(int player, int pid);
+void			duplicate_process(t_process *dst, t_process *src);
+void			append_process(t_process **head, t_process *new_p);
+void			delete_process(t_process **head, t_process *ptr);
+void			push_process_front(t_process **head, t_process *new);
+void			init_processes(t_env *env);
 
 /*
 ** ARGUMENT UTILS
 */
 
-int		mix_bytes(t_env *e, t_process *cursor, int offset, int bytes);
-int		get_args_len(t_process *cursor, t_op op);
-void	shift_args(t_env *env, t_process *cursor, int shift, t_bool ind_mod);
-int		read_args(t_env *e, t_process *cursor, t_op op);
-void	set_reg_values(t_process *cursor, t_op op, int skip_index);
-void	read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
-void	charge_memory(t_env *e, t_process *proc, t_op op, t_bool modx);
-void	write_byte(t_env *e, int32_t addr, int32_t value, int32_t size);
+int				mix_bytes(t_env *e, t_process *cursor, int offset, int bytes);
+int				get_args_len(t_process *cursor, t_op op);
+void			shift_args(t_env *env,\
+				t_process *cursor, int shift, t_bool ind_mod);
+int				read_args(t_env *e, t_process *cursor, t_op op);
+void			set_reg_values(t_process *cursor, t_op op, int skip_index);
+void			read_instruction(t_env *e, t_process *cursor, t_bool move_pc);
+void			charge_memory(t_env *e, t_process *proc, t_op op, t_bool modx);
+void			write_byte(t_env *e, int32_t addr, int32_t value, int32_t size);
 
 /*
 ** DISPLAY INFO
 */
-void		display_help(t_env *env);
-void		display_contestants(t_env *env);
-void		print_arena(t_env *e);
-void		print_winner(t_env *env);
+void			display_help(t_env *env);
+void			display_contestants(t_env *env);
+void			print_arena(t_env *e);
+void			print_winner(t_env *env);
 
 /*
 **	OP
 */
 
-void	ft_live(t_env *e, t_process *cursor, t_op op);
-void	ft_ld(t_env *e, t_process *cursor, t_op op);
-void	ft_st(t_env *e, t_process *cursor, t_op op);
-void	ft_add(t_env *e, t_process *cursor, t_op op);
-void	ft_sub(t_env *e, t_process *cursor, t_op op);
-void	ft_and(t_env *e, t_process *cursor, t_op op);
-void	ft_or(t_env *e, t_process *cursor, t_op op);
-void	ft_xor(t_env *e, t_process *cursor, t_op op);
-void	ft_zjmp(t_env *e, t_process *cursor, t_op op);
-void	ft_ldi(t_env *e, t_process *cursor, t_op op);
-void	ft_sti(t_env *e, t_process *cursor, t_op op);
-void	ft_fork(t_env *e, t_process *cursor, t_op op);
-void	ft_lld(t_env *e, t_process *cursor, t_op op);
-void	ft_lldi(t_env *e, t_process *cursor, t_op op);
-void	ft_lfork(t_env *e, t_process *cursor, t_op op);
-void	ft_aff(t_env *e, t_process *cursor, t_op op);
+void			ft_live(t_env *e, t_process *cursor, t_op op);
+void			ft_ld(t_env *e, t_process *cursor, t_op op);
+void			ft_st(t_env *e, t_process *cursor, t_op op);
+void			ft_add(t_env *e, t_process *cursor, t_op op);
+void			ft_sub(t_env *e, t_process *cursor, t_op op);
+void			ft_and(t_env *e, t_process *cursor, t_op op);
+void			ft_or(t_env *e, t_process *cursor, t_op op);
+void			ft_xor(t_env *e, t_process *cursor, t_op op);
+void			ft_zjmp(t_env *e, t_process *cursor, t_op op);
+void			ft_ldi(t_env *e, t_process *cursor, t_op op);
+void			ft_sti(t_env *e, t_process *cursor, t_op op);
+void			ft_fork(t_env *e, t_process *cursor, t_op op);
+void			ft_lld(t_env *e, t_process *cursor, t_op op);
+void			ft_lldi(t_env *e, t_process *cursor, t_op op);
+void			ft_lfork(t_env *e, t_process *cursor, t_op op);
+void			ft_aff(t_env *e, t_process *cursor, t_op op);
 
 /*
 **	PLAYER
 */
 
-void		init_player(t_player *player);
+void			init_player(t_player *player);
 
 /*
 **	PARSING FILES
@@ -224,18 +236,18 @@ void			exit_failure(const char *message, t_env *e);
 **	PARSING_ARGS
 */
 
-int			choose_turn(int used, t_env *env);
-int			set_player_turn(char **av, int ac, int index, t_env *env);
-void		set_players(char **av, int ac, int i, t_env *env);
-int			set_flag(char **av, int ac, t_env *env);
-void		parsing_args(char **av, int ac, t_env *env);
+int				choose_turn(int used, t_env *env);
+int				set_player_turn(char **av, int ac, int index, t_env *env);
+void			set_players(char **av, int ac, int i, t_env *env);
+int				set_flag(char **av, int ac, t_env *env);
+void			parsing_args(char **av, int ac, t_env *env);
 
 /*
 **	UTILS
 */
 
-int			posmod(int n, int mod);
-int			ft_atoi_pimp(char *line, t_env *env);
-int			ft_endswith(const char *str, const char *suffix);
+int				posmod(int n, int mod);
+int				ft_atoi_pimp(char *line, t_env *env);
+int				ft_endswith(const char *str, const char *suffix);
 
 #endif

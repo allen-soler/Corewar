@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_env.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 14:11:59 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/12 16:10:33 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/13 09:59:02 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void		init_env_error(t_env *env)
 	env->error_str[4] = "You can not set 2 players with the same number";
 	env->error_str[5] = "Players turn can only be from 0 to 4";
 	env->error_str[6] = "There is no specify verbosity value after --verbose";
-	env->error_str[7] = "Verbosity level can only be from 0 to 7";
+	env->error_str[7] = "Verbosity level can only be from 0 to 4";
 	env->error_str[8] = "unknown argv";
 }
 

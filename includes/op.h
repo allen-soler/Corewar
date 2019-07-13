@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   op.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/13 10:10:00 by nalonso           #+#    #+#             */
+/*   Updated: 2019/07/13 10:12:45 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef OP_H
 # define OP_H
 
@@ -32,7 +44,7 @@
 # define NBR_LIVE 21
 # define MAX_CHECKS 10
 
-typedef char t_arg_type;
+typedef char	t_arg_type;
 
 # define T_REG 1
 # define T_DIR 2
@@ -43,13 +55,13 @@ typedef char t_arg_type;
 # define COMMENT_LENGTH (2048)
 # define COREWAR_EXEC_MAGIC 0xea83f3
 
-typedef struct header_s
+typedef struct	s_header
 {
-	unsigned int 	magic;
-	char 			prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int 	prog_size;
-	char 			comment[COMMENT_LENGTH + 1];
-} 				header_t;
+	unsigned int	magic;
+	char			prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int	prog_size;
+	char			comment[COMMENT_LENGTH + 1];
+}				t_header;
 
 typedef struct	s_op
 {
