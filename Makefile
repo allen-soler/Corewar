@@ -3,109 +3,120 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
+#    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/07/12 16:15:41 by jallen           ###   ########.fr        #
+#    Created: 2019/07/13 09:04:38 by jallen            #+#    #+#              #
+#    Updated: 2019/07/13 10:58:17 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-ccred="\033[0;31m"
-ccyellow="\033[0;33m"
-ccend="\033[0m"
-ccgreen= "\033[0;32m"
 
-# compiler
+SRC_VM =	args_utils.c	\
+			exit_vm.c       \
+			main.c          \
+			op_utils.c      \
+			ops2.c          \
+			ops4.c          \
+			parsing_flags.c \
+			set_players.c   \
+			t_loop.c        \
+			utils.c			\
+			display_info.c	\
+			game_loop.c     \
+			op.c            \
+			ops1.c          \
+			ops3.c          \
+			parsing_args.c  \
+			read_files.c    \
+			t_env.c         \
+			t_process.c
 
-CC = gcc
-
-# compilation flags
-
-FLAGS = -Wall -Wextra 
-# program name
-
-NAME = asm
-
-# library including ft_printf and libft
-
-LIBFT = libft
-
-# folders
-
-DIR_S = src/asm
-
-DIR_O = temporary
-
-DIR_H = includes
-
-# source files for the project
-
-SOURCES =	check_args.c		\
-			encoding_tools.c	\
-			handle_labels.c		\
-			match_labels.c		\
-			search_point.c		\
-			check_comma.c		\
-			first_half.c		\
-			instruct_tokens.c	\
-			null_state.c		\
+SRC_ASM =	check_args.c		\
+			encoding.c          \
+			free_systems.c      \
+			instruct_tokens.c   \
+			match_labels.c      \
+			para_list.c         \
 			second_half.c		\
-			create_file.c		\
-			free_systems.c		\
-			instruction_utils.c	\
-			op.c				\
+			check_comma.c       \
+			encoding_tools.c   	\
+			handle_errors.c     \
+			instruction_utils.c \
+			null_state.c        \
+			parsing_tools.c     \
 			syntax_checker.c	\
-			encoding.c			\
-			handle_errors.c		\
-			main.c				\
-			para_list.c			\
-			parsing_tools.c		\
+			create_file.c       \
+			first_half.c        \
+			handle_labels.c     \
+			main.c              \
+			op.c                \
+			search_point.c      \
 			token_automata.c
 
-# header files
+OBJ_VM = $(SRC_VM:.c=.o)
+OBJ_ASM = $(SRC_ASM:.c=.o)
 
-HEADER_FILES =	includes/asm.h \
-				includes/op.h
+SRCDIR_VM = srcs_vm/
+SRCDIR_ASM = srcs_asm/
 
-# prefixing
+OBJDIR_VM = objs_vm/
+OBJDIR_ASM = objs_asm/
 
-SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
+LIBFT = libft/
 
-OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
+SRCS_VM = $(addprefix $(SRCDIR_VM), $(SRC_VM))
+OBJS_VM = $(addprefix $(OBJDIR_VM), $(OBJ_VM))
 
-# compile project
+SRCS_ASM = $(addprefix $(SRCDIR_ASM), $(SRC_ASM))
+OBJS_ASM = $(addprefix $(OBJDIR_ASM), $(OBJ_ASM))
 
-all: $(NAME)
+ASM_HEADER = -I includes -I $(LIBFT)includes
 
-$(NAME): $(OBJS) lib
-	@gcc -o $(NAME) $(FLAGS) -I $(DIR_H) $(OBJS) $(LIBFT)/libft.a
-	@echo "asm compiled"
+CC = gcc
+CFLAG = -c
+WFLAG = -Wall -Wextra -Werror
 
-$(DIR_O)/%.o: $(DIR_S)/%.c $(HEADER_FILES)
-	@printf $(ccgreen)"compiled\t"$(ccend)
-	@printf "$<\n"
-	@mkdir -p temporary
-	@$(CC) $(FLAGS) -I $(DIR_H) -o $@ -c $<
+VM = corewar
+ASM = asm
 
+H_FILES = includes/vm.h includes/op.h includes/asm.h
 
-lib:
-	@echo "Compiling libraries:"
-	@printf $(ccyellow)"%-20s"$(ccred) $(LIBFT)
-	@make -C $(LIBFT)
+.PHONY: all $(CHAMP) clean fclean re
+.SUFFIXES: .c .o .s .cor
+
+all: $(VM) $(ASM) 
+
+#COMPILING VIRTUAL MACHINE
+$(OBJDIR_VM)%.o: $(SRCDIR_VM)%.c $(H_FILES)
+	@/bin/mkdir -p $(OBJDIR_VM)
+	@$(CC) $(CFLAG) $(WFLAG) $(VM_HEADER) $< -o $@
+
+$(VM): $(OBJS_VM)
+	@make -s -C $(LIBFT)
+	@$(CC) $(OBJS_VM) $(LIBFT)libft.a -o $@
+	@echo "\x1b[33;1m[$(VM)]\x1b[0m"
+	@echo
+
+#COMPILING ASSEMBLER
+$(OBJDIR_ASM)%.o: $(SRCDIR_ASM)%.c $(H_FILES)
+	@/bin/mkdir -p $(OBJDIR_ASM)
+	@$(CC) $(CFLAG) $(WFLAG) $(ASM_HEADER) $< -o $@
+
+$(ASM): $(OBJS_ASM)
+	@make -s -C $(LIBFT)
+	@$(CC) $(OBJS_ASM) $(LIBFT)libft.a -o $@
+	@echo "\x1b[32;1m[$(ASM)]\x1b[0m"
+	@echo
 
 clean:
-	@rm -f $(OBJS)
-	@printf $(ccred)"temporary/*.o && temporary/\n"$(ccend)
-	@rm -rf $(DIR_O)
-	@printf $(ccred)"%s\n"$(ccend) $(LIBFT)
-	@make clean -C $(LIBFT)
+	@/bin/rm -rf $(OBJDIR_VM) $(OBJDIR_ASM)
+	@make -s -C $(LIBFT) clean
+	@echo "\x1b[35;1m[clean]\x1b[0m"
+	@echo
 
 fclean: clean
-	@rm -rf $(NAME) $(NAME).dSYM
-	@printf $(ccred)"%s\n"$(ccend) $(NAME)
-	@make fclean -C $(LIBFT)
-	@printf $(ccred)"%s.a\n"$(ccend) $(LIBFT)
+	@/bin/rm -rf $(VM) $(ASM) $(LIBFT)libft.a 
+	@echo "\x1b[31;1m[fclean]\x1b[0m"
+	@echo
 
 re: fclean all
-
-.PHONY: clean fclean all re

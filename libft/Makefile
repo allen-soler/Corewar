@@ -1,146 +1,151 @@
-ccred="\033[0;31m"
-ccyellow="\033[0;33m"
-ccend="\033[0m"
-ccgreen= "\033[0;32m"
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: awoimbee <awoimbee@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/07/16 11:55:20 by awoimbee          #+#    #+#              #
+#    Updated: 2019/07/13 10:48:49 by jallen           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-CC = gcc
-CFLAGS += -Wall -Werror -Wextra
+NAME	=	libft.a
 
-NAME = libft.a
+CC	=	gcc
 
-SRC_DIR 	= src/
-DATA_STRUCTS	= data_structures/
-IO			= io/
-PRINTF		= printf/srcs/
-TOOLS 		= tools/
-LIBFT 		= libft/
+CFLAGS = -march=native -Wall -Wextra -Werror -Ofast -fno-builtin -ftree-vectorize -fstrict-aliasing
 
-HEADERS 	= ./includes
+SRCS_CHAR =	ft_isalnum.c		ft_isascii.c		ft_isprint.c		\
+			ft_isalpha.c		ft_isdigit.c		ft_tolower.c		\
+			ft_toupper.c
 
-SRC += 	$(SRC_DIR)$(LIBFT)ft_memset.c		\
-		$(SRC_DIR)$(LIBFT)ft_bzero.c		\
-		$(SRC_DIR)$(LIBFT)t_garbage.c		\
-		$(SRC_DIR)$(LIBFT)ft_splitwhite.c	\
-		$(SRC_DIR)$(LIBFT)ft_memcpy.c		\
-		$(SRC_DIR)$(LIBFT)ft_memccpy.c		\
-		$(SRC_DIR)$(LIBFT)ft_memmove.c		\
-		$(SRC_DIR)$(LIBFT)ft_memchr.c		\
-		$(SRC_DIR)$(LIBFT)ft_memcmp.c		\
-		$(SRC_DIR)$(LIBFT)ft_strlen.c		\
-		$(SRC_DIR)$(LIBFT)ft_strdup.c		\
-		$(SRC_DIR)$(LIBFT)ft_strcpy.c		\
-		$(SRC_DIR)$(LIBFT)ft_strncpy.c		\
-		$(SRC_DIR)$(LIBFT)ft_strcat.c		\
-		$(SRC_DIR)$(LIBFT)ft_split.c		\
-		$(SRC_DIR)$(LIBFT)ft_strncat.c		\
-		$(SRC_DIR)$(LIBFT)ft_strlcat.c		\
-		$(SRC_DIR)$(LIBFT)ft_strchr.c		\
-		$(SRC_DIR)$(LIBFT)ft_strrchr.c		\
-		$(SRC_DIR)$(LIBFT)ft_strstr.c		\
-		$(SRC_DIR)$(LIBFT)ft_strnstr.c		\
-		$(SRC_DIR)$(LIBFT)ft_strcmp.c		\
-		$(SRC_DIR)$(LIBFT)ft_strncmp.c		\
-		$(SRC_DIR)$(LIBFT)ft_atoi.c			\
-		$(SRC_DIR)$(LIBFT)ft_isalpha.c		\
-		$(SRC_DIR)$(LIBFT)ft_isdigit.c		\
-		$(SRC_DIR)$(LIBFT)ft_isalnum.c		\
-		$(SRC_DIR)$(LIBFT)ft_isascii.c		\
-		$(SRC_DIR)$(LIBFT)ft_isprint.c		\
-		$(SRC_DIR)$(LIBFT)ft_toupper.c		\
-		$(SRC_DIR)$(LIBFT)ft_tolower.c		\
-		$(SRC_DIR)$(LIBFT)ft_isspace.c		\
-		$(SRC_DIR)$(LIBFT)ft_isblank.c		\
-		$(SRC_DIR)$(LIBFT)ft_isquote.c		\
-		$(SRC_DIR)$(LIBFT)ft_max.c			\
-		$(SRC_DIR)$(LIBFT)ft_realloc_tab.c 	\
-		$(SRC_DIR)$(LIBFT)ft_memalloc.c		\
-		$(SRC_DIR)$(LIBFT)ft_memdel.c		\
-		$(SRC_DIR)$(LIBFT)ft_strnew.c		\
-		$(SRC_DIR)$(LIBFT)ft_strdel.c		\
-		$(SRC_DIR)$(LIBFT)ft_striter.c		\
-		$(SRC_DIR)$(LIBFT)ft_striteri.c		\
-		$(SRC_DIR)$(LIBFT)ft_strmap.c		\
-		$(SRC_DIR)$(LIBFT)ft_strmapi.c		\
-		$(SRC_DIR)$(LIBFT)ft_strequ.c		\
-		$(SRC_DIR)$(LIBFT)ft_strnequ.c		\
-		$(SRC_DIR)$(LIBFT)ft_strsub.c		\
-		$(SRC_DIR)$(LIBFT)ft_strjoin.c		\
-		$(SRC_DIR)$(LIBFT)ft_strtrim.c		\
-		$(SRC_DIR)$(LIBFT)ft_strsplit.c		\
-		$(SRC_DIR)$(LIBFT)ft_itoa.c			\
-		$(SRC_DIR)$(LIBFT)ft_strclr.c		\
-		$(SRC_DIR)$(LIBFT)ft_putchar.c		\
-		$(SRC_DIR)$(LIBFT)ft_putchar_fd.c	\
-		$(SRC_DIR)$(LIBFT)ft_putstr.c		\
-		$(SRC_DIR)$(LIBFT)ft_putstr_fd.c	\
-		$(SRC_DIR)$(LIBFT)ft_putnbr.c		\
-		$(SRC_DIR)$(LIBFT)ft_putnbr_fd.c	\
-		$(SRC_DIR)$(LIBFT)ft_putendl.c		\
-		$(SRC_DIR)$(LIBFT)ft_putendl_fd.c	\
-		$(SRC_DIR)$(LIBFT)ft_strver.c 		\
-		$(SRC_DIR)$(LIBFT)ft_lstnew.c		\
-		$(SRC_DIR)$(LIBFT)ft_lstdelone.c	\
-		$(SRC_DIR)$(LIBFT)ft_lstdel.c		\
-		$(SRC_DIR)$(LIBFT)ft_endswith.c		\
-		$(SRC_DIR)$(LIBFT)ft_lstadd.c		\
-		$(SRC_DIR)$(LIBFT)ft_lstiter.c		\
-		$(SRC_DIR)$(LIBFT)ft_lstmap.c		\
-		$(SRC_DIR)$(LIBFT)ft_strndup.c		\
-		$(SRC_DIR)$(LIBFT)ft_strrnstr.c		\
-		$(SRC_DIR)$(LIBFT)ft_tab_len.c		\
-		$(SRC_DIR)$(LIBFT)ft_print_tab.c	\
-		$(SRC_DIR)$(LIBFT)ft_free_tab.c		\
-		$(SRC_DIR)$(LIBFT)ft_realloc.c 		\
-		$(SRC_DIR)$(IO)ft_read_stdin.c 		\
-		$(SRC_DIR)$(IO)gnl_stdout.c 		\
-		$(SRC_DIR)$(IO)get_next_line.c 		\
-		$(SRC_DIR)$(IO)read_file.c 			\
-		$(SRC_DIR)$(DATA_STRUCTS)avl/avl.c 					\
-		$(SRC_DIR)$(DATA_STRUCTS)avl/avl_insert.c 			\
-		$(SRC_DIR)$(DATA_STRUCTS)avl/avl_norme.c 			\
-		$(SRC_DIR)$(DATA_STRUCTS)queue/queue.c 				\
-		$(SRC_DIR)$(TOOLS)djb2.c
+SRCS_FD =	ft_putchar.c		ft_putendl_fd.c		ft_putstr.c			\
+			ft_putchar_fd.c		ft_putnbr.c			ft_putstr_fd.c		\
+			ft_putendl.c		ft_putnbr_fd.c		get_next_line.c
 
+SRCS_MEM =	ft_bzero.c			ft_memchr.c			ft_memdel.c			\
+			ft_memalloc.c		ft_memcmp.c			ft_memmove.c		\
+			ft_memccpy.c		ft_memcpy.c			ft_memset.c			\
+			ft_mempcpy.c		ft_memnset.c		ft_memfree.c
 
+SRCS_NB =	ft_abs.c			ft_atoi.c			ft_itoa.c			\
+			ft_atoi_base.c		ft_itoa_base.c		ft_swap_int.c		\
+			ft_atof.c			ft_atof_mv.c		ft_atoi_mv.c
 
+SRCS_STR =	ft_stpcpy.c			ft_striter.c		ft_strncpy.c		\
+			ft_strcat.c			ft_striteri.c		ft_strnequ.c		\
+			ft_strcat_join.c	ft_strjoin.c		ft_strnew.c			\
+			ft_strchr.c			ft_strlcat.c		ft_strnstr.c		\
+			ft_strclr.c			ft_strlen.c			ft_strrchr.c		\
+			ft_strcmp.c			ft_strmap.c			ft_strrev.c			\
+			ft_strcpy.c			ft_strmapi.c		ft_strsplit.c		\
+			ft_strdel.c			ft_strncat.c		ft_strstr.c			\
+			ft_strdup.c			ft_strncat_join.c	ft_strsub.c			\
+			ft_strequ.c			ft_strncmp.c		ft_strtrim.c		\
+			ft_strndup.c
 
+SRCS_PRTF =	fill_arg_struct.c	s_itoa_base.c		sub_hub.c			\
+			ft_flag_cs.c		ft_vprintf.c		text_decoration.c	\
+			ft_flag_f.c			join_arg.c			u_itoa_base.c		\
+			ft_flag_r.c			lib0.c				ft_printf.c
 
-SRC_PRINTF += 	$(SRC_DIR)$(PRINTF)arguments.c 			\
-				$(SRC_DIR)$(PRINTF)parse_arguments.c 	\
-				$(SRC_DIR)$(PRINTF)floats.c 			\
-				$(SRC_DIR)$(PRINTF)hand_base.c 			\
-				$(SRC_DIR)$(PRINTF)hand_string.c 		\
-				$(SRC_DIR)$(PRINTF)useful_functions.c 	\
-				$(SRC_DIR)$(PRINTF)useful_functions_2.c	\
-				$(SRC_DIR)$(PRINTF)ft_printf.c 			\
-				$(SRC_DIR)$(PRINTF)hand_di.c 			\
-				$(SRC_DIR)$(PRINTF)indentation.c 		\
-				$(SRC_DIR)$(PRINTF)bonus.c 				\
-				$(SRC_DIR)$(PRINTF)buff.c
+SRCS_LST =	ft_lstadd.c			ft_lstdelone.c		ft_lstmap.c			\
+			ft_lst_at.c			ft_lst_free_link.c	ft_lstnew.c			\
+			ft_lstdel.c			ft_lstiter.c		ft_lst_push_back.c
 
+SRCS_QUE =	create_destroy.c	disp.c				isempty.c			\
+			push_pop.c			realloc.c			flush.c
 
+SRCS_VEC4 =	vec4_new.c			vec4_newa.c			vec4_div.c			\
+			vec4_add_sub.c		vec4_mul.c			vec4_abs_sqr.c		\
+			vec4_dot.c			vec4_mod.c			vec4_norm.c			\
+			vec4_cross.c		vec4_mat.c
 
-OBJ += $(SRC:.c=.o)
-OBJ += $(SRC_PRINTF:.c=.o)
+SRCS_VECT =	new.c				push.c				realloc.c			\
+			vector_map.c		vector_del_at.c
 
-all: $(NAME)
-	@:
+SRCS_GARB =	gb_fail.c			gb_add.c			gb_defrag.c			\
+			gb_free.c			gb_freeall.c		gb_init.c			\
+			gb_malloc.c			gb_remove.c			gb_memalloc.c		\
+			gb_init_existing.c	gb_realloc.c		intrin_gb_extend.c
 
-$(OBJ): %.o: %.c
-	@printf $(ccyellow)"#"$(ccend)
-	@$(CC) $(CFLAGS) -I $(HEADERS) -c $< -o $@
+SRCS_OTHER = msg_exit.c			ft_free_tab.c		ft_split.c			\
+			 read_file.c
 
-$(NAME): $(OBJ)
-	@printf $(ccgreen)"\t[OK]\n"$(ccend)
-	@ar rcs $(NAME) $(OBJ)
-	@ranlib $(NAME)
+SRCS_NAME =	$(addprefix libchar/,   $(SRCS_CHAR))	\
+			$(addprefix libfd/,     $(SRCS_FD))		\
+			$(addprefix libmem/,    $(SRCS_MEM))	\
+			$(addprefix libnb/,     $(SRCS_NB))		\
+			$(addprefix libstr/,    $(SRCS_STR))	\
+			$(addprefix ft_prtf/,   $(SRCS_PRTF))	\
+			$(addprefix t_lst/,     $(SRCS_LST))	\
+			$(addprefix t_queue/,   $(SRCS_QUE))	\
+			$(addprefix t_vector/,  $(SRCS_VECT))	\
+			$(addprefix t_garbage/, $(SRCS_GARB))	\
+			$(SRCS_OTHER)
+OBJ_NAME = $(SRCS_NAME:.c=.o)
 
-clean:
-	@/bin/rm -rf $(OBJ)
+SRC_PATH = src
+OBJ_PATH = obj
+OBJ_DIRS =	libchar	libfd	libmem	libnb	libstr	ft_prtf	\
+			t_lst	t_queue	t_vector	t_garbage
 
-fclean: clean
-	@/bin/rm -rf $(NAME)
+################################################################################
+SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
+OBJS = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 
-re: fclean all
+CFLAGS += -I./
 
-.PHONY: all clean fclean re
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	CFLAGS += -Wno-unused-result
+	NUMPROC := $(shell grep -c ^processor /proc/cpuinfo)
+else ifeq ($(UNAME_S),Darwin)
+	NUMPROC := $(shell sysctl hw.ncpu | awk '{print $$2}')
+endif
+################################################################################
+
+all	: $(NAME)
+
+fast :
+	@make -s -j$(NUMPROC)
+
+libft.gen :
+	@printf "$(foreach cfile,$(SRCS_VEC4),$(addprefix # include \"src/t_vec4/,$(addsuffix \"\n,$(cfile))))" > libft.gen
+
+$(OBJ_PATH)	:
+	@mkdir -p $(OBJ_PATH) 2> /dev/null
+	@mkdir -p $(addprefix $(OBJ_PATH)/, $(OBJ_DIRS)) 2> /dev/null
+	@printf "$(GRN)Compiling with \"$(CFLAGS)\" :$(EOC)\n"
+
+$(NAME)	: $(OBJS)
+	@printf "$(GRN)%-50s$(EOC)\n" "Compilation done"
+	@ar -rcs $(NAME) $(OBJS)
+	@printf "$(GRN)%-50s$(EOC)\n" "$(NAME) done"
+
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH)
+	@printf "%-50s\r" "$(CC) $@"
+	@$(CC) $(CFLAGS) -o $@ -c $<
+
+so	: all
+	@printf "$(CC) (...) -shared -o $(NAME:.a=.so)\n"
+	@$(CC) $(OBJS) -shared -o $(NAME:.a=.so)
+
+clean	:
+	@rm -rf $(OBJ_PATH)
+	@printf "$(RED)./$(OBJ_PATH) cleaned$(EOC)\n"
+
+fclean	:	clean
+	@rm -f $(NAME)
+	@rm -f $(NAME:.a=.so)
+	@printf "\033[0;31m$(NAME), $(NAME:.a=.so)$(EOC)\n"
+
+re	:	fclean
+	@make -s -j$(NUMPROC)
+
+.PHONY: all fast so clean fclean re
+
+GRN =	\033[0;32m
+RED =	\033[0;31m
+EOC =	\033[0m
