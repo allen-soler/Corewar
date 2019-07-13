@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 10:10:05 by nalonso           #+#    #+#             */
-/*   Updated: 2019/07/13 10:17:53 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/07/13 10:25:06 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ void			parsing_args(char **av, int ac, t_env *env);
 
 int				posmod(int n, int mod);
 int				ft_atoi_pimp(char *line, t_env *env);
+void			free_processes(t_process *head);
 int				ft_endswith(const char *str, const char *suffix);
 
 #endif

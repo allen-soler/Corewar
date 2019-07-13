@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 15:25:50 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/12 15:29:34 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/13 10:22:47 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ void			game_loop(t_env *e)
 		cycle += 1;
 		if ((e->flag & FLAG_DUMP) && (cycle == e->dump))
 		{
+			if (e->cursors != NULL)
+				free_processes(e->cursors);
 			print_arena(e);
 			return ;
 		}

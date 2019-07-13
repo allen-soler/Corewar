@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 17:29:55 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/12 17:02:40 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/07/13 10:23:52 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ void			push_process_front(t_process **head, t_process *new)
 		tmp = *head;
 		new->next = tmp;
 		*head = new;
+	}
+}
+
+void			free_processes(t_process *head)
+{
+	if (head)
+	{
+		if (head->next)
+			free_processes(head->next);
+		free(head);
 	}
 }
 
