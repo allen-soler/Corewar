@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 10:28:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/13 10:42:24 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/13 12:14:49 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <limits.h>
 # include "../libft/libft.h"
-# include "op.h"
+# include "opa.h"
 # define ZMASK(x) ((x) & 0xff)
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"

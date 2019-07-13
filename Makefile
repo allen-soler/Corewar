@@ -6,7 +6,7 @@
 #    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/13 09:04:38 by jallen            #+#    #+#              #
-#    Updated: 2019/07/13 12:04:17 by jallen           ###   ########.fr        #
+#    Updated: 2019/07/13 12:12:46 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ WFLAG = -Wall -Wextra -Werror
 VM = corewar
 ASM = asm
 
-H_FILES = includes/vm.h includes/op.h includes/asm.h
+H_FILES = includes/vm.h includes/op.h includes/asm.h includes/opa.h
 
 .PHONY: all $(CHAMP) clean fclean re
 .SUFFIXES: .c .o .s .cor
