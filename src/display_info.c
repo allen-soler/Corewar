@@ -82,20 +82,10 @@ void		print_winner(t_env *env)
 {
 	if (env->last_live != -1)
 	{
-		if (env->flag & FLAG_DUMP)
-		{
-			ft_printf("Player %d (%s) won \n",
-					env->players[env->last_live].number,
-					env->players[env->last_live].header.prog_name);
-		}
-		else
-		{
-			ft_printf("Contestant %d, \"%s\", has won !\n",
-					env->players[env->last_live].number,
-					env->players[env->last_live].header.prog_name);
-		}
+		ft_printf("Player %d (%s) won \n",
+				env->players[env->last_live].number,
+				env->players[env->last_live].header.prog_name);
 	}
 	else
 		ft_printf("no winner? you lossers\n");
-	exit_vm(env, EXIT_SUCCESS);
 }

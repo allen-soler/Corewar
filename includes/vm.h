@@ -11,7 +11,6 @@
 # include "op.h"
 # include "../libft/libft.h"
 
-// TODO: REMOVE THIS
 # define S_BOLD "\e[001m"
 # define E_BOLD "\e[0022m"
 
@@ -32,8 +31,6 @@
 
 # define VERB(val, func) if (e->verb >= val) func
 # define SHIFT(x) (1 << (x))
-
-#define DEBUG(x) if (g_debug == 1) x;
 
 typedef enum	e_verb
 {

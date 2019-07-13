@@ -24,6 +24,5 @@ int				main(int ac, char **av)
 	if (env.verb >= VERB_WINNER)
 		display_contestants(&env);
 	game_loop(&env);
-	exit_vm(&env, EXIT_SUCCESS);
 	return (0);
 }
