@@ -6,13 +6,19 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 15:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/07/13 10:24:53 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/13 11:54:22 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
 
-void	order_list(t_par **lst)
+static void	exit_msg(void)
+{
+	ft_fprintf(2, "Wrong file descriptor\n");
+	exit(1);
+}
+
+static void	order_list(t_par **lst)
 {
 	int		i;
 	int		j;
@@ -39,7 +45,7 @@ void	order_list(t_par **lst)
 	}
 }
 
-void	free_list(t_par *list)
+static void	free_list(t_par *list)
 {
 	if (list)
 	{
@@ -51,7 +57,7 @@ void	free_list(t_par *list)
 	}
 }
 
-void	check_file(char *src)
+static void	check_file(char *src)
 {
 	int	len;
 
@@ -63,7 +69,7 @@ void	check_file(char *src)
 	}
 }
 
-int		main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	char		*line;
 	int			fd;
@@ -75,7 +81,7 @@ int		main(int ac, char **av)
 	{
 		check_file(av[1]);
 		if ((fd = open(av[1], O_RDONLY)) == -1)
-			exit(ft_fprintf(2, "Wrong file descriptor\n"));
+			exit_msg();
 		line = ft_strdup("");
 		readfile(fd, &line);
 		close(fd);

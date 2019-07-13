@@ -6,7 +6,7 @@
 /*   By: bghandou <bghandou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 17:13:41 by bghandou          #+#    #+#             */
-/*   Updated: 2019/07/12 16:18:51 by jallen           ###   ########.fr       */
+/*   Updated: 2019/07/13 11:51:17 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void	error_state(int state, int row)
 
 void	error_row(char *message, int row)
 {
-	dprintf(1, "ERROR line %d. Type : %s\n", row, message);
+	ft_fprintf(2, "ERROR line %d. Type : %s\n", row, message);
 	exit(EXIT_FAILURE);
 }
