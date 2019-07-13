@@ -6,7 +6,7 @@
 /*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 11:07:02 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/12 15:14:33 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/13 11:45:57 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int				main(int ac, char **av)
 {
 	t_env		env;
 
-	g_debug = 0;
 	init_env(&env);
 	parsing_args(av, ac, &env);
 	read_files(&env);

@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 10:10:05 by nalonso           #+#    #+#             */
-/*   Updated: 2019/07/13 10:25:06 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/07/13 11:43:33 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef enum	e_bool
 	TRUE
 }				t_bool;
 
-t_bool	g_debug;
 t_op	g_op_tab[17];
 
 typedef enum	e_error

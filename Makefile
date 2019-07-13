@@ -6,7 +6,7 @@
 #    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/13 09:04:38 by jallen            #+#    #+#              #
-#    Updated: 2019/07/13 10:58:17 by jallen           ###   ########.fr        #
+#    Updated: 2019/07/13 11:49:31 by allespag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,22 +89,22 @@ all: $(VM) $(ASM)
 #COMPILING VIRTUAL MACHINE
 $(OBJDIR_VM)%.o: $(SRCDIR_VM)%.c $(H_FILES)
 	@/bin/mkdir -p $(OBJDIR_VM)
-	@$(CC) $(CFLAG) $(WFLAG) $(VM_HEADER) $< -o $@
+	$(CC) $(CFLAG) $(WFLAG) $(VM_HEADER) $< -o $@
 
 $(VM): $(OBJS_VM)
 	@make -s -C $(LIBFT)
-	@$(CC) $(OBJS_VM) $(LIBFT)libft.a -o $@
+	$(CC) $(OBJS_VM) $(LIBFT)libft.a -o $@
 	@echo "\x1b[33;1m[$(VM)]\x1b[0m"
 	@echo
 
 #COMPILING ASSEMBLER
 $(OBJDIR_ASM)%.o: $(SRCDIR_ASM)%.c $(H_FILES)
 	@/bin/mkdir -p $(OBJDIR_ASM)
-	@$(CC) $(CFLAG) $(WFLAG) $(ASM_HEADER) $< -o $@
+	$(CC) $(CFLAG) $(WFLAG) $(ASM_HEADER) $< -o $@
 
 $(ASM): $(OBJS_ASM)
 	@make -s -C $(LIBFT)
-	@$(CC) $(OBJS_ASM) $(LIBFT)libft.a -o $@
+	$(CC) $(OBJS_ASM) $(LIBFT)libft.a -o $@
 	@echo "\x1b[32;1m[$(ASM)]\x1b[0m"
 	@echo
 

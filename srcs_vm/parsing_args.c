@@ -6,7 +6,7 @@
 /*   By: allespag <allespag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 11:12:30 by allespag          #+#    #+#             */
-/*   Updated: 2019/07/09 16:32:57 by allespag         ###   ########.fr       */
+/*   Updated: 2019/07/13 11:58:43 by allespag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,12 @@ void			parsing_args(char **av, int ac, t_env *env)
 	set_players(av, ac, i, env);
 	if (env->flag & FLAG_ERROR)
 		display_error(env);
+	if (env->players_nb == 0)
+	{
+		ft_fprintf(2, "{red}Error{eoc}: Need at least one champion\n\n");
+		env->flag |= FLAG_ERROR;
+		display_help(env);
+	}
 	get_files(av, env);
 	shift_players(env);
 }
