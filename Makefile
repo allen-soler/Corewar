@@ -6,7 +6,7 @@
 #    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/13 09:04:38 by jallen            #+#    #+#              #
-#    Updated: 2019/07/13 11:49:31 by allespag         ###   ########.fr        #
+#    Updated: 2019/07/13 12:04:17 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,11 +112,9 @@ clean:
 	@/bin/rm -rf $(OBJDIR_VM) $(OBJDIR_ASM)
 	@make -s -C $(LIBFT) clean
 	@echo "\x1b[35;1m[clean]\x1b[0m"
-	@echo
 
 fclean: clean
 	@/bin/rm -rf $(VM) $(ASM) $(LIBFT)libft.a 
 	@echo "\x1b[31;1m[fclean]\x1b[0m"
-	@echo
 
 re: fclean all
